@@ -4,9 +4,13 @@ import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
 
+	//frame components
+	JPanel pEast;
+	
 	public MainFrame(){
 		this.setSize(860,640);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
