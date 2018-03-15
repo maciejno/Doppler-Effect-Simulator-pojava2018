@@ -8,12 +8,11 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
 
-	
-	public MainFrame(){
-		
+	public MainFrame(){		
 		this.setSize(860,640);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
+		this.add(new GUI());//czy to nie bedzie sie robic za kazdym razem jak sie zmieni rozmiar okna
 	}
 
 	public static void main(String[] args) {
