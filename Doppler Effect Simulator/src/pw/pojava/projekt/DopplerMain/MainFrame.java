@@ -12,7 +12,7 @@ public class MainFrame extends JFrame {
 	JPanel pEast;
 	JPanel pWest;
 	
-	int [] inty = {42,43,44};
+	int [] inty = {1,2,3};
 	double [] doubles = {7,9,8,96};
 	
 	public MainFrame(){
