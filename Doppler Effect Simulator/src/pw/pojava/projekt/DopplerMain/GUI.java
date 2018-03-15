@@ -20,8 +20,6 @@ public class GUI extends JPanel {
 	static final int SourceSlider_MAX = 100; //Parameters for Source Speed slider
 	static final int Slider_INIT = 0; //Initial parameter for sliders
 
-
-	private static final Component SwitchEnglishhButton = null;
 	
 	JTextField Observer1XField, Observer1YField, Observer2XField, Observer2YField;//TextFields for Spectators' parameters
 	JTextField SourceXField, SuorceYField, SourceFreqField; //TextFields for Source parameters
@@ -49,7 +47,8 @@ public class GUI extends JPanel {
 		BoxLayout pLanguageLayout = new BoxLayout(pLanguage, BoxLayout.LINE_AXIS);
 		pLanguage.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		pLanguage.setLayout(new BoxLayout(pLanguage, BoxLayout.LINE_AXIS)); //ustawienia layoutu dla panelu pLanguage
-		pOptions.setLayout(new BoxLayout(pOptions, BoxLayout.PAGE_AXIS)); // ustawienie layoutu dla pOptions
+		
+		
 		pControl.setLayout(new GridLayout(0,4,0,2)); //ustawienia layoutu dla panelu pControl
 		
 		//dodaje i ustawia 2 panele: lewy i prawy do glownego panelu
@@ -97,6 +96,7 @@ public class GUI extends JPanel {
 		//wstawianie komponentów
 		pLanguage.add(SwitchPolishButton);
 		pLanguage.add(SwitchEnglishButton);
+		
 		pControl.add(StartButton);
 		pControl.add(SaveButton);
 		
