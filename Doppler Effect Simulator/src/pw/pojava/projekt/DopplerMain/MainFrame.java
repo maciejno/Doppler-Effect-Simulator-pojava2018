@@ -10,10 +10,13 @@ public class MainFrame extends JFrame {
 
 	//frame components
 	JPanel pEast;
+	JPanel pWest;
 	
 	public MainFrame(){
+		
 		this.setSize(860,640);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 	}
 
 	public static void main(String[] args) {
