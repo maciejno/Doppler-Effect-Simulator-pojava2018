@@ -8,12 +8,6 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
 
-	//frame components
-	JPanel pEast;
-	JPanel pWest;
-	
-	int [] inty = {1,2,3};
-	double [] doubles = {7,9,8,96};
 	
 	public MainFrame(){
 		
