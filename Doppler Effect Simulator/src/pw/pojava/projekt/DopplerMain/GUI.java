@@ -4,7 +4,6 @@ import java.awt.*;
 
 import javax.swing.*;
 
-
 public class GUI extends JPanel {
 	//panels in main panel
 	JPanel pWest, pEast, pAnimation, pChart, pChartSource, pChartObserver1, pChartObserver2, pLanguage, pOptions, pControl;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
@@ -83,7 +82,7 @@ public class GUI extends JPanel {
 		SoundSpeedField = new JTextField();
 		
 		SpectMainLabel = new JLabel("Obserwatorzy");
-		SourceMainLabel = new Label("Zrodlo");		
+		SourceMainLabel = new JLabel("Zrodlo");		
 		
 			
 		
