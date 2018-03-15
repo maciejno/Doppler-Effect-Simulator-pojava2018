@@ -12,6 +12,9 @@ public class MainFrame extends JFrame {
 	JPanel pEast;
 	JPanel pWest;
 	
+	int [] inty = {42,43,44};
+	double [] doubles = {7,9,8,96};
+	
 	public MainFrame(){
 		
 		this.setSize(860,640);
