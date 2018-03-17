@@ -1,4 +1,4 @@
-package pw.pojava.projekt.DopplerMain;
+package pw.pojava.projekt.DopplerMain; /* a etykiety na x, y i f te¿ robimy?, ustawic rozmiary paneli chyba trzeba */
 
 import java.awt.*;
 
@@ -7,7 +7,6 @@ import javax.swing.*;
 public class GUI extends JPanel {
 	//panels in main panel
 	JPanel pWest, pEast, pAnimation, pChart, pChartSource, pChartObserver1, pChartObserver2, pLanguage, pOptions, pControl;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
-	
 	
 	JButton SwitchPolishButton, SwitchEnglishButton; //Language switching buttons
 	JButton StartButton, SaveButton; //Powerful Buttons :D
@@ -22,12 +21,13 @@ public class GUI extends JPanel {
 
 	
 	JTextField Observer1XField, Observer1YField, Observer2XField, Observer2YField;//TextFields for Spectators' parameters
-	JTextField SourceXField, SuorceYField, SourceFreqField; //TextFields for Source parameters
+	JTextField SourceXField, SourceYField, SourceFreqField; //TextFields for Source parameters
 	JTextField SoundSpeedField; //TextField for speed of Sound
-	JTextField Observer1SliderField, Observer2SliderField;
+	JTextField Observer1SliderField, Observer2SliderField, SourceSliderField;
 	
 	JLabel ObserverMainLabel, SourceMainLabel;//Title labels
-	JLabel Observer1SliderLabel, Observer2SliderLabel;
+	JLabel Observer1SliderLabel, Observer2SliderLabel, SourceSliderLabel;//Slider labels
+	JLabel SoundSpeedLabel;
 
 	public GUI() {
 		this.setLayout(new BorderLayout());//sets layout for main panel
@@ -44,13 +44,46 @@ public class GUI extends JPanel {
 		pOptions = new JPanel();
 		pControl = new JPanel();
 		
-		BoxLayout pLanguageLayout = new BoxLayout(pLanguage, BoxLayout.LINE_AXIS);
-		pLanguage.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		pLanguage.setLayout(new BoxLayout(pLanguage, BoxLayout.LINE_AXIS)); //ustawienia layoutu dla panelu pLanguage
+		//tworzenie komponentów
+		SwitchPolishButton = new JButton("POLSKI");
+		SwitchEnglishButton = new JButton("ENGLISH");
+		StartButton = new JButton("START");
+		SaveButton = new JButton("ZAPISZ");
 		
+		Observer1Checkbox = new JCheckBox("Obserwator 1");
+		Observer2Checkbox = new JCheckBox("Obserwator 2");
+		
+		Observer1Slider = new JSlider(JSlider.HORIZONTAL, ObserverSlider_MIN, ObserverSlider_MAX, Slider_INIT);
+		Observer2Slider = new JSlider(JSlider.HORIZONTAL, ObserverSlider_MIN, ObserverSlider_MAX, Slider_INIT);
+		SourceSlider = new JSlider(JSlider.HORIZONTAL, SourceSlider_MIN, SourceSlider_MAX, Slider_INIT);
+		
+		Observer1SliderField = new JTextField();
+		Observer2SliderField = new JTextField();
+		SourceSliderField = new JTextField();
+		
+		Observer1XField = new JTextField();
+		Observer1YField = new JTextField();
+		Observer2XField = new JTextField();
+		Observer2YField = new JTextField();
+		SourceXField = new JTextField();
+		SourceYField = new JTextField();
+		SourceFreqField = new JTextField();
+		SoundSpeedField = new JTextField();
+		
+		ObserverMainLabel = new JLabel("Obserwatorzy");
+		SourceMainLabel = new JLabel("Zrodlo");	
+		Observer1SliderLabel = new JLabel("v:");
+		Observer2SliderLabel = new JLabel("v:");
+		SourceSliderLabel = new JLabel("v:");
+		SoundSpeedLabel = new JLabel("Speed of sound[m/s]");
+		
+		//BoxLayout pLanguageLayout = new BoxLayout(pLanguage, BoxLayout.LINE_AXIS);
+		pLanguage.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		pLanguage.setLayout(new BoxLayout(pLanguage, BoxLayout.LINE_AXIS)); //ustawienia layoutu dla panelu pLanguage	
 		
 		pControl.setLayout(new GridLayout(0,4,0,2)); //ustawienia layoutu dla panelu pControl
 		
+		//wstawianie paneli w panele
 		//dodaje i ustawia 2 panele: lewy i prawy do glownego panelu
 		this.add(BorderLayout.WEST, pWest);
 		this.add(BorderLayout.EAST, pEast);
@@ -64,45 +97,42 @@ public class GUI extends JPanel {
 		//dodaje i ustawia panele z wykresami do panelu pChart
 		pChart.add(BorderLayout.NORTH, pChartSource);
 		pChart.add(BorderLayout.CENTER, pChartObserver1);
-		pChart.add(BorderLayout.SOUTH, pChartObserver2);
+		pChart.add(BorderLayout.SOUTH, pChartObserver2);		
 		
-		//tworzenie komponentów
-		SwitchPolishButton = new JButton("POLSKI");
-		SwitchEnglishButton = new JButton("ENGLISH");
-		StartButton = new JButton("START");
-		SaveButton = new JButton("ZAPISZ");
-		
-		Observer1Checkbox = new JCheckBox("Obserwator 1");
-		Observer2Checkbox = new JCheckBox("Obserwator 2");
-		
-		Observer1Slider = new JSlider(JSlider.VERTICAL, ObserverSlider_MIN, ObserverSlider_MAX, Slider_INIT);
-		Observer2Slider = new JSlider(JSlider.VERTICAL, ObserverSlider_MIN, ObserverSlider_MAX, Slider_INIT);
-		SourceSlider = new JSlider(JSlider.VERTICAL, SourceSlider_MIN, SourceSlider_MAX, Slider_INIT);
-		Observer1SliderField = new JTextField();
-		Observer2SliderField = new JTextField();
-		
-		Observer1XField = new JTextField();
-		Observer1YField = new JTextField();
-		Observer2XField = new JTextField();
-		Observer2YField = new JTextField();
-		SourceXField = new JTextField();
-		SuorceYField = new JTextField();
-		SourceFreqField = new JTextField();
-		SoundSpeedField = new JTextField();
-		
-		ObserverMainLabel = new JLabel("Obserwatorzy");
-		SourceMainLabel = new JLabel("Zrodlo");		
-		
-		//wstawianie komponentów
+		//wstawianie komponentów do paneli
 		pLanguage.add(SwitchPolishButton);
 		pLanguage.add(SwitchEnglishButton);
 		
+		pOptions.setLayout(new FlowLayout());
+		
+		pOptions.add(ObserverMainLabel);
+		
+		pOptions.add(Observer1Checkbox);
+		pOptions.add(Observer1XField);
+		pOptions.add(Observer1YField);
+		pOptions.add(Observer1SliderLabel);
+		pOptions.add(Observer1Slider);
+		pOptions.add(Observer1SliderField);
+		
+		pOptions.add(Observer2Checkbox);
+		pOptions.add(Observer2XField);
+		pOptions.add(Observer2YField);
+		pOptions.add(Observer2SliderLabel);
+		pOptions.add(Observer2Slider);
+		pOptions.add(Observer2SliderField);
+		
+		pOptions.add(SourceMainLabel);
+		pOptions.add(SourceXField);
+		pOptions.add(SourceYField);
+		pOptions.add(SourceFreqField);
+		pOptions.add(SourceSliderLabel);
+		pOptions.add(SourceSlider);
+		pOptions.add(SourceSliderField);
+		pOptions.add(SoundSpeedField);
+		
 		pControl.add(StartButton);
 		pControl.add(SaveButton);
-		
-		
-		
-			
+									
 		
 	}
 
