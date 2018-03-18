@@ -77,11 +77,11 @@ public class GUI extends JPanel {
 		SourceSliderLabel = new JLabel("v:");
 		SoundSpeedLabel = new JLabel("Speed of sound[m/s]");
 		
-		//BoxLayout pLanguageLayout = new BoxLayout(pLanguage, BoxLayout.LINE_AXIS);
+		//ustawianie layoutów
+		pLanguage.setLayout(new BoxLayout(pLanguage, BoxLayout.PAGE_AXIS));
 		pLanguage.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		pLanguage.setLayout(new BoxLayout(pLanguage, BoxLayout.LINE_AXIS)); //ustawienia layoutu dla panelu pLanguage	
-		
 		pControl.setLayout(new GridLayout(0,4,0,2)); //ustawienia layoutu dla panelu pControl
+		pControl.setAlignmentY(CENTER_ALIGNMENT);
 		
 		//wstawianie paneli w panele
 		//dodaje i ustawia 2 panele: lewy i prawy do glownego panelu
@@ -103,10 +103,9 @@ public class GUI extends JPanel {
 		pLanguage.add(SwitchPolishButton);
 		pLanguage.add(SwitchEnglishButton);
 		
-		pOptions.setLayout(new FlowLayout());
+		pOptions.setLayout(new GridLayout(9,4));
 		
 		pOptions.add(ObserverMainLabel);
-		
 		pOptions.add(Observer1Checkbox);
 		pOptions.add(Observer1XField);
 		pOptions.add(Observer1YField);
