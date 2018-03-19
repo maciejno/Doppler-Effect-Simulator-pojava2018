@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 public class MainAnimationPanel extends JPanel {
 
 	public MainAnimationPanel() {
-		this.setBackground(Color.WHITE);
+		this.setBackground(Color.green);
 	}	
 	    
     protected void paintComponent(Graphics g) {

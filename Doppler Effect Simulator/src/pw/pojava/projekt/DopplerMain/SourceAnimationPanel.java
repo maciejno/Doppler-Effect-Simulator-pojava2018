@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class SourceAnimationPanel extends JPanel{
 
 	public SourceAnimationPanel() {
-		this.setBackground(Color.WHITE);
+		this.setBackground(Color.red);
 	}	
 	    
     protected void paintComponent(Graphics g) {

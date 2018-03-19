@@ -30,7 +30,7 @@ public class GUI extends JPanel {
 	JLabel SoundSpeedLabel;
 
 	public GUI() {
-		this.setLayout(new BorderLayout());//sets layout for main panel
+		this.setLayout(new GridLayout(1,2));//sets layout for main panel
 		
 		//tworzy panele
 		pWest = new JPanel();
@@ -78,33 +78,37 @@ public class GUI extends JPanel {
 		SoundSpeedLabel = new JLabel("Speed of sound[m/s]");
 		
 		//ustawianie layoutów
-		pLanguage.setLayout(new BoxLayout(pLanguage, BoxLayout.PAGE_AXIS));
-		pLanguage.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		pControl.setLayout(new GridLayout(0,4,0,2)); //ustawienia layoutu dla panelu pControl
-		pControl.setAlignmentY(CENTER_ALIGNMENT);
+		pLanguage.setLayout(new FlowLayout(FlowLayout.TRAILING));//trailing ustawia z prawej strony
+		pControl.setLayout(new FlowLayout()); //ustawienia layoutu dla panelu pControl
+		
+		//ustawia layout managery do paneli
+		pWest.setLayout(new GridLayout(2,1));
+		pControl.setBorder(BorderFactory.createLineBorder(new Color(50,50,50)));
+		pEast.setLayout(new BorderLayout());
+		pChart.setLayout(new GridLayout(3,1));
+		pOptions.setLayout(new GridLayout(9,4));
+		
 		
 		//wstawianie paneli w panele
 		//dodaje i ustawia 2 panele: lewy i prawy do glownego panelu
-		this.add(BorderLayout.WEST, pWest);
-		this.add(BorderLayout.EAST, pEast);
+		this.add(pWest);
+		this.add(pEast);
 		//dodaje i ustawia panele do lewego panelu
-		pWest.add(BorderLayout.NORTH, pAnimation);
-		pWest.add(BorderLayout.SOUTH, pChart);
+		pWest.add(pAnimation);
+		pWest.add(pChart);
 		//dodaje i ustawia panele do prawego panelu
 		pEast.add(BorderLayout.NORTH, pLanguage);
 		pEast.add(BorderLayout.CENTER, pOptions);
 		pEast.add(BorderLayout.SOUTH, pControl);
 		//dodaje i ustawia panele z wykresami do panelu pChart
-		pChart.add(BorderLayout.NORTH, pChartSource);
-		pChart.add(BorderLayout.CENTER, pChartObserver1);
-		pChart.add(BorderLayout.SOUTH, pChartObserver2);		
+		pChart.add(pChartSource);
+		pChart.add(pChartObserver1);
+		pChart.add(pChartObserver2);		
 		
 		//wstawianie komponentów do paneli
 		pLanguage.add(SwitchPolishButton);
 		pLanguage.add(SwitchEnglishButton);
-		
-		pOptions.setLayout(new GridLayout(9,4));
-		
+				
 		pOptions.add(ObserverMainLabel);
 		pOptions.add(Observer1Checkbox);
 		pOptions.add(Observer1XField);
