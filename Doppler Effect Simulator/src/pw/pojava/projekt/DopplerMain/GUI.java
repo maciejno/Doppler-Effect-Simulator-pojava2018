@@ -14,10 +14,10 @@ public class GUI extends JPanel {
 	
 	JCheckBox Observer1Checkbox, Observer2Checkbox; // Observers CheckBoxes
 	JSlider Observer1Slider, Observer2Slider, SourceSlider;//Sliders for speed of objests
-	static final int ObserverSlider_MIN = -42;
-	static final int ObserverSlider_MAX = 42; //Parameters for Spectator Speed Sliders
-	static final int SourceSlider_MIN = -100;
-	static final int SourceSlider_MAX = 100; //Parameters for Source Speed slider
+	static final int ObserverSlider_MIN = -21;
+	static final int ObserverSlider_MAX = 21; //Parameters for Spectator Speed Sliders
+	static final int SourceSlider_MIN = 0;
+	static final int SourceSlider_MAX = 42; //Parameters for Source Speed slider
 	static final int Slider_INIT = 0; //Initial parameter for sliders
 
 	
