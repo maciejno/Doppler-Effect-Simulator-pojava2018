@@ -59,7 +59,7 @@ public class GUI extends JPanel {
 		
 		
 		//ustawienia sliderów
-		Font SliderFont = new Font("Calibri", Font.BOLD, 10); //kosmetyka
+		Font SliderFont = new Font("Calibri", Font.BOLD, 11); //kosmetyka
 		Observer1Slider = new JSlider(JSlider.HORIZONTAL, ObserverSlider_MIN, ObserverSlider_MAX, Slider_INIT);
 		Observer1Slider.setMajorTickSpacing(10); //wiêcej kosmetyki
 		Observer1Slider.setMinorTickSpacing(1);
