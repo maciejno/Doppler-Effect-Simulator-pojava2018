@@ -10,6 +10,7 @@ public class GUI extends JPanel {
 	
 	JButton SwitchPolishButton, SwitchEnglishButton; //Language switching buttons
 	JButton StartButton, SaveButton; //Powerful Buttons :D
+	JButton SoundButton1, SoundButton2;
 	
 	JCheckBox Observer1Checkbox, Observer2Checkbox; // Observers CheckBoxes
 	JSlider Observer1Slider, Observer2Slider, SourceSlider;//Sliders for speed of objests
@@ -23,11 +24,13 @@ public class GUI extends JPanel {
 	JTextField Observer1XField, Observer1YField, Observer2XField, Observer2YField;//TextFields for Spectators' parameters
 	JTextField SourceXField, SourceYField, SourceFreqField; //TextFields for Source parameters
 	JTextField SoundSpeedField; //TextField for speed of Sound
-	JTextField Observer1SliderField, Observer2SliderField, SourceSliderField;
+	JTextField Observer1SliderField, Observer2SliderField, SourceSliderField; //text fields for obs1,obs2, soutce values
 	
 	JLabel ObserverMainLabel, SourceMainLabel;//Title labels
-	JLabel Observer1SliderLabel, Observer2SliderLabel, SourceSliderLabel;//Slider labels
-	JLabel SoundSpeedLabel;
+	JLabel ValueXLabel, ValueYLabel; // uniwersal labels for "X:" and "Y:"
+	JLabel SliderLabel1, SliderLabel2;//Slider labels
+	JLabel SoundSpeedLabel; // sound speed label
+	JLabel FreqLabel1, FreqLabel2;
 
 	public GUI() {
 		
@@ -48,13 +51,33 @@ public class GUI extends JPanel {
 		SwitchEnglishButton = new JButton("ENGLISH");
 		StartButton = new JButton("START");
 		SaveButton = new JButton("ZAPISZ");
+		SoundButton1 = new JButton("<)))");
+		SoundButton2 = new JButton("<)))");
 		
 		Observer1Checkbox = new JCheckBox("Obserwator 1");
 		Observer2Checkbox = new JCheckBox("Obserwator 2");
 		
+		
+		//ustawienia sliderów
+		Font SliderFont = new Font("Calibri", Font.BOLD, 10); //kosmetyka
 		Observer1Slider = new JSlider(JSlider.HORIZONTAL, ObserverSlider_MIN, ObserverSlider_MAX, Slider_INIT);
+		Observer1Slider.setMajorTickSpacing(10); //wiêcej kosmetyki
+		Observer1Slider.setMinorTickSpacing(1);
+		Observer1Slider.setPaintTicks(true);
+		Observer1Slider.setPaintLabels(true);
+		Observer1Slider.setFont(SliderFont);
 		Observer2Slider = new JSlider(JSlider.HORIZONTAL, ObserverSlider_MIN, ObserverSlider_MAX, Slider_INIT);
+		Observer2Slider.setMajorTickSpacing(10);
+		Observer2Slider.setMinorTickSpacing(1);
+		Observer2Slider.setPaintTicks(true);
+		Observer2Slider.setPaintLabels(true);
+		Observer2Slider.setFont(SliderFont);
 		SourceSlider = new JSlider(JSlider.HORIZONTAL, SourceSlider_MIN, SourceSlider_MAX, Slider_INIT);
+		SourceSlider.setMajorTickSpacing(10);
+		SourceSlider.setMinorTickSpacing(1);
+		SourceSlider.setPaintTicks(true);
+		SourceSlider.setPaintLabels(true);
+		SourceSlider.setFont(SliderFont);
 		
 		Observer1SliderField = new JTextField();
 		Observer2SliderField = new JTextField();
@@ -70,11 +93,14 @@ public class GUI extends JPanel {
 		SoundSpeedField = new JTextField();
 		
 		ObserverMainLabel = new JLabel("Obserwatorzy");
+		ValueXLabel = new JLabel("X:");
+		ValueYLabel = new JLabel("Y:");
 		SourceMainLabel = new JLabel("Zrodlo");	
-		Observer1SliderLabel = new JLabel("v:");
-		Observer2SliderLabel = new JLabel("v:");
-		SourceSliderLabel = new JLabel("v:");
-		SoundSpeedLabel = new JLabel("Speed of sound[m/s]");
+		SliderLabel1 = new JLabel("v:");
+		SliderLabel2 = new JLabel("m/s");
+		SoundSpeedLabel = new JLabel("Speed of sound");
+		FreqLabel1 = new JLabel("f:");	
+		FreqLabel2 = new JLabel("Hz");
 		
 		//ustawia layout managery do paneli
 		this.setLayout(new GridLayout(1,2));//sets layout for main panel
@@ -82,9 +108,11 @@ public class GUI extends JPanel {
 		pControl.setBorder(BorderFactory.createLineBorder(new Color(50,50,50)));
 		pEast.setLayout(new BorderLayout());
 		pChart.setLayout(new GridLayout(3,1));
-		pOptions.setLayout(new GridLayout(9,4));
+		pOptions.setLayout(new GridLayout(11,7));
 		pLanguage.setLayout(new FlowLayout(FlowLayout.TRAILING));//trailing ustawia z prawej strony
 		pControl.setLayout(new FlowLayout()); //ustawienia layoutu dla panelu pControl
+		
+		JLabel HackLabel = new JLabel(""); //HACKLABEL
 		
 		//wstawianie paneli w panele
 		//dodaje i ustawia 2 panele: lewy i prawy do glownego panelu
@@ -106,29 +134,96 @@ public class GUI extends JPanel {
 		pLanguage.add(SwitchPolishButton);
 		pLanguage.add(SwitchEnglishButton);
 				
+		//kolejnoœæ taka jak ma byæ
+		//NIE RUSZAÆ BO SIE ROZLECI
+		pOptions.add(HackLabel);
 		pOptions.add(ObserverMainLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		
 		pOptions.add(Observer1Checkbox);
+		pOptions.add(SoundButton1);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		
+		pOptions.add(ValueXLabel);
 		pOptions.add(Observer1XField);
+		pOptions.add(ValueYLabel);
 		pOptions.add(Observer1YField);
-		pOptions.add(Observer1SliderLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		
+		pOptions.add(SliderLabel1);
 		pOptions.add(Observer1Slider);
 		pOptions.add(Observer1SliderField);
+		pOptions.add(SliderLabel2);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
 		
 		pOptions.add(Observer2Checkbox);
+		pOptions.add(SoundButton2);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		
+		pOptions.add(ValueXLabel);
 		pOptions.add(Observer2XField);
+		pOptions.add(ValueYLabel);
 		pOptions.add(Observer2YField);
-		pOptions.add(Observer2SliderLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		
+		pOptions.add(SliderLabel1);
 		pOptions.add(Observer2Slider);
 		pOptions.add(Observer2SliderField);
+		pOptions.add(SliderLabel2);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
 		
+		pOptions.add(HackLabel);
 		pOptions.add(SourceMainLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+
+		pOptions.add(ValueXLabel);
 		pOptions.add(SourceXField);
+		pOptions.add(ValueYLabel);
 		pOptions.add(SourceYField);
+		pOptions.add(FreqLabel1);
 		pOptions.add(SourceFreqField);
-		pOptions.add(SourceSliderLabel);
+		pOptions.add(FreqLabel2);
+		
+		pOptions.add(SliderLabel1);
 		pOptions.add(SourceSlider);
 		pOptions.add(SourceSliderField);
+		pOptions.add(SliderLabel2);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		
+		pOptions.add(SoundSpeedLabel);
 		pOptions.add(SoundSpeedField);
+		pOptions.add(SliderLabel2);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		pOptions.add(HackLabel);
+		
 		
 		pControl.add(StartButton);
 		pControl.add(SaveButton);
