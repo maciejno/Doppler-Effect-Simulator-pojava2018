@@ -1,7 +1,6 @@
 package pw.pojava.projekt.DopplerMain;
 
 import java.awt.*;
-import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,6 +9,8 @@ public class MainFrame extends JFrame {
 
 	public MainFrame(){		
 		this.setSize(860,640);
+		this.setResizable(false);//zeby rozmiar okna byl staly
+		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
 		

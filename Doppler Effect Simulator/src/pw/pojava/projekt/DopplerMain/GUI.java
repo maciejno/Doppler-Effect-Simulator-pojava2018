@@ -30,7 +30,6 @@ public class GUI extends JPanel {
 	JLabel SoundSpeedLabel;
 
 	public GUI() {
-		this.setLayout(new GridLayout(1,2));//sets layout for main panel
 		
 		//tworzy panele
 		pWest = new JPanel();
@@ -77,17 +76,15 @@ public class GUI extends JPanel {
 		SourceSliderLabel = new JLabel("v:");
 		SoundSpeedLabel = new JLabel("Speed of sound[m/s]");
 		
-		//ustawianie layoutów
-		pLanguage.setLayout(new FlowLayout(FlowLayout.TRAILING));//trailing ustawia z prawej strony
-		pControl.setLayout(new FlowLayout()); //ustawienia layoutu dla panelu pControl
-		
 		//ustawia layout managery do paneli
+		this.setLayout(new GridLayout(1,2));//sets layout for main panel
 		pWest.setLayout(new GridLayout(2,1));
 		pControl.setBorder(BorderFactory.createLineBorder(new Color(50,50,50)));
 		pEast.setLayout(new BorderLayout());
 		pChart.setLayout(new GridLayout(3,1));
 		pOptions.setLayout(new GridLayout(9,4));
-		
+		pLanguage.setLayout(new FlowLayout(FlowLayout.TRAILING));//trailing ustawia z prawej strony
+		pControl.setLayout(new FlowLayout()); //ustawienia layoutu dla panelu pControl
 		
 		//wstawianie paneli w panele
 		//dodaje i ustawia 2 panele: lewy i prawy do glownego panelu
