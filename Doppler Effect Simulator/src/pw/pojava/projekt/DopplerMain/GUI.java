@@ -23,10 +23,10 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	
 	JCheckBox Observer1Checkbox, Observer2Checkbox; // Observers CheckBoxes
 	JSlider Observer1Slider, Observer2Slider, SourceSlider;//Sliders for speed of objests
-	static final int ObserverSlider_MIN = -21;
-	static final int ObserverSlider_MAX = 21; //Parameters for Spectator Speed Sliders
-	static final int SourceSlider_MIN = 0;
-	static final int SourceSlider_MAX = 42; //Parameters for Source Speed slider
+	static final int ObserverSlider_MIN = -1000;
+	static final int ObserverSlider_MAX = 1000; //Parameters for Spectator Speed Sliders
+	static final int SourceSlider_MIN = -1000;
+	static final int SourceSlider_MAX = 1000; //Parameters for Source Speed slider
 	static final int Slider_INIT = 0; //Initial parameter for sliders
 
 	
@@ -86,20 +86,20 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		//ustawienia sliderów
 		Font SliderFont = new Font("Calibri", Font.BOLD, 11); //kosmetyka
 		Observer1Slider = new JSlider(JSlider.HORIZONTAL, ObserverSlider_MIN, ObserverSlider_MAX, Slider_INIT);
-		Observer1Slider.setMajorTickSpacing(10); //wiêcej kosmetyki
-		Observer1Slider.setMinorTickSpacing(1);
+		Observer1Slider.setMajorTickSpacing(500); //wiêcej kosmetyki
+		Observer1Slider.setMinorTickSpacing(250);
 		Observer1Slider.setPaintTicks(true);
 		Observer1Slider.setPaintLabels(true);
 		Observer1Slider.setFont(SliderFont);
 		Observer2Slider = new JSlider(JSlider.HORIZONTAL, ObserverSlider_MIN, ObserverSlider_MAX, Slider_INIT);
-		Observer2Slider.setMajorTickSpacing(10);
-		Observer2Slider.setMinorTickSpacing(1);
+		Observer2Slider.setMajorTickSpacing(500);
+		Observer2Slider.setMinorTickSpacing(250);
 		Observer2Slider.setPaintTicks(true);
 		Observer2Slider.setPaintLabels(true);
 		Observer2Slider.setFont(SliderFont);
 		SourceSlider = new JSlider(JSlider.HORIZONTAL, SourceSlider_MIN, SourceSlider_MAX, Slider_INIT);
-		SourceSlider.setMajorTickSpacing(10);
-		SourceSlider.setMinorTickSpacing(1);
+		SourceSlider.setMajorTickSpacing(500);
+		SourceSlider.setMinorTickSpacing(250);
 		SourceSlider.setPaintTicks(true);
 		SourceSlider.setPaintLabels(true);
 		SourceSlider.setFont(SliderFont);
