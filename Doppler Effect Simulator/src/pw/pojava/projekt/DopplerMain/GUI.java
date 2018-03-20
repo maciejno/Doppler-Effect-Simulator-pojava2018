@@ -1,10 +1,18 @@
 package pw.pojava.projekt.DopplerMain; /* a etykiety na x, y i f te¿ robimy?, ustawic rozmiary paneli chyba trzeba */
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
+import javax.print.DocFlavor.URL;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class GUI extends JPanel {
+
+public class GUI extends JPanel  implements ChangeListener, ActionListener, ItemListener {
 	//panels in main panel
 	JPanel pWest, pEast, pAnimation, pChart, pChartSource, pChartObserver1, pChartObserver2, pLanguage, pOptions, pControl;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
 	
@@ -52,9 +60,9 @@ public class GUI extends JPanel {
 		StartButton = new JButton("START");
 		SaveButton = new JButton("ZAPISZ");
 		SoundButton1 = new JButton("<)))");
-		SoundButton2 = new JButton("<)))");
+		SoundButton2 = new JButton();
 		
-		Observer1Checkbox = new JCheckBox("Obserwator 1");
+		Observer1Checkbox = new JCheckBox("Obserwator 1"); Observer1Checkbox.setSelected(true);
 		Observer2Checkbox = new JCheckBox("Obserwator 2");
 		
 		
@@ -228,8 +236,75 @@ public class GUI extends JPanel {
 		pControl.add(StartButton);
 		pControl.add(SaveButton);
 									
+		//LISTENERY
+		Observer1Checkbox.addItemListener(this); // dodawanie listenerów do Checkboxów
+		Observer2Checkbox.addItemListener(this);
+		
+		Observer1Slider.addChangeListener(this); //dodawanie listenerów do sliderów
+		Observer2Slider.addChangeListener(this);
+		SourceSlider.addChangeListener(this);
+		
+	}//koniec konstruktora
+	
+	//zmienne przechowuj¹ce nastawy komponentów
+	double Observer1X = 0; 
+	double Observer1Y = 0;
+	double Observer1V = 0;
+	double Observer2X = 0;
+	double Observer2Y = 0;
+	double Observer2V = 0;
+	double SourceX = 0;
+	double SourceY = 0;
+	double SourceV = 0;
+	double SoundSpeed = 0;
+	
+	boolean Observer1State = true;
+	boolean Observer2State = false;
+	
+
+	@Override
+	public void stateChanged(ChangeEvent arg0) { //listener do Sliderów
+		
+		if(Observer1Slider.getValue()!=Observer1V) { //Slider obserwatora 1
+			
+		String Slider1String = new Double(Observer1Slider.getValue()).toString();
+		Observer1SliderField.setText(Slider1String);
+		Observer1V=Observer1Slider.getValue();
+		}
+		
+		if(Observer2Slider.getValue()!=Observer2V) { //Slider obserwatora 2
+			
+			String Slider2String = new Double(Observer2Slider.getValue()).toString();
+			Observer2SliderField.setText(Slider2String);
+			Observer2V=Observer2Slider.getValue();
+			}
+		
+		if(SourceSlider.getValue()!=SourceV) { //Slider obserwatora 3
+			
+			String SliderSourceString = new Double(SourceSlider.getValue()).toString();
+			SourceSliderField.setText(SliderSourceString);
+			SourceV=SourceSlider.getValue();
+			}
+	}
+	
+	@Override
+	public void itemStateChanged(ItemEvent arg0) { // Listener do checkboxów
+			
+			Observer1State=Observer1Checkbox.isSelected();
+			Observer2State=Observer2Checkbox.isSelected();
+			//debugging
+			System.out.print("Observer1 : ");
+			System.out.println(Observer1State);
+			System.out.print("Observer1 : ");
+			System.out.println(Observer2State);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) { //Listener do przycisków
+		
 		
 	}
+
 
 
 }
