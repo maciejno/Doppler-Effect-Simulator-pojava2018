@@ -5,7 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
+
+import javax.imageio.ImageIO;
 import javax.print.DocFlavor.URL;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -78,8 +82,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		StartButton = new JButton("START");
 		SaveButton = new JButton("ZAPISZ");
 		SoundButton1 = new JButton("<)))");
-		SoundButton2 = new JButton();
-		
+		SoundButton2 = new JButton("<)))");
+				
 		Observer1Checkbox = new JCheckBox("Obserwator 1"); Observer1Checkbox.setSelected(true);
 		Observer2Checkbox = new JCheckBox("Obserwator 2");
 			
@@ -160,10 +164,10 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pSouthSource.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		//ramki do paneli
-		pLanguage.setBorder(BorderFactory.createLineBorder(new Color(50,50,50)));
-		pControl.setBorder(BorderFactory.createLineBorder(new Color(50,50,50)));
-		pObserver1.setBorder(BorderFactory.createLineBorder(new Color(50,50,50)));
-		pObserver2.setBorder(BorderFactory.createLineBorder(new Color(50,50,50)));
+		pLanguage.setBorder(BorderFactory.createTitledBorder(" "));
+		pControl.setBorder(BorderFactory.createTitledBorder(" "));
+		pObserver1.setBorder(BorderFactory.createTitledBorder(" "));
+		pObserver2.setBorder(BorderFactory.createTitledBorder(" "));
 		pSource.setBorder(BorderFactory.createTitledBorder("Zrodlo"));
 		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla"));
 		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora1"));
@@ -272,7 +276,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	boolean Observer2State = false;
 	
 
-	@Override
 	public void stateChanged(ChangeEvent arg0) { //listener do Sliderów
 		
 		if(Observer1Slider.getValue()!=Observer1V) { //Slider obserwatora 1
@@ -297,7 +300,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			}
 	}
 	
-	@Override
 	public void itemStateChanged(ItemEvent arg0) { // Listener do checkboxów
 			
 			Observer1State=Observer1Checkbox.isSelected();
@@ -309,7 +311,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			System.out.println(Observer2State);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent arg0) { //Listener do przycisków
 		
 		
