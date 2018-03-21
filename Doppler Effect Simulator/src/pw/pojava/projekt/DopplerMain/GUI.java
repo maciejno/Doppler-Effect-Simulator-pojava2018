@@ -17,6 +17,23 @@ import javax.swing.event.ChangeListener;
 
 
 public class GUI extends JPanel  implements ChangeListener, ActionListener, ItemListener {
+	
+	//zmienne przechowuj¹ce nastawy komponentów
+	double Observer1X = 0; 
+	double Observer1Y = 0;
+	double Observer1V = 0;
+	double Observer2X = 0;
+	double Observer2Y = 0;
+	double Observer2V = 0;
+	double SourceX = 0;
+	double SourceY = 0;
+	double SourceV = 0;
+	double SoundSpeed = 0;
+	
+	boolean Observer1State = true;
+	boolean Observer2State = false;
+		
+	
 	//panels in main panel
 	JPanel pWest, pEast, pAnimation, pChart, pChartSource, pChartObserver1, pChartObserver2, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
 	JPanel pNorthObserver1, pCenterObserver1, pSouthObserver1, pNorthObserver2, pCenterObserver2, pSouthObserver2, pNorthSource, pCenterSource, pSouthSource;
@@ -108,7 +125,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		SourceSlider.setPaintLabels(true);
 		SourceSlider.setFont(SliderFont);
 		
-		Observer1SliderField = new JTextField(); Observer1SliderField.setColumns(4);
+		Observer1SliderField = new JTextField(); Observer1SliderField.setColumns(4);//ustawia rozmiar pola tekstowego
 		Observer2SliderField = new JTextField(); Observer2SliderField.setColumns(4);
 		SourceSliderField = new JTextField(); SourceSliderField.setColumns(4);
 		
@@ -259,22 +276,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		SourceSlider.addChangeListener(this);
 		
 	}//koniec konstruktora
-	
-	//zmienne przechowuj¹ce nastawy komponentów
-	double Observer1X = 0; 
-	double Observer1Y = 0;
-	double Observer1V = 0;
-	double Observer2X = 0;
-	double Observer2Y = 0;
-	double Observer2V = 0;
-	double SourceX = 0;
-	double SourceY = 0;
-	double SourceV = 0;
-	double SoundSpeed = 0;
-	
-	boolean Observer1State = true;
-	boolean Observer2State = false;
-	
 
 	public void stateChanged(ChangeEvent arg0) { //listener do Sliderów
 		
