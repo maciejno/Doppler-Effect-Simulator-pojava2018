@@ -95,15 +95,19 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pSouthSource = new JPanel();
 		
 		//ikonki
-		//ImageIcon audio = new ImageIcon
+		ImageIcon polish = new ImageIcon("C:\\Users\\Jakub\\git\\doppler-effect-simulator-pojava2018\\Doppler Effect Simulator\\src\\pw\\pojava\\projekt\\DopplerMain\\icons\\polish.png");
+		ImageIcon english = new ImageIcon("C:\\Users\\Jakub\\git\\doppler-effect-simulator-pojava2018\\Doppler Effect Simulator\\src\\pw\\pojava\\projekt\\DopplerMain\\icons\\english.png");
+		ImageIcon audio = new ImageIcon("C:\\Users\\Jakub\\git\\doppler-effect-simulator-pojava2018\\Doppler Effect Simulator\\src\\pw\\pojava\\projekt\\DopplerMain\\icons\\audio.png");
+		ImageIcon start = new ImageIcon("C:\\Users\\Jakub\\git\\doppler-effect-simulator-pojava2018\\Doppler Effect Simulator\\src\\pw\\pojava\\projekt\\DopplerMain\\icons\\start.png");
+		ImageIcon zapisz = new ImageIcon("C:\\Users\\Jakub\\git\\doppler-effect-simulator-pojava2018\\Doppler Effect Simulator\\src\\pw\\pojava\\projekt\\DopplerMain\\icons\\zapisz.png");
 		
 		//tworzenie komponentów
-		SwitchPolishButton = new JButton("POLSKI");
-		SwitchEnglishButton = new JButton("ENGLISH");
-		StartButton = new JButton("START");
-		SaveButton = new JButton("ZAPISZ");
-		SoundButton1 = new JButton("<)))");
-		SoundButton2 = new JButton("Baton ");
+		SwitchPolishButton = new JButton(polish);
+		SwitchEnglishButton = new JButton(english);
+		StartButton = new JButton(start);
+		SaveButton = new JButton(zapisz);
+		SoundButton1 = new JButton(audio);
+		SoundButton2 = new JButton(audio);
 				
 		Observer1Checkbox = new JCheckBox("Obserwator 1"); Observer1Checkbox.setSelected(true);
 		Observer2Checkbox = new JCheckBox("Obserwator 2");
