@@ -15,8 +15,7 @@ public class MainFrame extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
 		
-		this.add(new GUI());//czy to nie bedzie sie robic za kazdym razem jak sie zmieni rozmiar okna
-							// Trzeba ustawiæ sta³y rozmiar okna
+		this.add(new GUI());
 	}
 
 	public static void main(String[] args) {

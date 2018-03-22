@@ -1,4 +1,4 @@
-package pw.pojava.projekt.DopplerMain; /* a etykiety na x, y i f te¿ robimy?, ustawic rozmiary paneli chyba trzeba */
+package pw.pojava.projekt.DopplerMain;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
