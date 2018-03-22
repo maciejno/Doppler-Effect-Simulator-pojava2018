@@ -5,9 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
-
+import java.text.ParseException;
 
 import javax.imageio.ImageIO;
 import javax.print.DocFlavor.URL;
@@ -16,7 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 
-public class GUI extends JPanel  implements ChangeListener, ActionListener, ItemListener {
+public class GUI extends JPanel  implements ChangeListener, ActionListener, ItemListener, KeyListener {
 	
 	//zmienne przechowuj¹ce nastawy komponentów
 	double Observer1X = 0; 
@@ -275,15 +278,17 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		Observer2Slider.addChangeListener(this);
 		SourceSlider.addChangeListener(this);
 		
+		Observer1XField.addKeyListener(this);
+		
 	}//koniec konstruktora
 
 	public void stateChanged(ChangeEvent arg0) { //listener do Sliderów
 		
 		if(Observer1Slider.getValue()!=Observer1V) { //Slider obserwatora 1
 			
-		String Slider1String = new Double(Observer1Slider.getValue()).toString();
-		Observer1SliderField.setText(Slider1String);
-		Observer1V=Observer1Slider.getValue();
+			String Slider1String = new Double(Observer1Slider.getValue()).toString();
+			Observer1SliderField.setText(Slider1String);
+			Observer1V=Observer1Slider.getValue();
 		}
 		
 		if(Observer2Slider.getValue()!=Observer2V) { //Slider obserwatora 2
@@ -291,14 +296,14 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			String Slider2String = new Double(Observer2Slider.getValue()).toString();
 			Observer2SliderField.setText(Slider2String);
 			Observer2V=Observer2Slider.getValue();
-			}
+		}
 		
 		if(SourceSlider.getValue()!=SourceV) { //Slider obserwatora 3
 			
 			String SliderSourceString = new Double(SourceSlider.getValue()).toString();
 			SourceSliderField.setText(SliderSourceString);
 			SourceV=SourceSlider.getValue();
-			}
+		}
 	}
 	
 	public void itemStateChanged(ItemEvent arg0) { // Listener do checkboxów
@@ -311,12 +316,30 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			System.out.print("Observer1 : ");
 			System.out.println(Observer2State);
 	}
+		
+	public void keyReleased(KeyEvent arg0) {
+			if(Double.parseDouble(Observer1XField.getText())!=Observer1X) {
+				Observer1X = Double.parseDouble(Observer1XField.getText());			
+				System.out.println(Observer1X);
+			}
+	}
+	
 
 	public void actionPerformed(ActionEvent arg0) { //Listener do przycisków
 		
 		
 	}
 
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 
 }
