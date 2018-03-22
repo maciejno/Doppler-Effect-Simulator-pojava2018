@@ -93,13 +93,16 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pCenterSource = new JPanel();
 		pSouthSource = new JPanel();
 		
+		//ikonki
+		//ImageIcon audio = new ImageIcon
+		
 		//tworzenie komponentów
 		SwitchPolishButton = new JButton("POLSKI");
 		SwitchEnglishButton = new JButton("ENGLISH");
 		StartButton = new JButton("START");
 		SaveButton = new JButton("ZAPISZ");
 		SoundButton1 = new JButton("<)))");
-		SoundButton2 = new JButton("<)))");
+		//SoundButton2 = new JButton(ImageIcon audio = new ImageIcon("./audio.png"));
 				
 		Observer1Checkbox = new JCheckBox("Obserwator 1"); Observer1Checkbox.setSelected(true);
 		Observer2Checkbox = new JCheckBox("Obserwator 2");
@@ -293,12 +296,13 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			Observer2V=Observer2Slider.getValue();
 			}
 		
-		if(SourceSlider.getValue()!=SourceV) { //Slider obserwatora 3
+		if(SourceSlider.getValue()!=SourceV) { //Slider zrodla
 			
 			String SliderSourceString = new Double(SourceSlider.getValue()).toString();
 			SourceSliderField.setText(SliderSourceString);
 			SourceV=SourceSlider.getValue();
 			}
+		
 	}
 	
 	public void itemStateChanged(ItemEvent arg0) { // Listener do checkboxów
