@@ -30,6 +30,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	double SourceY = 0;
 	double SourceV = 0;
 	double SoundSpeed = 0;
+	double SoundFreq = 0;
 	
 	boolean Observer1State = true;
 	boolean Observer2State = false;
@@ -284,6 +285,13 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		SourceSlider.addChangeListener(this);
 		
 		Observer1XField.addKeyListener(this);
+		Observer1YField.addKeyListener(this);
+		Observer2XField.addKeyListener(this);
+		Observer2YField.addKeyListener(this);
+		SourceXField.addKeyListener(this);
+		SourceYField.addKeyListener(this);
+		SourceFreqField.addKeyListener(this);
+		SoundSpeedField.addKeyListener(this);
 		
 	}//koniec konstruktora
 
@@ -324,10 +332,44 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			System.out.println(Observer2State);
 	}
 	
-	public void keyReleased(KeyEvent arg0) {
-		if(Double.parseDouble(Observer1XField.getText())!=Observer1X) {
-			Observer1X = Double.parseDouble(Observer1XField.getText());			
-			System.out.println(Observer1X);
+	public void keyReleased(KeyEvent arg0) { //cos tu nie do konca dziala, bo musi byc cos wpisane w Ob1X zeby inne dzialaly
+		try {
+			//listenery do pol tekstowych
+			if(Double.parseDouble(Observer1XField.getText())!=Observer1X) {
+				Observer1X = Double.parseDouble(Observer1XField.getText());	
+				System.out.println("O1x:" + Observer1X);
+			}
+			else if(Double.parseDouble(Observer1YField.getText())!=Observer1Y) {
+				Observer1Y = Double.parseDouble(Observer1YField.getText());	
+				System.out.println("O1y:" + Observer1Y);
+			}	
+			else if(Double.parseDouble(Observer2XField.getText())!=Observer2X) {
+				Observer2X = Double.parseDouble(Observer2XField.getText());	
+				System.out.println("O2x:" + Observer2X);
+			}
+			else if(Double.parseDouble(Observer2YField.getText())!=Observer2Y) {
+				Observer2Y = Double.parseDouble(Observer2YField.getText());	
+				System.out.println("O2y:" + Observer2Y);
+			}
+			else if(Double.parseDouble(SourceXField.getText())!=SourceX) {
+				SourceX = Double.parseDouble(SourceXField.getText());		
+				System.out.println("Sx:" + SourceX);
+			}
+			else if(Double.parseDouble(SourceYField.getText())!=SourceY) {
+				SourceY = Double.parseDouble(SourceYField.getText());	
+				System.out.println("Sy:" + SourceY);
+			}
+			else if(Double.parseDouble(SourceFreqField.getText())!=SoundFreq) {
+				SoundFreq = Double.parseDouble(SourceFreqField.getText());	
+				System.out.println("Sf:" + SoundFreq);
+			}
+			else if(Double.parseDouble(SoundSpeedField.getText())!=SoundSpeed) {
+				SoundSpeed = Double.parseDouble(SoundSpeedField.getText());	
+				System.out.println("Ss:" + SoundSpeed);
+			}
+		}
+		catch(Exception e) {
+			System.err.println("Blad key listener!");
 		}
 }
 
@@ -342,7 +384,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	
 	}
 
-	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
