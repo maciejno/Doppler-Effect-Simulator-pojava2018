@@ -4,6 +4,7 @@ import java.awt.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class MainFrame extends JFrame {
 
@@ -19,8 +20,13 @@ public class MainFrame extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		JFrame mainFrame = new MainFrame();
-		mainFrame.setVisible(true);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				JFrame mainFrame = new MainFrame();
+				mainFrame.setVisible(true);
+			}
+		});
+				
 	}
 
 }

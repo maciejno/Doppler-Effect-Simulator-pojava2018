@@ -17,6 +17,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 
+
 public class GUI extends JPanel  implements ChangeListener, ActionListener, ItemListener, KeyListener {
 	
 	//zmienne przechowuj¹ce nastawy komponentów
@@ -37,11 +38,16 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		
 	
 	//panels in main panel
-	JPanel pWest, pEast, pAnimation, pChart, pChartSource, pChartObserver1, pChartObserver2, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
+	JPanel pWest, pEast, pChart, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
 	JPanel pNorthObserver1, pCenterObserver1, pSouthObserver1, pNorthObserver2, pCenterObserver2, pSouthObserver2, pNorthSource, pCenterSource, pSouthSource;
 	
-	JButton SwitchPolishButton, SwitchEnglishButton; //Language switching buttons
-	JButton StartButton, SaveButton; //Powerful Buttons :D
+	MainAnimationPanel pAnimation;
+	SourceAnimationPanel pChartSource;
+	Observer1AnimationPanel pChartObserver1;
+	Observer2AnimationPanel pChartObserver2;
+	
+	JButton SwitchPolishButton, SwitchEnglishButton; //przyciski do zmiany jezyka
+	JButton StartButton, SaveButton; //przyciski ktore maja moc sprawcza :D
 	JButton SoundButton1, SoundButton2;
 	
 	JCheckBox Observer1Checkbox, Observer2Checkbox; // Observers CheckBoxes
@@ -134,18 +140,18 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		SourceSlider.setPaintLabels(true);
 		SourceSlider.setFont(SliderFont);
 		
-		Observer1SliderField = new JTextField(); Observer1SliderField.setColumns(4);//ustawia rozmiar pola tekstowego
-		Observer2SliderField = new JTextField(); Observer2SliderField.setColumns(4);
-		SourceSliderField = new JTextField(); SourceSliderField.setColumns(4);
+		Observer1SliderField = new JTextField("0"); Observer1SliderField.setColumns(4);//ustawia rozmiar pola tekstowego
+		Observer2SliderField = new JTextField("0"); Observer2SliderField.setColumns(4);
+		SourceSliderField = new JTextField("0"); SourceSliderField.setColumns(4);
 		
-		Observer1XField = new JTextField(); Observer1XField.setColumns(4);
-		Observer1YField = new JTextField(); Observer1YField.setColumns(4);
-		Observer2XField = new JTextField(); Observer2XField.setColumns(4);
-		Observer2YField = new JTextField(); Observer2YField.setColumns(4);
-		SourceXField = new JTextField(); SourceXField.setColumns(4);
-		SourceYField = new JTextField(); SourceYField.setColumns(4);
-		SourceFreqField = new JTextField(); SourceFreqField.setColumns(5);
-		SoundSpeedField = new JTextField(); SoundSpeedField.setColumns(4);
+		Observer1XField = new JTextField("0"); Observer1XField.setColumns(4);
+		Observer1YField = new JTextField("0"); Observer1YField.setColumns(4);
+		Observer2XField = new JTextField("0"); Observer2XField.setColumns(4);
+		Observer2YField = new JTextField("0"); Observer2YField.setColumns(4);
+		SourceXField = new JTextField("0"); SourceXField.setColumns(4);
+		SourceYField = new JTextField("0"); SourceYField.setColumns(4);
+		SourceFreqField = new JTextField("0"); SourceFreqField.setColumns(5);
+		SoundSpeedField = new JTextField("0"); SoundSpeedField.setColumns(4);
 		
 		ObserverMainLabel = new JLabel("Obserwatorzy");
 		ValueXObserver1Label = new JLabel("X:");
@@ -293,32 +299,29 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		SourceFreqField.addKeyListener(this);
 		SoundSpeedField.addKeyListener(this);
 		
+		Observer1SliderField.addKeyListener(this);
+		Observer2SliderField.addKeyListener(this);
+		SourceSliderField.addKeyListener(this);
+		
 	}//koniec konstruktora
 
 	public void stateChanged(ChangeEvent arg0) { //listener do Sliderów
 		
-		if(Observer1Slider.getValue()!=Observer1V) { //Slider obserwatora 1
-			
+		if(Observer1Slider.getValue()!=Observer1V) { //Slider obserwatora 1			
 			String Slider1String = new Double(Observer1Slider.getValue()).toString();
 			Observer1SliderField.setText(Slider1String);
 			Observer1V=Observer1Slider.getValue();
-		}
-		
-		if(Observer2Slider.getValue()!=Observer2V) { //Slider obserwatora 2
-			
+		}		
+		if(Observer2Slider.getValue()!=Observer2V) { //Slider obserwatora 2			
 			String Slider2String = new Double(Observer2Slider.getValue()).toString();
 			Observer2SliderField.setText(Slider2String);
 			Observer2V=Observer2Slider.getValue();
-		}
-		
-		if(SourceSlider.getValue()!=SourceV) { //Slider zrodla
-			
+		}		
+		if(SourceSlider.getValue()!=SourceV) { //Slider zrodla			
 			String SliderSourceString = new Double(SourceSlider.getValue()).toString();
 			SourceSliderField.setText(SliderSourceString);
 			SourceV=SourceSlider.getValue();
 			}
-		
-
 	}
 	
 	public void itemStateChanged(ItemEvent arg0) { // Listener do checkboxów
@@ -332,40 +335,70 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			System.out.println(Observer2State);
 	}
 	
+	//DOPRAWIC - jak jest puste pole tekstowe ma przypisywac 0
+	//metoda obslugujaca wyjatek
+	static boolean isTextFieldEmpty(JTextField triedTextField) throws EmptyTextFieldException{
+		if (triedTextField.getText()==null) 
+			throw new EmptyTextFieldException(triedTextField);
+		return true;
+	}
+	
+	//listener do pol tekstowych
 	public void keyReleased(KeyEvent arg0) { //cos tu nie do konca dziala, bo musi byc cos wpisane w Ob1X zeby inne dzialaly
-		try {
+		try {//DEBUGGING - wypisuje do konsoli co sie wpisalo do zmiennej
 			//listenery do pol tekstowych
-			if(Double.parseDouble(Observer1XField.getText())!=Observer1X) {
-				Observer1X = Double.parseDouble(Observer1XField.getText());	
-				System.out.println("O1x:" + Observer1X);
+			try {
+				if(Double.parseDouble(Observer1XField.getText())!=Observer1X) {
+					isTextFieldEmpty(Observer1XField);
+					Observer1X = Double.parseDouble(Observer1XField.getText());	
+					System.out.println("O1x:" + Observer1X);
+				}
+				else if(Double.parseDouble(Observer1YField.getText())!=Observer1Y) {
+					Observer1Y = Double.parseDouble(Observer1YField.getText());	
+					System.out.println("O1y:" + Observer1Y);
+				}	
+				else if(Double.parseDouble(Observer2XField.getText())!=Observer2X) {
+					Observer2X = Double.parseDouble(Observer2XField.getText());	
+					System.out.println("O2x:" + Observer2X);
+				}
+				else if(Double.parseDouble(Observer2YField.getText())!=Observer2Y) {
+					Observer2Y = Double.parseDouble(Observer2YField.getText());	
+					System.out.println("O2y:" + Observer2Y);
+				}
+				else if(Double.parseDouble(SourceXField.getText())!=SourceX) {
+					SourceX = Double.parseDouble(SourceXField.getText());		
+					System.out.println("Sx:" + SourceX);
+				}
+				else if(Double.parseDouble(SourceYField.getText())!=SourceY) {
+					SourceY = Double.parseDouble(SourceYField.getText());	
+					System.out.println("Sy:" + SourceY);
+				}
+				else if(Double.parseDouble(SourceFreqField.getText())!=SoundFreq) {
+					SoundFreq = Double.parseDouble(SourceFreqField.getText());	
+					System.out.println("Sf:" + SoundFreq);
+				}
+				else if(Double.parseDouble(SoundSpeedField.getText())!=SoundSpeed) {
+					SoundSpeed = Double.parseDouble(SoundSpeedField.getText());	
+					System.out.println("Ss:" + SoundSpeed);
+				}
+				else if(Double.parseDouble(Observer1SliderField.getText())!=Observer1V) {
+					Observer1V = Double.parseDouble(Observer1SliderField.getText());
+					Observer1Slider.setValue(Integer.parseInt(Observer1SliderField.getText()));
+					System.out.println("O1V:" + Observer1V);
+				}
+				else if(Double.parseDouble(Observer2SliderField.getText())!=Observer2V) {
+					Observer2V = Double.parseDouble(Observer2SliderField.getText());
+					Observer2Slider.setValue(Integer.parseInt(Observer2SliderField.getText()));
+					System.out.println("O2V:" + Observer2V);
+				}
+				else if(Double.parseDouble(SourceSliderField.getText())!=SourceV) {
+					SourceV = Double.parseDouble(SourceSliderField.getText());
+					SourceSlider.setValue(Integer.parseInt(SourceSliderField.getText()));
+					System.out.println("SV:" + SourceV);
+				}
 			}
-			else if(Double.parseDouble(Observer1YField.getText())!=Observer1Y) {
-				Observer1Y = Double.parseDouble(Observer1YField.getText());	
-				System.out.println("O1y:" + Observer1Y);
-			}	
-			else if(Double.parseDouble(Observer2XField.getText())!=Observer2X) {
-				Observer2X = Double.parseDouble(Observer2XField.getText());	
-				System.out.println("O2x:" + Observer2X);
-			}
-			else if(Double.parseDouble(Observer2YField.getText())!=Observer2Y) {
-				Observer2Y = Double.parseDouble(Observer2YField.getText());	
-				System.out.println("O2y:" + Observer2Y);
-			}
-			else if(Double.parseDouble(SourceXField.getText())!=SourceX) {
-				SourceX = Double.parseDouble(SourceXField.getText());		
-				System.out.println("Sx:" + SourceX);
-			}
-			else if(Double.parseDouble(SourceYField.getText())!=SourceY) {
-				SourceY = Double.parseDouble(SourceYField.getText());	
-				System.out.println("Sy:" + SourceY);
-			}
-			else if(Double.parseDouble(SourceFreqField.getText())!=SoundFreq) {
-				SoundFreq = Double.parseDouble(SourceFreqField.getText());	
-				System.out.println("Sf:" + SoundFreq);
-			}
-			else if(Double.parseDouble(SoundSpeedField.getText())!=SoundSpeed) {
-				SoundSpeed = Double.parseDouble(SoundSpeedField.getText());	
-				System.out.println("Ss:" + SoundSpeed);
+			catch(EmptyTextFieldException e) {
+				System.err.println("Puste pole tekstowe");
 			}
 		}
 		catch(Exception e) {
@@ -374,21 +407,10 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 }
 
 
-	public void actionPerformed(ActionEvent arg0) { //Listener do przycisków
-	
-	
-	}
+	public void actionPerformed(ActionEvent arg0) {} //Listener do przycisków
+	public void keyPressed(KeyEvent arg0) {	}
+	public void keyTyped(KeyEvent arg0) {}
 
-	public void keyPressed(KeyEvent arg0) {
-	// TODO Auto-generated method stub
-	
-	}
-
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	public void setObserver1XField(Double val) {Observer1XField.setText(val.toString());}
 
 }
