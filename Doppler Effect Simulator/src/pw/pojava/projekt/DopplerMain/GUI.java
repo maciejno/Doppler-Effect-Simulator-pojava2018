@@ -9,9 +9,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
-
+import java.net.URL;
 import javax.imageio.ImageIO;
-import javax.print.DocFlavor.URL;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -102,11 +102,12 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pSouthSource = new JPanel();
 		
 		//ikonki
-		ImageIcon polish = new ImageIcon("C:\\Users\\Jakub\\git\\doppler-effect-simulator-pojava2018\\Doppler Effect Simulator\\src\\pw\\pojava\\projekt\\DopplerMain\\icons\\polish.png");
-		ImageIcon english = new ImageIcon("C:\\Users\\Jakub\\git\\doppler-effect-simulator-pojava2018\\Doppler Effect Simulator\\src\\pw\\pojava\\projekt\\DopplerMain\\icons\\english.png");
-		ImageIcon audio = new ImageIcon("C:\\Users\\Jakub\\git\\doppler-effect-simulator-pojava2018\\Doppler Effect Simulator\\src\\pw\\pojava\\projekt\\DopplerMain\\icons\\audio.png");
-		ImageIcon start = new ImageIcon("C:\\Users\\Jakub\\git\\doppler-effect-simulator-pojava2018\\Doppler Effect Simulator\\src\\pw\\pojava\\projekt\\DopplerMain\\icons\\start.png");
-		ImageIcon zapisz = new ImageIcon("C:\\Users\\Jakub\\git\\doppler-effect-simulator-pojava2018\\Doppler Effect Simulator\\src\\pw\\pojava\\projekt\\DopplerMain\\icons\\zapisz.png");
+		ImageIcon polish =  createImageIcon("pw/pojava/projekt/DopplerMain/icons/458198.jpg", "a pretty but meaningless splat");
+		ImageIcon english = new ImageIcon("pw\\pojava\\projekt\\DopplerMain\\icons\\english.png");
+		ImageIcon audio = new ImageIcon("icons\\audio.png");
+		ImageIcon start = new ImageIcon("icons\\start.png");
+		ImageIcon zapisz = new ImageIcon("icons\\zapisz.png");
+  
 		
 		//tworzenie komponentów
 		SwitchPolishButton = new JButton(polish);
@@ -304,6 +305,16 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		SourceSliderField.addKeyListener(this);
 		
 	}//koniec konstruktora
+
+	private ImageIcon createImageIcon(String path, String description) { //wa¿ne coœ do dodawania ikonek
+		java.net.URL imgURL = getClass().getResource(path);
+	    if (imgURL != null) {
+	        return new ImageIcon(imgURL, description);
+	    } else {
+	        System.err.println("Couldn't find file:  " + path + " :(");
+	        return null;
+	    }
+	}
 
 	public void stateChanged(ChangeEvent arg0) { //listener do Sliderów
 		
