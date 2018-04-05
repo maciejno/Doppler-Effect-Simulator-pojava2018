@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.LayoutManager;
-import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -28,7 +27,10 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		
-		
-	}  
+	}
+
+	
+
+
 
 }
