@@ -9,11 +9,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import pl.edu.pw.fizyka.java.lab7.zadanie2.Prostokat;
-
-
-
-
 
 public class MainAnimationPanel extends JPanel implements Runnable {
 	
@@ -39,17 +34,16 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 	public void run() {
 		
 		while(true) {
-		}
+			
+			
 			
 			
 			if(true)
-			break;
+				break;
 		}
-		
 	}
+		
+}
 
 	
 
-
-
-}
