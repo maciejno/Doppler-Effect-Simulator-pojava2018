@@ -9,12 +9,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import pl.edu.pw.fizyka.java.lab7.zadanie2.Prostokat;
-
-
-
-
-
 public class MainAnimationPanel extends JPanel implements Runnable {
 	
 	List<WaveCrest> crests = new ArrayList<WaveCrest>();
@@ -42,13 +36,28 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 		}
 			
 			
-			if(true)
-			break;
+			
 		}
 		
-	}
-
 	
+
+	public void addObserver1(int vx, int vy, double x, double y, Color color) {
+		
+	}
+	public void addObserver2(int vx, int vy, double x, double y, Color color) {
+		
+	}
+	public void addSource(int vx, int vy, double x, double y, Color color) {
+		
+	}
+	public void addWaveCrest(int v, double x, double y, double r) {
+		WaveCrest c = new WaveCrest();
+		c.setX(x);
+		c.setY(y);
+		c.setV(v);
+		c.setR(r);
+		crests.add(c);
+	}
 
 
 
