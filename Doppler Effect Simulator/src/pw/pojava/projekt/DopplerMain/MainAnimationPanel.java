@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 public class MainAnimationPanel extends JPanel implements Runnable {
 	
 	List<WaveCrest> crests = new ArrayList<WaveCrest>();
+	
+	
 
 	Dimension preferredSize = new Dimension(530,400);
 	
