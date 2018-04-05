@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 public class MainAnimationPanel extends JPanel implements Runnable {
 	
+	
 
 	Dimension preferredSize = new Dimension(530,400);
 	
@@ -29,8 +30,22 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 		
 	}
 
-	
-
-
-
+	public void addObserver1(int vx, int vy, double x, double y, Color color) {
+		
+	}
+	public void addObserver2(int vx, int vy, double x, double y, Color color) {
+		
+	}
+	public void addSource(int vx, int vy, double x, double y, Color color) {
+		
+	}
+	public void addWaveCrest(int v, double x, double y, double r) {
+		WaveCrest c = new WaveCrest();
+		c.setX(x);
+		c.setY(y);
+		c.setV(v);
+		c.setR(r);
+		
+		Crests.add(c);
+	}
 }
