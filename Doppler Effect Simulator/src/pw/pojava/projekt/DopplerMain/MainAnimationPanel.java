@@ -39,19 +39,9 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 	public void run() {
 		
 		while(true) {
-			
-		for (WaveCrest cr : crests) {
-			int bfr=cr.getX();
-			cr.setX(bfr+(cr.getV())*0.4);
 		}
 			
-		try {
-			Thread.sleep(40);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		this.repaint();
-		
+			
 			if(true)
 			break;
 		}
