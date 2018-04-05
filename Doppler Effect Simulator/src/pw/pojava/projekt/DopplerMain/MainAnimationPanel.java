@@ -7,7 +7,7 @@ import java.awt.LayoutManager;
 
 import javax.swing.JPanel;
 
-public class MainAnimationPanel extends JPanel {
+public class MainAnimationPanel extends JPanel implements Runnable{
 
 	Dimension preferredSize = new Dimension(530,400);
 	
@@ -18,6 +18,11 @@ public class MainAnimationPanel extends JPanel {
 	    
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);             
-    }  
+    }
+
+	public void run() {
+		
+		
+	}  
 
 }
