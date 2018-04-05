@@ -21,17 +21,17 @@ import javax.swing.event.ChangeListener;
 public class GUI extends JPanel  implements ChangeListener, ActionListener, ItemListener, KeyListener {
 	
 	//zmienne przechowuj¹ce nastawy komponentów
-	double Observer1X = 0; 
-	double Observer1Y = 0;
-	double Observer1V = 0;
-	double Observer2X = 0;
-	double Observer2Y = 0;
-	double Observer2V = 0;
-	double SourceX = 0;
-	double SourceY = 0;
-	double SourceV = 0;
-	double SoundSpeed = 0;
-	double SoundFreq = 0;
+	int Observer1X = 0; 
+	int Observer1Y = 0;
+	int Observer1V = 0;
+	int Observer2X = 0;
+	int Observer2Y = 0;
+	int Observer2V = 0;
+	int SourceX = 0;
+	int SourceY = 0;
+	int SourceV = 0;
+	int SoundSpeed = 0;
+	int SoundFreq = 0;
 	
 	boolean Observer1State = true;
 	boolean Observer2State = false;
@@ -359,51 +359,51 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		try {//DEBUGGING - wypisuje do konsoli co sie wpisalo do zmiennej
 			//listenery do pol tekstowych
 			try {
-				if(Double.parseDouble(Observer1XField.getText())!=Observer1X) {
+				if(Integer.parseInt(Observer1XField.getText())!=Observer1X) {
 					isTextFieldEmpty(Observer1XField);
-					Observer1X = Double.parseDouble(Observer1XField.getText());	
+					Observer1X = Integer.parseInt(Observer1XField.getText());	
 					System.out.println("O1x:" + Observer1X);
 				}
-				else if(Double.parseDouble(Observer1YField.getText())!=Observer1Y) {
-					Observer1Y = Double.parseDouble(Observer1YField.getText());	
+				else if(Integer.parseInt(Observer1YField.getText())!=Observer1Y) {
+					Observer1Y = Integer.parseInt(Observer1YField.getText());	
 					System.out.println("O1y:" + Observer1Y);
 				}	
-				else if(Double.parseDouble(Observer2XField.getText())!=Observer2X) {
-					Observer2X = Double.parseDouble(Observer2XField.getText());	
+				else if(Integer.parseInt(Observer2XField.getText())!=Observer2X) {
+					Observer2X = Integer.parseInt(Observer2XField.getText());	
 					System.out.println("O2x:" + Observer2X);
 				}
-				else if(Double.parseDouble(Observer2YField.getText())!=Observer2Y) {
-					Observer2Y = Double.parseDouble(Observer2YField.getText());	
+				else if(Integer.parseInt(Observer2YField.getText())!=Observer2Y) {
+					Observer2Y = Integer.parseInt(Observer2YField.getText());	
 					System.out.println("O2y:" + Observer2Y);
 				}
-				else if(Double.parseDouble(SourceXField.getText())!=SourceX) {
-					SourceX = Double.parseDouble(SourceXField.getText());		
+				else if(Integer.parseInt(SourceXField.getText())!=SourceX) {
+					SourceX = Integer.parseInt(SourceXField.getText());		
 					System.out.println("Sx:" + SourceX);
 				}
-				else if(Double.parseDouble(SourceYField.getText())!=SourceY) {
-					SourceY = Double.parseDouble(SourceYField.getText());	
+				else if(Integer.parseInt(SourceYField.getText())!=SourceY) {
+					SourceY = Integer.parseInt(SourceYField.getText());	
 					System.out.println("Sy:" + SourceY);
 				}
-				else if(Double.parseDouble(SourceFreqField.getText())!=SoundFreq) {
-					SoundFreq = Double.parseDouble(SourceFreqField.getText());	
+				else if(Integer.parseInt(SourceFreqField.getText())!=SoundFreq) {
+					SoundFreq = Integer.parseInt(SourceFreqField.getText());	
 					System.out.println("Sf:" + SoundFreq);
 				}
-				else if(Double.parseDouble(SoundSpeedField.getText())!=SoundSpeed) {
-					SoundSpeed = Double.parseDouble(SoundSpeedField.getText());	
+				else if(Integer.parseInt(SoundSpeedField.getText())!=SoundSpeed) {
+					SoundSpeed = Integer.parseInt(SoundSpeedField.getText());	
 					System.out.println("Ss:" + SoundSpeed);
 				}
-				else if(Double.parseDouble(Observer1SliderField.getText())!=Observer1V) {
-					Observer1V = Double.parseDouble(Observer1SliderField.getText());
+				else if(Integer.parseInt(Observer1SliderField.getText())!=Observer1V) {
+					Observer1V = Integer.parseInt(Observer1SliderField.getText());
 					Observer1Slider.setValue(Integer.parseInt(Observer1SliderField.getText()));
 					System.out.println("O1V:" + Observer1V);
 				}
-				else if(Double.parseDouble(Observer2SliderField.getText())!=Observer2V) {
-					Observer2V = Double.parseDouble(Observer2SliderField.getText());
+				else if(Integer.parseInt(Observer2SliderField.getText())!=Observer2V) {
+					Observer2V = Integer.parseInt(Observer2SliderField.getText());
 					Observer2Slider.setValue(Integer.parseInt(Observer2SliderField.getText()));
 					System.out.println("O2V:" + Observer2V);
 				}
-				else if(Double.parseDouble(SourceSliderField.getText())!=SourceV) {
-					SourceV = Double.parseDouble(SourceSliderField.getText());
+				else if(Integer.parseInt(SourceSliderField.getText())!=SourceV) {
+					SourceV = Integer.parseInt(SourceSliderField.getText());
 					SourceSlider.setValue(Integer.parseInt(SourceSliderField.getText()));
 					System.out.println("SV:" + SourceV);
 				}
