@@ -14,6 +14,7 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 	
 	List<WaveCrest> crests = new ArrayList<WaveCrest>();
 	AnimationObject observer1, observer2, source;
+	boolean isObserver1, isObserver2; //zmienne przechowuj¹ce istnienie obseratorów
 	
 
 	Dimension preferredSize = new Dimension(530,400);
@@ -21,6 +22,7 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 	public MainAnimationPanel() {
 		this.setBackground(new Color(180,180,200));
 		this.setPreferredSize(preferredSize);
+		
 	}	
 	    
     protected void paintComponent(Graphics g) {
@@ -30,6 +32,11 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 			cr.paint(g);
 		}
         
+    }
+    
+    void setObservers(boolean obs1, boolean obs2) {
+    	isObserver1=obs1;
+    	isObserver2=obs2;
     }
 
 	@Override

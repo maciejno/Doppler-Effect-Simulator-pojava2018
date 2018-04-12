@@ -8,6 +8,7 @@ public class AnimationObject {
 	int vx = 0, vy = 0;//predkosc
 	double x = 0, y = 0;//polozenie
 	
+	
 	Color color; //kolor obiektu
 	
 	public AnimationObject() {

@@ -339,6 +339,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			
 			Observer1State=Observer1Checkbox.isSelected();
 			Observer2State=Observer2Checkbox.isSelected();
+			pAnimation.setObservers(Observer1State, Observer2State);
 			//debugging
 			System.out.print("Observer1 : ");
 			System.out.println(Observer1State);
