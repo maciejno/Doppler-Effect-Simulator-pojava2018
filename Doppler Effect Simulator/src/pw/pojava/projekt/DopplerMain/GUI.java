@@ -57,7 +57,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	static final int SourceSlider_MIN = -1000;
 	static final int SourceSlider_MAX = 1000; //Parameters for Source Speed slider
 	static final int Slider_INIT = 0; //Initial parameter for sliders
-
+	short MalaSamotnaZmienna;//zaopiekuj sie nia
 	
 	JTextField Observer1XField, Observer1YField, Observer2XField, Observer2YField;//TextFields for Spectators' parameters
 	JTextField SourceXField, SourceYField, SourceFreqField; //TextFields for Source parameters
@@ -339,7 +339,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			
 			Observer1State=Observer1Checkbox.isSelected();
 			Observer2State=Observer2Checkbox.isSelected();
-			pAnimation.setObservers(Observer1State, Observer2State);
+			pAnimation.observer1.setAppearance(Observer1State);
+			pAnimation.observer2.setAppearance(Observer2State);
 			//debugging
 			System.out.print("Observer1 : ");
 			System.out.println(Observer1State);
@@ -416,6 +417,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		catch(Exception e) {
 			System.err.println("Blad key listener!");
 		}
+		pAnimation.repaint();
 }
 
 
