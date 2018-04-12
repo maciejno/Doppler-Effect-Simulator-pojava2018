@@ -102,7 +102,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pSouthSource = new JPanel();
 		
 		//ikonki
-		ImageIcon polish =  createImageIcon("pw/pojava/projekt/DopplerMain/icons/458198.jpg", "a pretty but meaningless splat");
+		ImageIcon polish =  createImageIcon("pw/pojava/projekt/DopplerMain/icons/polish.jpg", "a pretty but meaningless splat");
 		ImageIcon english = new ImageIcon("pw\\pojava\\projekt\\DopplerMain\\icons\\english.png");
 		ImageIcon audio = new ImageIcon("icons\\audio.png");
 		ImageIcon start = new ImageIcon("icons\\start.png");

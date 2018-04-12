@@ -3,10 +3,10 @@ package pw.pojava.projekt.DopplerMain;
 
 import java.awt.*;
 
-public class WaveCrest {
+public class WaveCrest { //grzbiet fali
 
-	double x = 0, y = 0, r = 0;//polozenie srodka grzbietu i predkosc fali
-	int v = 0;
+	double x = 0, y = 0, r = 0;//polozenie srodka grzbietu 
+	int v = 0;//i predkosc fali
 	
 	Color color = new Color (100,100,100);//kolor grzbietu
 	

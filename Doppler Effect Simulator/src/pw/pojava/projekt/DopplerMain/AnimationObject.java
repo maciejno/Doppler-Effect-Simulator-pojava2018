@@ -3,7 +3,7 @@ package pw.pojava.projekt.DopplerMain;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class AnimationObject {
+public class AnimationObject {//obserwator, badz zrodlo dzwieku
 
 	int vx = 0, vy = 0;//predkosc
 	double x = 0, y = 0;//polozenie
