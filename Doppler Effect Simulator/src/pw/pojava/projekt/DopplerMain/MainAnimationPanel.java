@@ -15,13 +15,16 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 	
 	List<WaveCrest> crests = new ArrayList<WaveCrest>();
 	AnimationObject observer1, observer2, source;
-	boolean isObserver1, isObserver2;
+	boolean isObserver1=true;
+	boolean isObserver2=false;
 	double refreshRate = 0.04; //[ms] -> 25FPS ???
+	int soundSpeed=0; //przechowuje robocza predkosc dzwieku
+	int soundFreq=0;
 	
 	Dimension preferredSize = new Dimension(530,400);
 	
 	public MainAnimationPanel() {
-		this.setBackground(new Color(180,180,200));
+		this.setBackground(new Color(200,255,255));
 		this.setPreferredSize(preferredSize);
 		
 		observer1 = new AnimationObject();
@@ -52,9 +55,11 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		int counter=0; //licznik ustawiajacy grzbiety fal
-		while(true) {
-			if(counter%10==0) { // tworzy grzbiet co 10 iteracja petli
+		while(true) 
+		{
+			if((counter%100)==0) { // tworzy grzbiet
 			WaveCrest crN = new WaveCrest();
+			crN.setV(soundSpeed);
 			crN.setX(source.getX());
 			crN.setY(source.getY());
 			crests.add(crN);
@@ -74,19 +79,33 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 			repaint();
 			
 			try {
-				Thread.sleep(25);
+				Thread.sleep(40);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			
-			if((observer1.getX()>this.getHeight()||observer1.getX()<0)&&(observer2.getX()>this.getHeight()||observer2.getX()<0))
-				//warunek na koniec animacji
+			counter=counter+40;
+			if((((observer1.getX()>this.getWidth())||(observer1.getX()<0)||(observer1.getVx()==0))&&((observer2.getX()>this.getWidth())||(observer2.getX()<0)||(observer2.getVx()==0))&&((source.getX()>this.getWidth())||(source.getX()<0)||(source.getVx()==0)))||(counter>250000)) {
+				counter=0;
+				System.out.println("statement...");
 				break;
-			counter++;
+			}
 		}
+		System.out.println("End of animation");
 		
 	}
 	
+	public void setSoundSpeed(int v) {
+		soundSpeed=v;
+	}
+	
+	public void setFrequency(int freq) {
+		soundFreq=freq;
+	}
+	
+	/*
+	 *juz zaimplementowane
+	 *
 	public void addObserver1(int vx, int vy, double x, double y) {
 		observer1 = new AnimationObject();
 		observer1.setX(x);
@@ -117,6 +136,7 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 		
 		crests.add(c);
 	}
+	*/
 }
 
 	
