@@ -57,7 +57,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	static final int SourceSlider_MIN = -1000;
 	static final int SourceSlider_MAX = 1000; //Parameters for Source Speed slider
 	static final int Slider_INIT = 0; //Initial parameter for sliders
-
+	short MalaSamotnaZmienna;//zaopiekuj sie nia
 	
 	JTextField Observer1XField, Observer1YField, Observer2XField, Observer2YField;//TextFields for Spectators' parameters
 	JTextField SourceXField, SourceYField, SourceFreqField; //TextFields for Source parameters
@@ -304,6 +304,11 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		Observer2SliderField.addKeyListener(this);
 		SourceSliderField.addKeyListener(this);
 		
+		StartButton.addActionListener(this);
+		StartButton.setActionCommand("run");
+		SaveButton.addActionListener(this);
+		SaveButton.setActionCommand("save");
+		
 	}//koniec konstruktora
 
 	private ImageIcon createImageIcon(String path, String description) { //wa¿ne coœ do dodawania ikonek
@@ -314,6 +319,20 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	        System.err.println("Couldn't find file:  " + path + " :(");
 	        return null;
 	    }
+	}
+	
+	private void setAnimationParameters() { //ustawia parametry animacji
+		pAnimation.observer1.setX(Observer1X); 
+		pAnimation.observer1.setY(Observer1Y);
+		pAnimation.observer1.setVx(Observer1V);
+		pAnimation.observer2.setX(Observer2X); 
+		pAnimation.observer2.setY(Observer2Y);
+		pAnimation.observer2.setVx(Observer2V);
+		pAnimation.source.setX(SourceX);
+		pAnimation.source.setY(SourceY);
+		pAnimation.source.setVx(SourceV);
+		pAnimation.setSoundSpeed(SoundSpeed);
+		pAnimation.setFrequency(SoundFreq);
 	}
 
 	public void stateChanged(ChangeEvent arg0) { //listener do Sliderów
@@ -339,11 +358,15 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			
 			Observer1State=Observer1Checkbox.isSelected();
 			Observer2State=Observer2Checkbox.isSelected();
+			pAnimation.observer1.setAppearance(Observer1State);
+			pAnimation.observer2.setAppearance(Observer2State);
 			//debugging
 			System.out.print("Observer1 : ");
 			System.out.println(Observer1State);
 			System.out.print("Observer1 : ");
 			System.out.println(Observer2State);
+			
+			pAnimation.repaint();
 	}
 	
 	//DOPRAWIC - jak jest puste pole tekstowe ma przypisywac 0
@@ -415,10 +438,21 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		catch(Exception e) {
 			System.err.println("Blad key listener!");
 		}
+		pAnimation.repaint();
+		
+		setAnimationParameters();
 }
 
 
-	public void actionPerformed(ActionEvent arg0) {} //Listener do przycisków
+	public void actionPerformed(ActionEvent ae) {
+		
+		String action = ae.getActionCommand();
+		if (action.equals("run")) {
+			Thread pAnimationThread = new Thread(pAnimation);
+			pAnimationThread.start();
+		}
+		
+	}
 	public void keyPressed(KeyEvent arg0) {	}
 	public void keyTyped(KeyEvent arg0) {}
 
