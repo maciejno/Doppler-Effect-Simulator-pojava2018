@@ -17,18 +17,14 @@ public class AnimationObject {//obserwator, badz zrodlo dzwieku
 		color = new Color (100,150,200);
 	}
 	
-	public void setAppearance(boolean apr) { //ustawia pojawianie siê
-		appearance=apr;
-	}
-	
 	public void paint(Graphics g){
 		if(appearance==true)
-        g.setColor(color);
+			g.setColor(color);
 		if(appearance==false)
 			g.setColor(new Color(0,0,0,0)); //nikt go nie zobaczy, czyli go nie ma
 	        
-			//rzutuje double na int
-	        g.fillOval((int)x-5, (int)y-5, 10, 10);
+		//rzutuje double na int
+        g.fillOval((int)x-5, (int)y-5, 10, 10);
 	}
 	
 	public void setVx(int vx) {this.vx = vx;}
@@ -40,5 +36,6 @@ public class AnimationObject {//obserwator, badz zrodlo dzwieku
 	public void setColor(Color c) {color=c;}
 	public double getX() {return x;}
 	public double getY() {return y;}
-	
+	public void setAppearance(boolean apr) {appearance=apr;}//ustawia pojawianie siê
+	public boolean getAppearance() {return appearance;}
 }

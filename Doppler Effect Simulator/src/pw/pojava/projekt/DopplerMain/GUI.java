@@ -321,20 +321,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	    }
 	}
 	
-	private void setAnimationParameters() { //ustawia parametry animacji
-		pAnimation.observer1.setX(Observer1X); 
-		pAnimation.observer1.setY(Observer1Y);
-		pAnimation.observer1.setVx(Observer1V);
-		pAnimation.observer2.setX(Observer2X); 
-		pAnimation.observer2.setY(Observer2Y);
-		pAnimation.observer2.setVx(Observer2V);
-		pAnimation.source.setX(SourceX);
-		pAnimation.source.setY(SourceY);
-		pAnimation.source.setVx(SourceV);
-		pAnimation.setSoundSpeed(SoundSpeed);
-		pAnimation.setFrequency(SoundFreq);
-	}
-
 	public void stateChanged(ChangeEvent arg0) { //listener do Sliderów
 		
 		if(Observer1Slider.getValue()!=Observer1V) { //Slider obserwatora 1			
@@ -363,8 +349,10 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			//debugging
 			System.out.print("Observer1 : ");
 			System.out.println(Observer1State);
-			System.out.print("Observer1 : ");
+			System.out.println(pAnimation.observer1.getAppearance());
+			System.out.print("Observer2 : ");
 			System.out.println(Observer2State);
+			System.out.println(pAnimation.observer2.getAppearance());
 			
 			pAnimation.repaint();
 	}
@@ -439,23 +427,36 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			System.err.println("Blad key listener!");
 		}
 		pAnimation.repaint();
-		
+		//USTAWIA WSZYSTKIE PARAMETRY OBIEKTOW NA ANIMACJI
 		setAnimationParameters();
 }
 
 
 	public void actionPerformed(ActionEvent ae) {
-		
 		String action = ae.getActionCommand();
 		if (action.equals("run")) {
 			Thread pAnimationThread = new Thread(pAnimation);
 			pAnimationThread.start();
-		}
-		
+		}	
 	}
+	
 	public void keyPressed(KeyEvent arg0) {	}
 	public void keyTyped(KeyEvent arg0) {}
 
 	public void setObserver1XField(Double val) {Observer1XField.setText(val.toString());}
+
+	public void setAnimationParameters() { //ustawia parametry animacji
+		pAnimation.observer1.setX(Observer1X); 
+		pAnimation.observer1.setY(Observer1Y);
+		pAnimation.observer1.setVx(Observer1V);
+		pAnimation.observer2.setX(Observer2X); 
+		pAnimation.observer2.setY(Observer2Y);
+		pAnimation.observer2.setVx(Observer2V);
+		pAnimation.source.setX(SourceX);
+		pAnimation.source.setY(SourceY);
+		pAnimation.source.setVx(SourceV);
+		pAnimation.setSoundSpeed(SoundSpeed);
+		pAnimation.setFrequency(SoundFreq);
+	}
 
 }
