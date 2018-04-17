@@ -18,6 +18,7 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 	double refreshRate = 0.04; //[ms] -> 25FPS ???
 	int soundSpeed=0; //przechowuje robocza predkosc dzwieku
 	int soundFreq=0;
+	Graphics gg;
 	
 	Dimension preferredSize = new Dimension(530,400);
 	
@@ -38,14 +39,15 @@ public class MainAnimationPanel extends JPanel implements Runnable {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);        
         
-        observer1.paint(g);//rysuje ich w ich po³o¿eniach
-        observer2.paint(g);
-        source.paint(g);
+        gg = g;
+        observer1.paint(gg);//rysuje ich w ich po³o¿eniach
+        observer2.paint(gg);
+        source.paint(gg);
         
         if(crests.isEmpty()==false)//jesli sa jakies grzbiety to je rysuje
         {
         	for (WaveCrest cr : crests) {
-        		cr.paint(g);
+        		cr.paint(gg);
 			}   
         }
     }
@@ -90,20 +92,28 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 			if((((observer1.getX()>this.getWidth())||(observer1.getX()<0))||((observer2.getX()>this.getWidth())||(observer2.getX()<0))||((source.getX()>this.getWidth())||(source.getX()<0)))||(counter>250000)) {
 				counter=0;
 				System.out.println("statement...");
+				//!!!!!!!!!!!!!
+				//trzeba tu dodac tworzenie nowego executora w gui zeby mozna bylo na nowo animowac
 				break;
 			}
 		}
+		crests.clear();//usuwa wszystkie grzbiety z listy
+		try {//usupia na pewien czas a potem czysci ekran
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		erase();
 		System.out.println("End of animation");
 		
 	}
-	
-	public void setSoundSpeed(int v) {
-		soundSpeed=v;
-	}
-	
-	public void setFrequency(int freq) {
-		soundFreq=freq;
-	}
+	 public void erase() {
+		 //TUTAJ TRZEBA USTAWIC Z POWROTEM TAKIE WARTOSCI JAK SA WPISANE I POWINNO LADNIE PRZERYSOWAC
+		 repaint();
+	 }
+	 
+	public void setSoundSpeed(int v) {soundSpeed=v;}
+	public void setFrequency(int freq) {soundFreq=freq;}
 	
 	/*
 	 *juz zaimplementowane - w gui ustawia wszystkie parametry, a tu tworzy puste obiekty

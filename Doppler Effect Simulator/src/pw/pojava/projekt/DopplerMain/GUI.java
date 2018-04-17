@@ -10,6 +10,10 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
+
 import javax.imageio.ImageIO;
 
 import javax.swing.*;
@@ -19,6 +23,9 @@ import javax.swing.event.ChangeListener;
 
 
 public class GUI extends JPanel  implements ChangeListener, ActionListener, ItemListener, KeyListener {
+	//SERWIS EGZEKUCYJNY DLA WATKU ANIMACJI
+	ExecutorService exec = Executors.newSingleThreadExecutor();
+	
 	
 	//zmienne przechowuj¹ce nastawy komponentów
 	int Observer1X = 0; 
@@ -32,7 +39,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	int SourceV = 0;
 	int SoundSpeed = 0;
 	int SoundFreq = 0;
-	
+			
 	boolean Observer1State = true;
 	boolean Observer2State = false;
 		
@@ -435,8 +442,12 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
 		if (action.equals("run")) {
-			Thread pAnimationThread = new Thread(pAnimation);
-			pAnimationThread.start();
+			try {//dzieki temu mozna na nowo puscic animacje jak sie skonczy
+				exec.execute(pAnimation);
+				exec.shutdown();				
+			}catch(RejectedExecutionException e) {
+				e.printStackTrace();
+			}
 		}	
 	}
 	
@@ -445,6 +456,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 
 	public void setObserver1XField(Double val) {Observer1XField.setText(val.toString());}
 
+	public void setNewMainAnimationThread() {exec = Executors.newSingleThreadExecutor();}
+	
 	public void setAnimationParameters() { //ustawia parametry animacji
 		pAnimation.observer1.setX(Observer1X); 
 		pAnimation.observer1.setY(Observer1Y);
