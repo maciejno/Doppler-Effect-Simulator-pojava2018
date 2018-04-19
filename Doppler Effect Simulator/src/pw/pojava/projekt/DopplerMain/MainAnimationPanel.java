@@ -26,7 +26,7 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 	
 	public MainAnimationPanel() {
 		this.setBackground(new Color(200,255,255));
-		this.setPreferredSize(preferredSize);
+		this.setSize(preferredSize);
 		
 		//tworzy obiekty na animacjê
 		observer1 = new AnimationObject();
@@ -70,10 +70,14 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 				crests.add(crN);
 			}
 			//oblicza nowe polozenia obiektow na podstawie ich predkosci
-			observer1.setX(observer1.getX()+observer1.getVx()*refreshRate);
-			observer1.setY(observer1.getY()+observer1.getVy()*refreshRate);
+			if(observer1.appearance) {
+				observer1.setX(observer1.getX()+observer1.getVx()*refreshRate);
+				observer1.setY(observer1.getY()+observer1.getVy()*refreshRate);
+			}
+			if(observer2.appearance) {
 			observer2.setX(observer2.getX()+observer2.getVx()*refreshRate);
 			observer2.setY(observer2.getY()+observer2.getVy()*refreshRate);
+			}
 			source.setX(source.getX()+source.getVx()*refreshRate);
 			source.setY(source.getY()+source.getVy()*refreshRate);
 			

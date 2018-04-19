@@ -20,12 +20,18 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeriesCollection;
+
 
 
 public class GUI extends JPanel  implements ChangeListener, ActionListener, ItemListener, KeyListener {
 	//SERWIS EGZEKUCYJNY DLA WATKU ANIMACJI
 	ExecutorService exec = Executors.newSingleThreadExecutor();
-	
 	
 	//zmienne przechowuj¹ce nastawy komponentów
 	int Observer1X = 30; 
@@ -34,15 +40,16 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	int Observer2X = 10;
 	int Observer2Y = 10;
 	int Observer2V = 50;
-	int SourceX = 500;
-	int SourceY = 400;
+	int SourceX = 480;
+	int SourceY = 270;
 	int SourceV = -60;
 	int SoundSpeed = 300;
-	int SoundFreq = 100;
+	int SoundFreq = 20;
 			
 	boolean Observer1State = true;
 	boolean Observer2State = false;
-		
+	
+	XYSeriesCollection xySeriesCollection;
 	
 	//panels in main panel
 	JPanel pWest, pEast, pChart, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
@@ -109,20 +116,20 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pSouthSource = new JPanel();
 		
 		//ikonki
-		ImageIcon polish =  createImageIcon("pw/pojava/projekt/DopplerMain/icons/polish.jpg", "a pretty but meaningless splat");
+	/*	ImageIcon polish =  createImageIcon("pw/pojava/projekt/DopplerMain/icons/polish.jpg", "a pretty but meaningless splat");
 		ImageIcon english = new ImageIcon("pw\\pojava\\projekt\\DopplerMain\\icons\\english.png");
 		ImageIcon audio = new ImageIcon("icons\\audio.png");
 		ImageIcon start = new ImageIcon("icons\\start.png");
-		ImageIcon zapisz = new ImageIcon("icons\\zapisz.png");
+		ImageIcon zapisz = new ImageIcon("icons\\zapisz.png");*/
   
 		
 		//tworzenie komponentów
-		SwitchPolishButton = new JButton(polish);
-		SwitchEnglishButton = new JButton(english);
-		StartButton = new JButton(start);
-		SaveButton = new JButton(zapisz);
-		SoundButton1 = new JButton(audio);
-		SoundButton2 = new JButton(audio);
+		SwitchPolishButton = new JButton("POLSKI");
+		SwitchEnglishButton = new JButton("ENGLISH");
+		StartButton = new JButton("START");
+		SaveButton = new JButton("ZAPISZ");
+		SoundButton1 = new JButton("<))");
+		SoundButton2 = new JButton("<))");
 				
 		Observer1Checkbox = new JCheckBox("Obserwator 1"); Observer1Checkbox.setSelected(true);
 		Observer2Checkbox = new JCheckBox("Obserwator 2");
@@ -182,7 +189,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		
 		//ustawia layout managery do paneli
 		this.setLayout(new BorderLayout());//sets layout for main panel
-		pWest.setLayout(new BorderLayout());
+		pWest.setLayout(new GridLayout(2,1));
 		
 		pEast.setLayout(new BorderLayout());
 		pChart.setLayout(new GridLayout(3,1));
@@ -190,18 +197,20 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pLanguage.setLayout(new FlowLayout(FlowLayout.TRAILING));//trailing ustawia z prawej strony
 		pControl.setLayout(new FlowLayout()); //ustawienia layoutu dla panelu pControl
 		
+		int flowLayoutOrientation = FlowLayout.LEFT;
+		
 		pObserver1.setLayout(new GridLayout(3,1));
 		pObserver2.setLayout(new GridLayout(3,1));
 		pSource.setLayout(new GridLayout(3,1));
-		pNorthObserver1.setLayout(new FlowLayout(FlowLayout.LEFT));
-		pCenterObserver1.setLayout(new FlowLayout(FlowLayout.LEFT));
-		pSouthObserver1.setLayout(new FlowLayout(FlowLayout.LEFT));
-		pNorthObserver2.setLayout(new FlowLayout(FlowLayout.LEFT));
-		pCenterObserver2.setLayout(new FlowLayout(FlowLayout.LEFT));
-		pSouthObserver2.setLayout(new FlowLayout(FlowLayout.LEFT));
-		pNorthSource.setLayout(new FlowLayout(FlowLayout.LEFT));
-		pCenterSource.setLayout(new FlowLayout(FlowLayout.LEFT));
-		pSouthSource.setLayout(new FlowLayout(FlowLayout.LEFT));
+		pNorthObserver1.setLayout(new FlowLayout(flowLayoutOrientation));
+		pCenterObserver1.setLayout(new FlowLayout(flowLayoutOrientation));
+		pSouthObserver1.setLayout(new FlowLayout(flowLayoutOrientation));
+		pNorthObserver2.setLayout(new FlowLayout(flowLayoutOrientation));
+		pCenterObserver2.setLayout(new FlowLayout(flowLayoutOrientation));
+		pSouthObserver2.setLayout(new FlowLayout(flowLayoutOrientation));
+		pNorthSource.setLayout(new FlowLayout(flowLayoutOrientation));
+		pCenterSource.setLayout(new FlowLayout(flowLayoutOrientation));
+		pSouthSource.setLayout(new FlowLayout(flowLayoutOrientation));
 		
 		//ramki do paneli
 		pLanguage.setBorder(BorderFactory.createTitledBorder(" "));
@@ -214,19 +223,27 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora2"));
 		//wstawianie paneli w panele
 		//dodaje i ustawia 2 panele: lewy i prawy do glownego panelu
-		this.add(BorderLayout.WEST, pWest);
-		this.add(BorderLayout.EAST, pEast);
+		this.add(pWest, BorderLayout.CENTER);
+		this.add(pEast, BorderLayout.EAST);
 		//dodaje i ustawia panele do lewego panelu
-		pWest.add(BorderLayout.NORTH, pAnimation);
-		pWest.add(BorderLayout.SOUTH, pChart);
+		pWest.add(pAnimation);
+		pWest.add(pChart);
 		//dodaje i ustawia panele do prawego panelu
 		pEast.add(BorderLayout.NORTH, pLanguage);
 		pEast.add(BorderLayout.CENTER, pOptions);
 		pEast.add(BorderLayout.SOUTH, pControl);
+		
+		xySeriesCollection = new XYSeriesCollection();  
+		JFreeChart lineGraph = ChartFactory.createXYLineChart (null,  null, null ,xySeriesCollection, PlotOrientation.VERTICAL, false, false,false);
+		ChartPanel wykres = new ChartPanel(lineGraph);
+		//wykres.setVisible(true);
+		pChartSource.setLayout(new GridLayout(1,1));
+		pChartSource.add(wykres);
+								
 		//dodaje i ustawia panele z wykresami do panelu pChart
 		pChart.add(pChartSource);
 		pChart.add(pChartObserver1);
-		pChart.add(pChartObserver2);		
+		pChart.add(pChartObserver2);	
 		
 		//wstawianie komponentów do paneli
 		pLanguage.add(SwitchPolishButton);

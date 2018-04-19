@@ -8,15 +8,18 @@ import javax.swing.SwingUtilities;
 
 public class MainFrame extends JFrame {
 
+	GUI userInterface;
+	
 	public MainFrame(){		
 		this.setSize(860,640);
-		this.setResizable(false);//zeby rozmiar okna byl staly
+		this.setResizable(true);//zeby rozmiar okna byl staly
 		this.setTitle("Symulator efektu Dopplera");
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
 		
-		this.add(new GUI());
+		userInterface = new GUI();
+		this.add(userInterface);
 	}
 
 	public static void main(String[] args) {
