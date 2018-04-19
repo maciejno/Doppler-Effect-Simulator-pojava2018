@@ -15,10 +15,11 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 	
 	List<WaveCrest> crests = new ArrayList<WaveCrest>();
 	AnimationObject observer1, observer2, source;
-	double refreshRate = 0.04; //[ms] -> 25FPS ???
+	double refreshRate = 0.001; //[ms] -> 25FPS ???
 	int soundSpeed=0; //przechowuje robocza predkosc dzwieku
-	int soundFreq=0;
+	double soundFreq;
 	Graphics gg;
+	Boolean isRunning=false; //przechowuje informacje o biegu animacji
 	
 	Dimension preferredSize = new Dimension(530,400);
 	
@@ -54,11 +55,12 @@ public class MainAnimationPanel extends JPanel implements Runnable {
     //METODA RUN
 	@Override
 	public void run() {
-		int counter=0; //licznik ustawiajacy grzbiety fal
+		int quasiTime=0; //licznik ustawiajacy grzbiety fal
+		isRunning=true;
 		
 		while(true) 
 		{
-			if((counter%100)==0) { // tworzy grzbiet
+			if((quasiTime%(100))==0) { // tworzy grzbiet
 				WaveCrest crN = new WaveCrest();
 				crN.setV(soundSpeed);
 				crN.setX(source.getX());
@@ -82,15 +84,15 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 			repaint();
 			//usypia watek na 40ms
 			try {
-				Thread.sleep(40);
+				Thread.sleep(1);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			
-			counter=counter+40;
+			quasiTime=quasiTime+1;
 			//warunek zakonczenia petli while, ktora tworzy animacje
-			if((((observer1.getX()>this.getWidth())||(observer1.getX()<0))||((observer2.getX()>this.getWidth())||(observer2.getX()<0))||((source.getX()>this.getWidth())||(source.getX()<0)))||(counter>250000)) {
-				counter=0;
+			if((((observer1.getX()>this.getWidth())||(observer1.getX()<0))||((observer2.getX()>this.getWidth())||(observer2.getX()<0))||((source.getX()>this.getWidth())||(source.getX()<0)))||(quasiTime>250000)) {
+				quasiTime=0;
 				System.out.println("statement...");
 				//!!!!!!!!!!!!!
 				//trzeba tu dodac tworzenie nowego executora w gui zeby mozna bylo na nowo animowac
@@ -105,10 +107,11 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 		}
 		erase();
 		System.out.println("End of animation");
-		
+		isRunning=false;
 	}
 	 public void erase() {
-		 //TUTAJ TRZEBA USTAWIC Z POWROTEM TAKIE WARTOSCI JAK SA WPISANE I POWINNO LADNIE PRZERYSOWAC
+		 
+		 
 		 repaint();
 	 }
 	 

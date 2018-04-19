@@ -405,10 +405,12 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				else if(Integer.parseInt(SourceFreqField.getText())!=SoundFreq) {
 					SoundFreq = Integer.parseInt(SourceFreqField.getText());	
 					System.out.println("Sf:" + SoundFreq);
+					pAnimation.setFrequency(SoundFreq);
 				}
 				else if(Integer.parseInt(SoundSpeedField.getText())!=SoundSpeed) {
 					SoundSpeed = Integer.parseInt(SoundSpeedField.getText());	
 					System.out.println("Ss:" + SoundSpeed);
+					pAnimation.setSoundSpeed(SoundSpeed);
 				}
 				else if(Integer.parseInt(Observer1SliderField.getText())!=Observer1V) {
 					Observer1V = Integer.parseInt(Observer1SliderField.getText());
@@ -441,14 +443,19 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
-		if (action.equals("run")) {
+		if ((action.equals("run"))&&pAnimation.isRunning==false) {
 			try {//dzieki temu mozna na nowo puscic animacje jak sie skonczy
 				exec.execute(pAnimation);
-				exec.shutdown();				
+				exec.shutdown();
+				exec = Executors.newSingleThreadExecutor();
+				
 			}catch(RejectedExecutionException e) {
+				
 				e.printStackTrace();
 			}
-		}	
+		}
+
+			
 	}
 	
 	public void keyPressed(KeyEvent arg0) {	}
