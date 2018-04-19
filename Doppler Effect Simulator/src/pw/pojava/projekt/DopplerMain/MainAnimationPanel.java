@@ -26,7 +26,7 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 	
 	public MainAnimationPanel() {
 		this.setBackground(new Color(200,255,255));
-		this.setPreferredSize(preferredSize);
+		this.setSize(preferredSize);
 		
 		//tworzy obiekty na animacjê
 		observer1 = new AnimationObject();
