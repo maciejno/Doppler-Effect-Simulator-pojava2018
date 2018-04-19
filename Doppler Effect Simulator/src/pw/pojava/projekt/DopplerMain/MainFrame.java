@@ -3,11 +3,11 @@ package pw.pojava.projekt.DopplerMain;
 import java.awt.*;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class MainFrame extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	GUI userInterface;
 	
 	public MainFrame(){		

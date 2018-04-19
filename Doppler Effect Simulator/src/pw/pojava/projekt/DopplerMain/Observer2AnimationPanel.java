@@ -1,11 +1,12 @@
 package pw.pojava.projekt.DopplerMain;
 
-import java.awt.Color;
+import org.jfree.chart.JFreeChart;
 
 public class Observer2AnimationPanel extends ObserverAnimationPanel {
 
-	public Observer2AnimationPanel() {
-		this.setBackground(new Color(230,230,230));
+	private static final long serialVersionUID = 1L;
+
+	public Observer2AnimationPanel(JFreeChart chart) {
+		super(chart);
 	}
-	//paint component???
 }

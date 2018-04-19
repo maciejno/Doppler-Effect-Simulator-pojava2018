@@ -1,35 +1,40 @@
 package pw.pojava.projekt.DopplerMain;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 
-import javax.imageio.ImageIO;
-
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-
-
 public class GUI extends JPanel  implements ChangeListener, ActionListener, ItemListener, KeyListener {
+	
+	private static final long serialVersionUID = 1L;
+
 	//SERWIS EGZEKUCYJNY DLA WATKU ANIMACJI
 	ExecutorService exec = Executors.newSingleThreadExecutor();
 	
@@ -48,8 +53,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			
 	boolean Observer1State = true;
 	boolean Observer2State = false;
-	
-	XYSeriesCollection xySeriesCollection;
 	
 	//panels in main panel
 	JPanel pWest, pEast, pChart, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
@@ -84,19 +87,40 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	JLabel SoundSpeedLabel, SoundSpeedLabelMS; // sound speed label
 	JLabel FreqLabel1, FreqLabel2;
 
+	JFreeChart [] chart = new JFreeChart [3];//tablica wykresow
+	XYSeriesCollection Observer1Collection,Observer2Collection,SourceCollection;//kolekcje na dane do wykresow
+	
 	public GUI() {
+		//MOZLIWE ZE TO POWINNO BYC NIE TU, TYLKO W TYCH KLASACH, ALE POZNIEJ O TYM POMYSLE
+		Observer1Collection = new XYSeriesCollection();  
+		Observer2Collection = new XYSeriesCollection(); 
+		SourceCollection = new XYSeriesCollection(); 
+		chart[0] = ChartFactory.createXYLineChart (null, null, null ,Observer1Collection, PlotOrientation.VERTICAL, false, false,false);
+		chart[1] = ChartFactory.createXYLineChart (null, null, null ,Observer2Collection, PlotOrientation.VERTICAL, false, false,false);
+		chart[2] = ChartFactory.createXYLineChart (null, null, null ,SourceCollection, PlotOrientation.VERTICAL, false, false,false);
 		
+		XYSeries dataSet1= new XYSeries("Sinus");
+		for (double i=0; i <26; i+=0.05) dataSet1.add(i,Math.sin(i)); 
+		Observer1Collection.addSeries(dataSet1);
+		XYSeries dataSet2= new XYSeries("Cosinus");
+		for (double i=0; i <26; i+=0.05) dataSet2.add(i,0.5*Math.cos(i/2)); 
+		Observer2Collection.addSeries(dataSet2);
+		XYSeries dataSet3= new XYSeries("Dziwny sinus");
+		for (double i=0; i <26; i+=0.05) dataSet3.add(i,Math.cos(i)*i); 
+		SourceCollection.addSeries(dataSet3);
 		//tworzy panele
 		pWest = new JPanel();
 		pEast = new JPanel();
 		pAnimation = new MainAnimationPanel();
 		pChart = new JPanel();
-		pChartSource = new SourceAnimationPanel(); 
-		pChartObserver1 = new Observer1AnimationPanel();
-		pChartObserver2 = new Observer2AnimationPanel();
+		pChartSource = new SourceAnimationPanel(chart[0]); 
+		pChartObserver1 = new Observer1AnimationPanel(chart[1]);
+		pChartObserver2 = new Observer2AnimationPanel(chart[2]);
 		pLanguage = new JPanel();
 		pOptions = new JPanel();
 		pControl = new JPanel();
+		
+		
 		
 		//to bedzie w panelu Options
 		pObserver1 = new JPanel();
@@ -233,12 +257,11 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pEast.add(BorderLayout.CENTER, pOptions);
 		pEast.add(BorderLayout.SOUTH, pControl);
 		
-		xySeriesCollection = new XYSeriesCollection();  
-		JFreeChart lineGraph = ChartFactory.createXYLineChart (null,  null, null ,xySeriesCollection, PlotOrientation.VERTICAL, false, false,false);
-		ChartPanel wykres = new ChartPanel(lineGraph);
-		//wykres.setVisible(true);
-		pChartSource.setLayout(new GridLayout(1,1));
-		pChartSource.add(wykres);
+/*xySeriesCollection = new XYSeriesCollection();  
+JFreeChart lineGraph = ChartFactory.createXYLineChart (null, null, null ,xySeriesCollection, PlotOrientation.VERTICAL, false, false,false);
+ChartPanel wykres = new ChartPanel(lineGraph);
+pChartSource.setLayout(new GridLayout(1,1));
+pChartSource.add(wykres);*/
 								
 		//dodaje i ustawia panele z wykresami do panelu pChart
 		pChart.add(pChartSource);

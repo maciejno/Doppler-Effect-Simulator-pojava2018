@@ -1,18 +1,14 @@
 package pw.pojava.projekt.DopplerMain;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
 
-import javax.swing.JPanel;
+public class SourceAnimationPanel extends ChartPanel{
 
-public class SourceAnimationPanel extends JPanel{
+	private static final long serialVersionUID = 1L;
 
-	public SourceAnimationPanel() {
-		this.setBackground(new Color(250,250,250));
-	}	
-	    
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);             
-    }  
+	public SourceAnimationPanel(JFreeChart chart) {
+		super(chart);
+	}
 
 }
