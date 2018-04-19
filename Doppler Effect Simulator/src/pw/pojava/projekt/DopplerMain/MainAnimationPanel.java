@@ -62,7 +62,7 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 		
 		while(true) 
 		{
-			if(((quasiTime/1000)%(1/soundFreq)==0)&&(quasiTime%100==0)) { // tworzy grzbiet
+			if((quasiTime%(1000/soundFreq)==0)) { // tworzy grzbiet
 				WaveCrest crN = new WaveCrest();
 				crN.setV(soundSpeed);
 				crN.setX(source.getX());
