@@ -15,8 +15,9 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 	
 	List<WaveCrest> crests = new ArrayList<WaveCrest>();
 	AnimationObject observer1, observer2, source;
-	double refreshRate = 0.001; //[ms] -> 25FPS ???
-	int soundSpeed=0; //przechowuje robocza predkosc dzwieku
+	double refreshRate = 0.001; //[ms]
+	int timeQuantum=1; //czas spania [ms]
+	int soundSpeed; //przechowuje robocza predkosc dzwieku
 	double soundFreq;
 	Graphics gg;
 	Boolean isRunning=false; //przechowuje informacje o biegu animacji
@@ -55,12 +56,13 @@ public class MainAnimationPanel extends JPanel implements Runnable {
     //METODA RUN
 	@Override
 	public void run() {
-		int quasiTime=0; //licznik ustawiajacy grzbiety fal
+	
+		double quasiTime=0; //licznik mierzacy czas
 		isRunning=true;
 		
 		while(true) 
 		{
-			if((quasiTime%(100))==0) { // tworzy grzbiet
+			if((quasiTime%(1000/soundFreq)==0)) { // tworzy grzbiet
 				WaveCrest crN = new WaveCrest();
 				crN.setV(soundSpeed);
 				crN.setX(source.getX());
@@ -82,14 +84,14 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 			}
 			//jak juz policzy to na nowo wszystko rysuje
 			repaint();
-			//usypia watek na 40ms
+			//usypia watek na chwile
 			try {
-				Thread.sleep(1);
+				Thread.sleep(timeQuantum);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+			quasiTime=quasiTime+timeQuantum;
 			
-			quasiTime=quasiTime+1;
 			//warunek zakonczenia petli while, ktora tworzy animacje
 			if((((observer1.getX()>this.getWidth())||(observer1.getX()<0))||((observer2.getY()>this.getHeight())||(observer2.getY()<0))||((source.getX()>this.getWidth())||(source.getX()<0)))||(quasiTime>250000)) {
 				quasiTime=0;
