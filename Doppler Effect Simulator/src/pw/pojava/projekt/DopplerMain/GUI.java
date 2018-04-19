@@ -28,17 +28,17 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	
 	
 	//zmienne przechowuj¹ce nastawy komponentów
-	int Observer1X = 0; 
-	int Observer1Y = 0;
-	int Observer1V = 0;
-	int Observer2X = 0;
-	int Observer2Y = 0;
-	int Observer2V = 0;
-	int SourceX = 0;
-	int SourceY = 0;
-	int SourceV = 0;
-	int SoundSpeed = 0;
-	int SoundFreq = 0;
+	int Observer1X = 30; 
+	int Observer1Y = 30;
+	int Observer1V = 40;
+	int Observer2X = 10;
+	int Observer2Y = 10;
+	int Observer2V = 50;
+	int SourceX = 500;
+	int SourceY = 400;
+	int SourceV = -60;
+	int SoundSpeed = 300;
+	int SoundFreq = 100;
 			
 	boolean Observer1State = true;
 	boolean Observer2State = false;
@@ -129,37 +129,37 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			
 		//ustawienia sliderów
 		Font SliderFont = new Font("Calibri", Font.BOLD, 11); //kosmetyka
-		Observer1Slider = new JSlider(JSlider.HORIZONTAL, ObserverSlider_MIN, ObserverSlider_MAX, Slider_INIT);
+		Observer1Slider = new JSlider(JSlider.HORIZONTAL, ObserverSlider_MIN, ObserverSlider_MAX, Observer1V);
 		Observer1Slider.setMajorTickSpacing(500); //wiêcej kosmetyki
 		Observer1Slider.setMinorTickSpacing(250);
 		Observer1Slider.setPaintTicks(true);
 		Observer1Slider.setPaintLabels(true);
 		Observer1Slider.setFont(SliderFont);
-		Observer2Slider = new JSlider(JSlider.HORIZONTAL, ObserverSlider_MIN, ObserverSlider_MAX, Slider_INIT);
+		Observer2Slider = new JSlider(JSlider.HORIZONTAL, ObserverSlider_MIN, ObserverSlider_MAX, Observer2V);
 		Observer2Slider.setMajorTickSpacing(500);
 		Observer2Slider.setMinorTickSpacing(250);
 		Observer2Slider.setPaintTicks(true);
 		Observer2Slider.setPaintLabels(true);
 		Observer2Slider.setFont(SliderFont);
-		SourceSlider = new JSlider(JSlider.HORIZONTAL, SourceSlider_MIN, SourceSlider_MAX, Slider_INIT);
+		SourceSlider = new JSlider(JSlider.HORIZONTAL, SourceSlider_MIN, SourceSlider_MAX, SourceV);
 		SourceSlider.setMajorTickSpacing(500);
 		SourceSlider.setMinorTickSpacing(250);
 		SourceSlider.setPaintTicks(true);
 		SourceSlider.setPaintLabels(true);
 		SourceSlider.setFont(SliderFont);
 		
-		Observer1SliderField = new JTextField("0"); Observer1SliderField.setColumns(4);//ustawia rozmiar pola tekstowego
-		Observer2SliderField = new JTextField("0"); Observer2SliderField.setColumns(4);
-		SourceSliderField = new JTextField("0"); SourceSliderField.setColumns(4);
+		Observer1SliderField = new JTextField(Integer.toString(Observer1V)); Observer1SliderField.setColumns(4);//ustawia rozmiar pola tekstowego
+		Observer2SliderField = new JTextField(Integer.toString(Observer2V)); Observer2SliderField.setColumns(4);
+		SourceSliderField = new JTextField(Integer.toString(SourceV)); SourceSliderField.setColumns(4);
 		
-		Observer1XField = new JTextField("0"); Observer1XField.setColumns(4);
-		Observer1YField = new JTextField("0"); Observer1YField.setColumns(4);
-		Observer2XField = new JTextField("0"); Observer2XField.setColumns(4);
-		Observer2YField = new JTextField("0"); Observer2YField.setColumns(4);
-		SourceXField = new JTextField("0"); SourceXField.setColumns(4);
-		SourceYField = new JTextField("0"); SourceYField.setColumns(4);
-		SourceFreqField = new JTextField("0"); SourceFreqField.setColumns(5);
-		SoundSpeedField = new JTextField("0"); SoundSpeedField.setColumns(4);
+		Observer1XField = new JTextField(Integer.toString(Observer1X)); Observer1XField.setColumns(4);
+		Observer1YField = new JTextField(Integer.toString(Observer1Y)); Observer1YField.setColumns(4);
+		Observer2XField = new JTextField(Integer.toString(Observer2X)); Observer2XField.setColumns(4);
+		Observer2YField = new JTextField(Integer.toString(Observer2Y)); Observer2YField.setColumns(4);
+		SourceXField = new JTextField(Integer.toString(SourceX)); SourceXField.setColumns(4);
+		SourceYField = new JTextField(Integer.toString(SourceY)); SourceYField.setColumns(4);
+		SourceFreqField = new JTextField(Integer.toString(SoundFreq)); SourceFreqField.setColumns(5);
+		SoundSpeedField = new JTextField(Integer.toString(SoundSpeed)); SoundSpeedField.setColumns(4);
 		
 		ObserverMainLabel = new JLabel("Obserwatorzy");
 		ValueXObserver1Label = new JLabel("X:");
@@ -316,6 +316,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		SaveButton.addActionListener(this);
 		SaveButton.setActionCommand("save");
 		
+		setAnimationParameters();
+		
 	}//koniec konstruktora
 
 	private ImageIcon createImageIcon(String path, String description) { //wa¿ne coœ do dodawania ikonek
@@ -471,7 +473,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pAnimation.observer1.setVx(Observer1V);
 		pAnimation.observer2.setX(Observer2X); 
 		pAnimation.observer2.setY(Observer2Y);
-		pAnimation.observer2.setVx(Observer2V);
+		pAnimation.observer2.setVy(Observer2V);
 		pAnimation.source.setX(SourceX);
 		pAnimation.source.setY(SourceY);
 		pAnimation.source.setVx(SourceV);
