@@ -94,7 +94,7 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 			
 			//warunek zakonczenia petli while, ktora tworzy animacje
 			if((((observer1.getX()>this.getWidth())||(observer1.getX()<0))||((observer2.getX()>this.getWidth())||(observer2.getX()<0))||((source.getX()>this.getWidth())||(source.getX()<0)))||(quasiTime>250000)) {
-				waveCount=0;
+
 				quasiTime=0;
 				System.out.println("statement...");
 				//!!!!!!!!!!!!!
