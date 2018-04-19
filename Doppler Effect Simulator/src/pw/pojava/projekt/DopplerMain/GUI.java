@@ -226,7 +226,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		//dodaje i ustawia panele z wykresami do panelu pChart
 		pChart.add(pChartSource);
 		pChart.add(pChartObserver1);
-		pChart.add(pChartObserver2);		
+		pChart.add(pChartObserver2);	
 		
 		//wstawianie komponentów do paneli
 		pLanguage.add(SwitchPolishButton);
