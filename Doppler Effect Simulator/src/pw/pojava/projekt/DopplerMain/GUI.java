@@ -60,8 +60,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	
 	MainAnimationPanel pAnimation;
 	SourceAnimationPanel pChartSource;
-	Observer1AnimationPanel pChartObserver1;
-	Observer2AnimationPanel pChartObserver2;
+	ObserverAnimationPanel pChartObserver1;
+	ObserverAnimationPanel pChartObserver2;
 	
 	JButton SwitchPolishButton, SwitchEnglishButton; //przyciski do zmiany jezyka
 	JButton StartButton, SaveButton; //przyciski ktore maja moc sprawcza :D
@@ -91,31 +91,32 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	XYSeriesCollection Observer1Collection,Observer2Collection,SourceCollection;//kolekcje na dane do wykresow
 	
 	public GUI() {
-		//MOZLIWE ZE TO POWINNO BYC NIE TU, TYLKO W TYCH KLASACH, ALE POZNIEJ O TYM POMYSLE
-		Observer1Collection = new XYSeriesCollection();  
-		Observer2Collection = new XYSeriesCollection(); 
-		SourceCollection = new XYSeriesCollection(); 
-		chart[0] = ChartFactory.createXYLineChart (null, null, null ,Observer1Collection, PlotOrientation.VERTICAL, false, false,false);
-		chart[1] = ChartFactory.createXYLineChart (null, null, null ,Observer2Collection, PlotOrientation.VERTICAL, false, false,false);
-		chart[2] = ChartFactory.createXYLineChart (null, null, null ,SourceCollection, PlotOrientation.VERTICAL, false, false,false);
+//MOZLIWE ZE TO POWINNO BYC NIE TU, TYLKO W TYCH KLASACH, ALE POZNIEJ O TYM POMYSLE
+Observer1Collection = new XYSeriesCollection();  
+Observer2Collection = new XYSeriesCollection(); 
+SourceCollection = new XYSeriesCollection(); 
+chart[0] = ChartFactory.createXYLineChart (null, null, null ,Observer1Collection, PlotOrientation.VERTICAL, false, false,false);
+chart[1] = ChartFactory.createXYLineChart (null, null, null ,Observer2Collection, PlotOrientation.VERTICAL, false, false,false);
+chart[2] = ChartFactory.createXYLineChart (null, null, null ,SourceCollection, PlotOrientation.VERTICAL, false, false,false);
+
+XYSeries dataSet1= new XYSeries("Sinus");
+for (double i=0; i <26; i+=0.05) dataSet1.add(i,Math.sin(i)); 
+Observer1Collection.addSeries(dataSet1);
+XYSeries dataSet2= new XYSeries("Cosinus");
+for (double i=0; i <26; i+=0.05) dataSet2.add(i,0.5*Math.cos(i/2)); 
+Observer2Collection.addSeries(dataSet2);
+XYSeries dataSet3= new XYSeries("Dziwny sinus");
+for (double i=0; i <26; i+=0.05) dataSet3.add(i,Math.cos(i)*i); 
+SourceCollection.addSeries(dataSet3);
 		
-		XYSeries dataSet1= new XYSeries("Sinus");
-		for (double i=0; i <26; i+=0.05) dataSet1.add(i,Math.sin(i)); 
-		Observer1Collection.addSeries(dataSet1);
-		XYSeries dataSet2= new XYSeries("Cosinus");
-		for (double i=0; i <26; i+=0.05) dataSet2.add(i,0.5*Math.cos(i/2)); 
-		Observer2Collection.addSeries(dataSet2);
-		XYSeries dataSet3= new XYSeries("Dziwny sinus");
-		for (double i=0; i <26; i+=0.05) dataSet3.add(i,Math.cos(i)*i); 
-		SourceCollection.addSeries(dataSet3);
 		//tworzy panele
 		pWest = new JPanel();
 		pEast = new JPanel();
 		pAnimation = new MainAnimationPanel();
 		pChart = new JPanel();
-		pChartSource = new SourceAnimationPanel(chart[0]); 
-		pChartObserver1 = new Observer1AnimationPanel(chart[1]);
-		pChartObserver2 = new Observer2AnimationPanel(chart[2]);
+		pChartSource = new SourceAnimationPanel(chart[0],SourceCollection, dataSet3, (double)SoundFreq); 
+		pChartObserver1 = new ObserverAnimationPanel(chart[1],Observer1Collection, dataSet1);
+		pChartObserver2 = new ObserverAnimationPanel(chart[2],Observer2Collection, dataSet2);
 		pLanguage = new JPanel();
 		pOptions = new JPanel();
 		pControl = new JPanel();
@@ -487,6 +488,7 @@ pChartSource.add(wykres);*/
 		String action = ae.getActionCommand();
 		if ((action.equals("run"))&&pAnimation.isRunning==false) {
 			try {//dzieki temu mozna na nowo puscic animacje jak sie skonczy
+				pChartSource.setIsRunning(true);//wazne - ustawia pole w klasie do wykresu zrodla
 				exec.execute(pAnimation);
 				exec.shutdown();
 				exec = Executors.newSingleThreadExecutor();
