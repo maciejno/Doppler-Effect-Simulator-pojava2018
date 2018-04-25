@@ -21,12 +21,15 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 	double soundFreq;
 	Graphics gg;
 	Boolean isRunning=false; //przechowuje informacje o biegu animacji
+	GUI superior; //referencja do klasy w ktorej siedzi
 	
 	Dimension preferredSize = new Dimension(530,400);
 	
-	public MainAnimationPanel() {
+	public MainAnimationPanel(GUI superior) {
 		this.setBackground(new Color(200,255,255));
 		this.setSize(preferredSize);
+		
+		this.superior = superior;
 		
 		//tworzy obiekty na animacjê
 		observer1 = new AnimationObject();
@@ -111,15 +114,11 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		erase();
+		superior.setAnimationParameters();
+		repaint();
 		System.out.println("End of animation");
 		isRunning=false;
 	}
-	 public void erase() {
-		 
-		 
-		 repaint();
-	 }
 	 
 	public void setSoundSpeed(int v) {soundSpeed=v;}
 	public void setFrequency(int freq) {soundFreq=freq;}

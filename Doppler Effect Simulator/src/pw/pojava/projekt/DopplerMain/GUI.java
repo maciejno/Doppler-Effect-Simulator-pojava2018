@@ -112,7 +112,7 @@ SourceCollection.addSeries(dataSet3);
 		//tworzy panele
 		pWest = new JPanel();
 		pEast = new JPanel();
-		pAnimation = new MainAnimationPanel();
+		pAnimation = new MainAnimationPanel(this);
 		pChart = new JPanel();
 		pChartSource = new SourceAnimationPanel(chart[0],SourceCollection, dataSet3, (double)SoundFreq); 
 		pChartObserver1 = new ObserverAnimationPanel(chart[1],Observer1Collection, dataSet1);
