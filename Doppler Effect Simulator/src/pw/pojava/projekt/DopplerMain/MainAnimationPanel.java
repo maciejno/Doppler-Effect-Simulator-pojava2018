@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 
 
-public class MainAnimationPanel extends JPanel implements Runnable {
+public class MainAnimationPanel extends JPanel {
 	
 	List<WaveCrest> crests = new ArrayList<WaveCrest>();
 	AnimationObject observer1, observer2, source;
@@ -40,6 +41,10 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 		source.setAppearance(true); //zrodlo jest zawsze.
 	}	
 	
+	//settery porzebnych danych
+	public void setSoundSpeed(int v) {soundSpeed=v;}
+	public void setFrequency(int freq) {soundFreq=freq;}
+	
 	    
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);        
@@ -56,7 +61,84 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 			}   
         }
     }
-    //METODA RUN
+    
+    MainAnimationPanel takeThisPanel() {return this;} //metoda, ktora zwraca ten panel
+    
+    SwingWorker<Void, MainAnimationPanel> mainAnimator = new SwingWorker<Void, MainAnimationPanel>() {
+    	
+    	
+    	protected void process(List<MainAnimationPanel> thisPanel) {
+    		for(JPanel pn : thisPanel)
+    		pn.repaint();
+    	}
+		
+		@Override
+		protected Void doInBackground() throws Exception {
+						
+			double quasiTime=0; //licznik mierzacy czas
+			isRunning=true;
+			
+			while(true) 
+			{
+				if(((quasiTime/1000)%(1/soundFreq)==0)) { // tworzy grzbiet
+					WaveCrest crN = new WaveCrest();
+					crN.setV(soundSpeed);
+					crN.setX(source.getX());
+					crN.setY(source.getY());
+					crests.add(crN);
+				}
+				//oblicza nowe polozenia obiektow na podstawie ich predkosci
+				if(observer1.appearance) {
+					observer1.setX(observer1.getX()+observer1.getVx()*refreshRate);
+					observer1.setY(observer1.getY()+observer1.getVy()*refreshRate);
+				}
+				if(observer2.appearance) {
+				observer2.setX(observer2.getX()+observer2.getVx()*refreshRate);
+				observer2.setY(observer2.getY()+observer2.getVy()*refreshRate);
+				}
+				source.setX(source.getX()+source.getVx()*refreshRate);
+				source.setY(source.getY()+source.getVy()*refreshRate);
+				
+				if(!crests.isEmpty()) {//jesli sa jakies grzbiety
+					for (WaveCrest cr : crests) {//ustawia promien kazdego z okregow tworzacych grzbiety fali
+						cr.setR(cr.getR()+cr.getV()*refreshRate);
+					}
+				}
+				//jak juz policzy to na nowo wszystko rysuje
+				publish(takeThisPanel());
+				//usypia watek na chwile
+				try {
+					Thread.sleep(timeQuantum);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				quasiTime=quasiTime+timeQuantum;
+				
+				//warunek zakonczenia petli while, ktora tworzy animacje
+				if((((observer1.getX()>getWidth())||(observer1.getX()<0))||((observer2.getY()>getHeight())||(observer2.getY()<0))||((source.getX()>getWidth())||(source.getX()<0)))||(quasiTime>250000)) {
+					quasiTime=0;
+					System.out.println("statement...");
+					break;
+				}
+			}
+			crests.clear();//usuwa wszystkie grzbiety z listy
+			try {//usupia na pewien czas a potem czysci ekran
+				Thread.sleep(1500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			repaint();
+			System.out.println("End of animation");
+			isRunning=false;
+		
+			
+			return null;
+		}
+
+
+	};
+    
+    /*METODA RUN
 	@Override
 	public void run() {
 	
@@ -120,8 +202,10 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 		isRunning=false;
 	}
 	 
-	public void setSoundSpeed(int v) {soundSpeed=v;}
-	public void setFrequency(int freq) {soundFreq=freq;}
+
+	
+	
+	
 	
 	/*
 	 *juz zaimplementowane - w gui ustawia wszystkie parametry, a tu tworzy puste obiekty
@@ -157,6 +241,9 @@ public class MainAnimationPanel extends JPanel implements Runnable {
 		crests.add(c);
 	}
 	*/
+	
+	
+	
 }
 
 	

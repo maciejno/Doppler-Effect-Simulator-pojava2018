@@ -487,7 +487,9 @@ pChartSource.add(wykres);*/
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
 		if ((action.equals("run"))&&pAnimation.isRunning==false) {
-			try {//dzieki temu mozna na nowo puscic animacje jak sie skonczy
+			pAnimation.mainAnimator.execute();	
+			//STARE
+			/*try {//dzieki temu mozna na nowo puscic animacje jak sie skonczy
 				pChartSource.setIsRunning(true);//wazne - ustawia pole w klasie do wykresu zrodla
 				exec.execute(pAnimation);
 				exec.shutdown();
@@ -496,7 +498,7 @@ pChartSource.add(wykres);*/
 			}catch(RejectedExecutionException e) {
 				
 				e.printStackTrace();
-			}
+			}*/			
 		}
 
 			
