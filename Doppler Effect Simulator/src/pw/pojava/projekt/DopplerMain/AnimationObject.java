@@ -8,21 +8,17 @@ public class AnimationObject {//obserwator, badz zrodlo dzwieku
 	int vx = 0, vy = 0;//predkosc
 	double x = 0, y = 0;//polozenie
 	boolean appearance=true; //w³¹cza i wy³¹cza rysowanie obiektu (zrobione dla obserwatorów)
-	
-	
 	Color color; //kolor obiektu
 	
 	public AnimationObject() {
 		super();
 		color = new Color (100,150,200);
-	}
-	
+	}	
 	public void paint(Graphics g){
 		if(appearance==true)
 			g.setColor(color);
 		if(appearance==false)
-			g.setColor(new Color(0,0,0,0)); //nikt go nie zobaczy, czyli go nie ma
-	        
+			g.setColor(new Color(0,0,0,0)); //nikt go nie zobaczy, czyli go nie ma	        
 		//rzutuje double na int
         g.fillOval((int)x-5, (int)y-5, 10, 10);
 	}

@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -47,12 +46,13 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	int observer2V = 50;
 	int sourceX = 480;
 	int sourceY = 270;
-	int sourceV = -60;
+	int sourceV = -150;
 	int soundSpeed = 300;
 	int soundFreq = 20;
 			
 	boolean observer1State = true;
 	boolean observer2State = false;
+	boolean isRunning = false;
 	
 	//panels in main panel
 	JPanel pWest, pEast, pChart, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
@@ -75,7 +75,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	static final int sourceSlider_MAX = 1000; //Parameters for Source Speed slider
 	static final int slider_INIT = 0; //Initial parameter for sliders
 	short malaSamotnaZmienna;//zaopiekuj sie nia, zobacz jak na ciebie patrzy swoimi malymi oczkami
-	
+								//nie robi kompletnie nic, ale jest mala i slodka...
 	JTextField observer1XField, observer1YField, observer2XField, observer2YField;//TextFields for Spectators' parameters
 	JTextField sourceXField, sourceYField, sourceFreqField; //TextFields for Source parameters
 	JTextField soundSpeedField; //TextField for speed of Sound
@@ -373,22 +373,27 @@ pChartSource.add(wykres);*/
 	}
 	
 	public void stateChanged(ChangeEvent arg0) { //listener do Sliderów
-		
 		if(observer1Slider.getValue()!=observer1V) { //Slider obserwatora 1			
-			String Slider1String = new Double(observer1Slider.getValue()).toString();
-			observer1SliderField.setText(Slider1String);
+			String slider1String = new Double(observer1Slider.getValue()).toString();
+			observer1SliderField.setText(slider1String);
 			observer1V=observer1Slider.getValue();
+			System.out.println("o1v: " + observer1V);
 		}		
 		if(observer2Slider.getValue()!=observer2V) { //Slider obserwatora 2			
-			String Slider2String = new Double(observer2Slider.getValue()).toString();
-			observer2SliderField.setText(Slider2String);
+			String slider2String = new Double(observer2Slider.getValue()).toString();
+			observer2SliderField.setText(slider2String);
 			observer2V=observer2Slider.getValue();
+			System.out.println("o2v: " + observer2V);
 		}		
 		if(sourceSlider.getValue()!=sourceV) { //Slider zrodla			
-			String SliderSourceString = new Double(sourceSlider.getValue()).toString();
-			sourceSliderField.setText(SliderSourceString);
+			String sliderSourceString = new Double(sourceSlider.getValue()).toString();
+			sourceSliderField.setText(sliderSourceString);
 			sourceV=sourceSlider.getValue();
+			System.out.println("sv: " + sourceV);
 			}
+		//USTAWIA PARAMETRY ANIMACJI
+		setAnimationParameters();
+		pAnimation.repaint();
 	}
 	
 	public void itemStateChanged(ItemEvent arg0) { // Listener do checkboxów
@@ -478,17 +483,22 @@ pChartSource.add(wykres);*/
 		}
 		catch(Exception e) {
 			System.err.println("Blad key listener!");
-		}
-		pAnimation.repaint();
+		}		
 		//USTAWIA WSZYSTKIE PARAMETRY OBIEKTOW NA ANIMACJI
 		setAnimationParameters();
+		pAnimation.repaint();
 }
 
 
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
-		if ((action.equals("run"))&&pAnimation.isRunning==false) {
+		if ((action.equals("run"))&&isRunning==false) {
 			pAnimation.mainAnimator.execute();	
+			try {
+				pChartSource.worker.execute();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			//STARE
 			/*try {//dzieki temu mozna na nowo puscic animacje jak sie skonczy
 				pChartSource.setIsRunning(true);//wazne - ustawia pole w klasie do wykresu zrodla
