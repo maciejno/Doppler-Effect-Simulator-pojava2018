@@ -74,7 +74,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	static final int SourceSlider_MIN = -1000;
 	static final int SourceSlider_MAX = 1000; //Parameters for Source Speed slider
 	static final int Slider_INIT = 0; //Initial parameter for sliders
-	short MalaSamotnaZmienna;//zaopiekuj sie nia
+	short MalaSamotnaZmienna;//zaopiekuj sie nia, zobacz jak na ciebie patrzy swoimi malymi oczkami
 	
 	JTextField Observer1XField, Observer1YField, Observer2XField, Observer2YField;//TextFields for Spectators' parameters
 	JTextField SourceXField, SourceYField, SourceFreqField; //TextFields for Source parameters
@@ -88,7 +88,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	JLabel FreqLabel1, FreqLabel2;
 
 	JFreeChart [] chart = new JFreeChart [3];//tablica wykresow
-	XYSeriesCollection Observer1Collection,Observer2Collection,SourceCollection;//kolekcje na dane do wykresow
+	protected XYSeriesCollection Observer1Collection,Observer2Collection,SourceCollection;//kolekcje na dane do wykresow
+	protected XYSeries dataSet1, dataSet2, dataSet3;
 	
 	public GUI() {
 //MOZLIWE ZE TO POWINNO BYC NIE TU, TYLKO W TYCH KLASACH, ALE POZNIEJ O TYM POMYSLE
@@ -114,7 +115,7 @@ SourceCollection.addSeries(dataSet3);
 		pEast = new JPanel();
 		pAnimation = new MainAnimationPanel(this);
 		pChart = new JPanel();
-		pChartSource = new SourceAnimationPanel(chart[0],SourceCollection, dataSet3, (double)SoundFreq); 
+		pChartSource = new SourceAnimationPanel(this); 
 		pChartObserver1 = new ObserverAnimationPanel(chart[1],Observer1Collection, dataSet1);
 		pChartObserver2 = new ObserverAnimationPanel(chart[2],Observer2Collection, dataSet2);
 		pLanguage = new JPanel();

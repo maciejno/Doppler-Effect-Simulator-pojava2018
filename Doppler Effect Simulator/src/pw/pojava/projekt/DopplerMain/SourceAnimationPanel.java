@@ -22,13 +22,14 @@ public class SourceAnimationPanel extends ChartPanel{
 	Boolean isRunning = false;//czy glowna animacja leci
 	
 	double frequency;//czestotliwosc dzwieku przekazana w konstruktorze
-
-	public SourceAnimationPanel(JFreeChart chart, XYSeriesCollection collection, XYSeries series, double frequency) {
-		super(chart);
-		xySeries = series;
-		xySeriesCollection = collection;
-		this.frequency = frequency;
-		
+	GUI superior;//referencja do GUI
+	
+	public SourceAnimationPanel(GUI superior) {
+		super(superior.chart[0]);
+		xySeries = superior.dataSet3;
+		xySeriesCollection = superior.SourceCollection;
+		this.frequency = superior.SoundFreq;
+		this.superior = superior;
 	}
 
 	class MySwingWorker extends SwingWorker<Void,double[]>{
