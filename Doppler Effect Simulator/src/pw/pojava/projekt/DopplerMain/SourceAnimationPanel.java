@@ -27,8 +27,8 @@ public class SourceAnimationPanel extends ChartPanel{
 	public SourceAnimationPanel(GUI superior) {
 		super(superior.chart[0]);
 		xySeries = superior.dataSet3;
-		xySeriesCollection = superior.SourceCollection;
-		this.frequency = superior.SoundFreq;
+		xySeriesCollection = superior.sourceCollection;
+		this.frequency = superior.soundFreq;
 		this.superior = superior;
 	}
 
