@@ -496,13 +496,12 @@ pChartSource.add(wykres);*/
 		if ((action.equals("run"))&&isRunning==false) {
 			pAnimation.mainAnimator.execute();	
 			try {
-				pChartSource.worker.execute();
+				//pChartSource.worker.execute();
 			}catch(Exception e){
 				e.printStackTrace();
 			}
 			//STARE
 			/*try {//dzieki temu mozna na nowo puscic animacje jak sie skonczy
-				pChartSource.setIsRunning(true);//wazne - ustawia pole w klasie do wykresu zrodla
 				exec.execute(pAnimation);
 				exec.shutdown();
 				exec = Executors.newSingleThreadExecutor();

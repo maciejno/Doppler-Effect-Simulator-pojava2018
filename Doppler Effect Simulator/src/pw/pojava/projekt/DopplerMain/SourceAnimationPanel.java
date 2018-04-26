@@ -12,14 +12,19 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-public class SourceAnimationPanel extends ChartPanel{
+public class SourceAnimationPanel extends ChartPanel implements Runnable{
 
 	private static final long serialVersionUID = 1L;
 	
 	XYSeriesCollection xySeriesCollection;//pola
 	XYSeries xySeries;					//przepisane
 	JFreeChart chart;					//przez konstruktor
-	MySwingWorker worker;
+	//MySwingWorker worker;
+	LinkedList <Double> listOfData = new LinkedList<Double>();
+	double pi = Math.PI;
+	double time =0;//aktualna chwila czasu
+	int sleep = 40;//ms ile spi
+	int maxCount = 500;//maksymalna liczba punktow na wykresie
 	
 	double freq;//czestotliwosc dzwieku przekazana w konstruktorze
 	GUI superior;//referencja do GUI
@@ -30,10 +35,10 @@ public class SourceAnimationPanel extends ChartPanel{
 		xySeriesCollection = superior.sourceCollection;
 		this.freq = superior.soundFreq;
 		this.superior = superior;
-		worker = new MySwingWorker();
+		//worker = new MySwingWorker();
 	}
 
-	class MySwingWorker extends SwingWorker<Void,double[]>{
+	/*class MySwingWorker extends SwingWorker<Void,double[]>{
 
 		LinkedList <Double> listOfData = new LinkedList<Double>();//lista do dodawania wynikow w doInBackground()
 		double pi = Math.PI;
@@ -69,5 +74,26 @@ public class SourceAnimationPanel extends ChartPanel{
 		protected void done() {
 			
 		}		
+	}*/
+
+	@Override
+	public void run() {
+		while(superior.isRunning) {
+			listOfData.addFirst(Math.sin(2*pi*freq*time/1000));
+			if(listOfData.size()>maxCount) listOfData.removeLast();//usuwa ostatni element listy jak jest za duzo
+			
+			double [] dataToPublish = new double [listOfData.size()];
+			for(int i=0; i<listOfData.size();i++) {
+				dataToPublish[i] = listOfData.get(i);
+				System.out.println(dataToPublish[i]);				
+			}
+			try {
+				Thread.sleep(sleep);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			time += sleep;
+		}
+		
 	}
 }
