@@ -492,10 +492,7 @@ pChartSource.add(wykres);*/
 
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
-<<<<<<< HEAD
-		if ((action.equals("run"))&&pAnimation.isRunning==false) {
-			pAnimation.mainAnimator.execute();
-=======
+
 		if ((action.equals("run"))&&isRunning==false) {
 			pAnimation.mainAnimator.execute();	
 			try {
@@ -514,7 +511,7 @@ pChartSource.add(wykres);*/
 				
 				e.printStackTrace();
 			}*/			
->>>>>>> branch 'master' of https://github.com/maciejno/doppler-effect-simulator-pojava2018.git
+
 		}
 
 			
