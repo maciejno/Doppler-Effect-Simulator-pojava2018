@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -27,11 +28,10 @@ import javax.swing.event.ChangeListener;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.knowm.xchart.QuickChart;
-import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.XYChart;
+
 
 public class GUI extends JPanel  implements ChangeListener, ActionListener, ItemListener, KeyListener {
 	
@@ -51,7 +51,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	int sourceY = 270;
 	int sourceV = -150;
 	int soundSpeed = 300;
-	int soundFreq = 20;
+	int soundFreq = 250;
 			
 	boolean observer1State = true;
 	boolean observer2State = false;
@@ -93,17 +93,15 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	JFreeChart [] fchart = new JFreeChart [3];//tablica wykresow
 	protected XYSeriesCollection observer1Collection, observer2Collection, sourceCollection;//kolekcje na dane do wykresow
 	protected XYSeries dataSet1, dataSet2, dataSet3;
-	
+	protected XYDataset sourceDataset;
 	
 	public GUI() {
 		
 //MOZLIWE ZE TO POWINNO BYC NIE TU, TYLKO W TYCH KLASACH, ALE POZNIEJ O TYM POMYSLE
 observer1Collection = new XYSeriesCollection();  
 observer2Collection = new XYSeriesCollection(); 
-sourceCollection = new XYSeriesCollection(); 
-fchart[0] = ChartFactory.createXYLineChart (null, null, null ,observer1Collection, PlotOrientation.VERTICAL, false, false,false);
-fchart[1] = ChartFactory.createXYLineChart (null, null, null ,observer2Collection, PlotOrientation.VERTICAL, false, false,false);
-fchart[2] = ChartFactory.createXYLineChart (null, null, null ,sourceCollection, PlotOrientation.VERTICAL, false, false,false);
+ 
+
 
 XYSeries dataSet1= new XYSeries("Sinus");
 for (double i=0; i <10; i+=0.05) dataSet1.add(i,Math.sin(i)); 
@@ -111,10 +109,15 @@ observer1Collection.addSeries(dataSet1);
 XYSeries dataSet2= new XYSeries("Cosinus");
 for (double i=0; i <26; i+=0.05) dataSet2.add(i,0.5*Math.cos(i/2)); 
 observer2Collection.addSeries(dataSet2);
-XYSeries dataSet3= new XYSeries("Dziwny sinus");
-for (double i=0; i <10; i+=0.05) dataSet3.add(i,Math.cos(i)*i); 
-sourceCollection.addSeries(dataSet3);
-		
+
+sourceCollection = new XYSeriesCollection();
+sourceDataset = sourceCollection;
+fchart[2] = ChartFactory.createXYLineChart (null, null, null ,sourceDataset, PlotOrientation.VERTICAL, false, false,false);
+
+
+fchart[0] = ChartFactory.createXYLineChart (null, null, null ,observer1Collection, PlotOrientation.VERTICAL, false, false,false);
+fchart[1] = ChartFactory.createXYLineChart (null, null, null ,observer2Collection, PlotOrientation.VERTICAL, false, false,false);
+
 		//tworzy panele
 		pWest = new JPanel();
 		pEast = new JPanel();
@@ -498,13 +501,18 @@ pChartSource.add(wykres);*/
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
 
-		if ((action.equals("run"))&&isRunning==false) {
-			pAnimation.mainAnimator.execute();	
+		if ((action.equals("run"))&&isRunning==false) {						
+			pChartSource.newWorker();
+			isRunning = true;			
 			try {
-				pChartSource.worker.execute();
-			}catch(Exception e){
+				exec = Executors.newSingleThreadExecutor();
+				exec.execute(pChartSource.worker);
+				exec.shutdown();
+			}catch(RejectedExecutionException e) {
 				e.printStackTrace();
 			}
+			
+			pAnimation.mainAnimator.execute();	
 			//STARE
 			/*try {//dzieki temu mozna na nowo puscic animacje jak sie skonczy
 				exec.execute(pAnimation);
