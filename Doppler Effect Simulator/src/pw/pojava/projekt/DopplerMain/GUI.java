@@ -29,6 +29,9 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.knowm.xchart.QuickChart;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.XYChart;
 
 public class GUI extends JPanel  implements ChangeListener, ActionListener, ItemListener, KeyListener {
 	
@@ -87,27 +90,29 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	JLabel soundSpeedLabel, soundSpeedLabelMS; // sound speed label
 	JLabel freqLabel1, freqLabel2;
 
-	JFreeChart [] chart = new JFreeChart [3];//tablica wykresow
+	JFreeChart [] fchart = new JFreeChart [3];//tablica wykresow
 	protected XYSeriesCollection observer1Collection, observer2Collection, sourceCollection;//kolekcje na dane do wykresow
 	protected XYSeries dataSet1, dataSet2, dataSet3;
 	
+	
 	public GUI() {
+		
 //MOZLIWE ZE TO POWINNO BYC NIE TU, TYLKO W TYCH KLASACH, ALE POZNIEJ O TYM POMYSLE
 observer1Collection = new XYSeriesCollection();  
 observer2Collection = new XYSeriesCollection(); 
 sourceCollection = new XYSeriesCollection(); 
-chart[0] = ChartFactory.createXYLineChart (null, null, null ,observer1Collection, PlotOrientation.VERTICAL, false, false,false);
-chart[1] = ChartFactory.createXYLineChart (null, null, null ,observer2Collection, PlotOrientation.VERTICAL, false, false,false);
-chart[2] = ChartFactory.createXYLineChart (null, null, null ,sourceCollection, PlotOrientation.VERTICAL, false, false,false);
+fchart[0] = ChartFactory.createXYLineChart (null, null, null ,observer1Collection, PlotOrientation.VERTICAL, false, false,false);
+fchart[1] = ChartFactory.createXYLineChart (null, null, null ,observer2Collection, PlotOrientation.VERTICAL, false, false,false);
+fchart[2] = ChartFactory.createXYLineChart (null, null, null ,sourceCollection, PlotOrientation.VERTICAL, false, false,false);
 
 XYSeries dataSet1= new XYSeries("Sinus");
-for (double i=0; i <26; i+=0.05) dataSet1.add(i,Math.sin(i)); 
+for (double i=0; i <10; i+=0.05) dataSet1.add(i,Math.sin(i)); 
 observer1Collection.addSeries(dataSet1);
 XYSeries dataSet2= new XYSeries("Cosinus");
 for (double i=0; i <26; i+=0.05) dataSet2.add(i,0.5*Math.cos(i/2)); 
 observer2Collection.addSeries(dataSet2);
 XYSeries dataSet3= new XYSeries("Dziwny sinus");
-for (double i=0; i <26; i+=0.05) dataSet3.add(i,Math.cos(i)*i); 
+for (double i=0; i <10; i+=0.05) dataSet3.add(i,Math.cos(i)*i); 
 sourceCollection.addSeries(dataSet3);
 		
 		//tworzy panele
@@ -116,8 +121,8 @@ sourceCollection.addSeries(dataSet3);
 		pAnimation = new MainAnimationPanel(this);
 		pChart = new JPanel();
 		pChartSource = new SourceAnimationPanel(this); 
-		pChartObserver1 = new ObserverAnimationPanel(chart[1],observer1Collection, dataSet1);
-		pChartObserver2 = new ObserverAnimationPanel(chart[2],observer2Collection, dataSet2);
+		pChartObserver1 = new ObserverAnimationPanel(fchart[1],observer1Collection, dataSet1);
+		pChartObserver2 = new ObserverAnimationPanel(fchart[2],observer2Collection, dataSet2);
 		pLanguage = new JPanel();
 		pOptions = new JPanel();
 		pControl = new JPanel();
@@ -496,7 +501,7 @@ pChartSource.add(wykres);*/
 		if ((action.equals("run"))&&isRunning==false) {
 			pAnimation.mainAnimator.execute();	
 			try {
-				//pChartSource.worker.execute();
+				pChartSource.worker.execute();
 			}catch(Exception e){
 				e.printStackTrace();
 			}

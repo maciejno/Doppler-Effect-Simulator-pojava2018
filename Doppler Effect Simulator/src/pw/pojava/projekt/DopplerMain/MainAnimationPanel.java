@@ -110,6 +110,7 @@ public class MainAnimationPanel extends JPanel {
 				}
 			}
 			crests.clear();//usuwa wszystkie grzbiety z listy
+			superior.isRunning=false;//koniec animacji
 			try {//usupia na pewien czas a potem czysci ekran
 				Thread.sleep(1500);
 			} catch (InterruptedException e) {
@@ -117,8 +118,7 @@ public class MainAnimationPanel extends JPanel {
 			}
 			superior.setAnimationParameters();
 			repaint();
-			System.out.println("End of animation");
-			superior.isRunning=false;
+			System.out.println("End of animation");		
 			return null;
 		}
 	};
