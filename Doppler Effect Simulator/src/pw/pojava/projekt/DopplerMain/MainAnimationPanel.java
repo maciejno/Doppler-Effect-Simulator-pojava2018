@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
@@ -41,7 +41,7 @@ public class MainAnimationPanel extends JPanel {
 	public void setSoundSpeed(int v) {soundSpeed=v;}
 	public void setFrequency(int freq) {soundFreq=freq;}
 		    
-    protected void paintComponent(Graphics g) {
+    protected synchronized void paintComponent(Graphics g) {
         super.paintComponent(g);              
         gg = g;
         observer1.paint(gg);//rysuje ich w ich po³o¿eniach
@@ -54,7 +54,8 @@ public class MainAnimationPanel extends JPanel {
         }
     }
     
-    MainAnimationPanel takeThisPanel() {return this;} //metoda, ktora zwraca ten panel  
+    synchronized MainAnimationPanel takeThisPanel() {return this;} //metoda, ktora zwraca ten panel  
+    
     SwingWorker<Void, MainAnimationPanel> mainAnimator = new SwingWorker<Void, MainAnimationPanel>() {   	
     	
     	protected void process(List<MainAnimationPanel> thisPanel) {
@@ -65,10 +66,11 @@ public class MainAnimationPanel extends JPanel {
 		@Override
 		protected Void doInBackground() throws Exception {						
 			double quasiTime=0; //licznik mierzacy czas
+			double period=1/soundFreq;
 			superior.isRunning=true;
 			
-			while(true) {
-				if(((quasiTime/1000)%(1/soundFreq)==0)) { // tworzy grzbiet
+			synchronized (crests) { while(true) {
+				if(((quasiTime/1000)%period==0)) { // tworzy grzbiet
 					WaveCrest crN = new WaveCrest();
 					crN.setV(soundSpeed);
 					crN.setX(source.getX());
@@ -96,7 +98,7 @@ public class MainAnimationPanel extends JPanel {
 				publish(takeThisPanel());
 				//usypia watek na chwile
 				try {
-					Thread.sleep(timeQuantum);
+					TimeUnit.MILLISECONDS.sleep(1);
 				}catch (InterruptedException e) {
 						e.printStackTrace();
 				}
@@ -108,11 +110,11 @@ public class MainAnimationPanel extends JPanel {
 					System.out.println("statement...");
 					break;
 				}
-			}
+			}}
 			crests.clear();//usuwa wszystkie grzbiety z listy
 			superior.isRunning=false;//koniec animacji
 			try {//usupia na pewien czas a potem czysci ekran
-				Thread.sleep(1500);
+				TimeUnit.MILLISECONDS.sleep(1500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
