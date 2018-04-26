@@ -486,7 +486,7 @@ pChartSource.add(wykres);*/
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
 		if ((action.equals("run"))&&pAnimation.isRunning==false) {
-			pAnimation.mainAnimator.execute();	
+			pAnimation.mainAnimator.execute();
 		}
 
 			
