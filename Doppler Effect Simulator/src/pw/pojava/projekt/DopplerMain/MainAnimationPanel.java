@@ -3,8 +3,6 @@ package pw.pojava.projekt.DopplerMain;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.LayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +11,8 @@ import javax.swing.SwingWorker;
 
 
 public class MainAnimationPanel extends JPanel {
-	
+
+	private static final long serialVersionUID = 1L;
 	List<WaveCrest> crests = new ArrayList<WaveCrest>();
 	AnimationObject observer1, observer2, source;
 	double refreshRate = 0.001; //[ms]
@@ -21,13 +20,14 @@ public class MainAnimationPanel extends JPanel {
 	int soundSpeed; //przechowuje robocza predkosc dzwieku
 	double soundFreq;
 	Graphics gg;
-	Boolean isRunning=false; //przechowuje informacje o biegu animacji
+	GUI superior; //referencja do klasy w ktorej siedzi
 	
 	Dimension preferredSize = new Dimension(530,400);
 	
-	public MainAnimationPanel() {
+	public MainAnimationPanel(GUI superior) {
 		this.setBackground(new Color(200,255,255));
-		this.setSize(preferredSize);
+		this.setSize(preferredSize);	
+		this.superior = superior;
 		
 		//tworzy obiekty na animacjê
 		observer1 = new AnimationObject();
@@ -36,33 +36,26 @@ public class MainAnimationPanel extends JPanel {
 		observer1.setAppearance(true); //ustawia domyslne istnienie obserwatorów
         observer2.setAppearance(false);
 		source.setAppearance(true); //zrodlo jest zawsze.
-	}	
-	
+	}		
 	//settery porzebnych danych
 	public void setSoundSpeed(int v) {soundSpeed=v;}
 	public void setFrequency(int freq) {soundFreq=freq;}
-	
-	    
+		    
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);        
-        
+        super.paintComponent(g);              
         gg = g;
         observer1.paint(gg);//rysuje ich w ich po³o¿eniach
         observer2.paint(gg);
-        source.paint(gg);
-        
-        if(crests.isEmpty()==false)//jesli sa jakies grzbiety to je rysuje
-        {
+        source.paint(gg);        
+        if(crests.isEmpty()==false){//jesli sa jakies grzbiety to je rysuje
         	for (WaveCrest cr : crests) {
         		cr.paint(gg);
 			}   
         }
     }
     
-    MainAnimationPanel takeThisPanel() {return this;} //metoda, ktora zwraca ten panel
-    
-    SwingWorker<Void, MainAnimationPanel> mainAnimator = new SwingWorker<Void, MainAnimationPanel>() {
-    	
+    MainAnimationPanel takeThisPanel() {return this;} //metoda, ktora zwraca ten panel  
+    SwingWorker<Void, MainAnimationPanel> mainAnimator = new SwingWorker<Void, MainAnimationPanel>() {   	
     	
     	protected void process(List<MainAnimationPanel> thisPanel) {
     		for(JPanel pn : thisPanel)
@@ -70,13 +63,11 @@ public class MainAnimationPanel extends JPanel {
     	}
 		
 		@Override
-		protected Void doInBackground() throws Exception {
-						
+		protected Void doInBackground() throws Exception {						
 			double quasiTime=0; //licznik mierzacy czas
-			isRunning=true;
+			superior.isRunning=true;
 			
-			while(true) 
-			{
+			while(true) {
 				if(((quasiTime/1000)%(1/soundFreq)==0)) { // tworzy grzbiet
 					WaveCrest crN = new WaveCrest();
 					crN.setV(soundSpeed);
@@ -106,9 +97,9 @@ public class MainAnimationPanel extends JPanel {
 				//usypia watek na chwile
 				try {
 					Thread.sleep(timeQuantum);
-					} catch (InterruptedException e) {
+				}catch (InterruptedException e) {
 						e.printStackTrace();
-					}
+				}
 				quasiTime=quasiTime+timeQuantum;
 				
 				//warunek zakonczenia petli while, ktora tworzy animacje
@@ -124,15 +115,12 @@ public class MainAnimationPanel extends JPanel {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			superior.setAnimationParameters();
 			repaint();
 			System.out.println("End of animation");
-			isRunning=false;
-		
-			
+			superior.isRunning=false;
 			return null;
 		}
-
-
 	};
     
     /*METODA RUN
@@ -193,15 +181,11 @@ public class MainAnimationPanel extends JPanel {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		erase();
+		superior.setAnimationParameters();
+		repaint();
 		System.out.println("End of animation");
 		isRunning=false;
 	}
-	 public void erase() {
-		 
-		 
-		 repaint();
-	 }
 	 
 
 	

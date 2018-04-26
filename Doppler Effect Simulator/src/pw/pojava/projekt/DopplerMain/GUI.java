@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -39,20 +38,21 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	ExecutorService exec = Executors.newSingleThreadExecutor();
 	
 	//zmienne przechowuj¹ce nastawy komponentów
-	int Observer1X = 30; 
-	int Observer1Y = 30;
-	int Observer1V = 40;
-	int Observer2X = 10;
-	int Observer2Y = 10;
-	int Observer2V = 50;
-	int SourceX = 480;
-	int SourceY = 270;
-	int SourceV = -60;
-	int SoundSpeed = 300;
-	int SoundFreq = 20;
+	int observer1X = 30; 
+	int observer1Y = 30;
+	int observer1V = 40;
+	int observer2X = 10;
+	int observer2Y = 10;
+	int observer2V = 50;
+	int sourceX = 480;
+	int sourceY = 270;
+	int sourceV = -150;
+	int soundSpeed = 300;
+	int soundFreq = 20;
 			
-	boolean Observer1State = true;
-	boolean Observer2State = false;
+	boolean observer1State = true;
+	boolean observer2State = false;
+	boolean isRunning = false;
 	
 	//panels in main panel
 	JPanel pWest, pEast, pChart, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
@@ -60,62 +60,64 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	
 	MainAnimationPanel pAnimation;
 	SourceAnimationPanel pChartSource;
-	Observer1AnimationPanel pChartObserver1;
-	Observer2AnimationPanel pChartObserver2;
+	ObserverAnimationPanel pChartObserver1;
+	ObserverAnimationPanel pChartObserver2;
 	
-	JButton SwitchPolishButton, SwitchEnglishButton; //przyciski do zmiany jezyka
-	JButton StartButton, SaveButton; //przyciski ktore maja moc sprawcza :D
-	JButton SoundButton1, SoundButton2;
+	JButton switchPolishButton, switchEnglishButton; //przyciski do zmiany jezyka
+	JButton startButton, saveButton; //przyciski ktore maja moc sprawcza :D
+	JButton soundButton1, soundButton2;
 	
-	JCheckBox Observer1Checkbox, Observer2Checkbox; // Observers CheckBoxes
-	JSlider Observer1Slider, Observer2Slider, SourceSlider;//Sliders for speed of objests
-	static final int ObserverSlider_MIN = -1000;
-	static final int ObserverSlider_MAX = 1000; //Parameters for Spectator Speed Sliders
-	static final int SourceSlider_MIN = -1000;
-	static final int SourceSlider_MAX = 1000; //Parameters for Source Speed slider
-	static final int Slider_INIT = 0; //Initial parameter for sliders
-	short MalaSamotnaZmienna;//zaopiekuj sie nia
+	JCheckBox observer1Checkbox, observer2Checkbox; // Observers CheckBoxes
+	JSlider observer1Slider, observer2Slider, sourceSlider;//Sliders for speed of objests
+	static final int observerSlider_MIN = -1000;
+	static final int observerSlider_MAX = 1000; //Parameters for Spectator Speed Sliders
+	static final int sourceSlider_MIN = -1000;
+	static final int sourceSlider_MAX = 1000; //Parameters for Source Speed slider
+	static final int slider_INIT = 0; //Initial parameter for sliders
+	short malaSamotnaZmienna;//zaopiekuj sie nia, zobacz jak na ciebie patrzy swoimi malymi oczkami
+								//nie robi kompletnie nic, ale jest mala i slodka...
+	JTextField observer1XField, observer1YField, observer2XField, observer2YField;//TextFields for Spectators' parameters
+	JTextField sourceXField, sourceYField, sourceFreqField; //TextFields for Source parameters
+	JTextField soundSpeedField; //TextField for speed of Sound
+	JTextField observer1SliderField, observer2SliderField, sourceSliderField; //text fields for obs1,obs2, soutce values
 	
-	JTextField Observer1XField, Observer1YField, Observer2XField, Observer2YField;//TextFields for Spectators' parameters
-	JTextField SourceXField, SourceYField, SourceFreqField; //TextFields for Source parameters
-	JTextField SoundSpeedField; //TextField for speed of Sound
-	JTextField Observer1SliderField, Observer2SliderField, SourceSliderField; //text fields for obs1,obs2, soutce values
-	
-	JLabel ObserverMainLabel, SourceMainLabel;//Title labels
-	JLabel ValueXObserver1Label, ValueYObserver1Label, ValueXObserver2Label, ValueYObserver2Label, ValueXSourceLabel, ValueYSourceLabel;
-	JLabel SliderObserver1LabelV, SliderObserver1LabelMS, SliderObserver2LabelV, SliderObserver2LabelMS, SliderSourceLabelV, SliderSourceLabelMS;//Slider labels
-	JLabel SoundSpeedLabel, SoundSpeedLabelMS; // sound speed label
-	JLabel FreqLabel1, FreqLabel2;
+	JLabel observerMainLabel, sourceMainLabel;//Title labels
+	JLabel valueXObserver1Label, valueYObserver1Label, valueXObserver2Label, valueYObserver2Label, valueXSourceLabel, valueYSourceLabel;
+	JLabel sliderObserver1LabelV, sliderObserver1LabelMS, sliderObserver2LabelV, sliderObserver2LabelMS, sliderSourceLabelV, sliderSourceLabelMS;//Slider labels
+	JLabel soundSpeedLabel, soundSpeedLabelMS; // sound speed label
+	JLabel freqLabel1, freqLabel2;
 
 	JFreeChart [] chart = new JFreeChart [3];//tablica wykresow
-	XYSeriesCollection Observer1Collection,Observer2Collection,SourceCollection;//kolekcje na dane do wykresow
+	protected XYSeriesCollection observer1Collection, observer2Collection, sourceCollection;//kolekcje na dane do wykresow
+	protected XYSeries dataSet1, dataSet2, dataSet3;
 	
 	public GUI() {
-		//MOZLIWE ZE TO POWINNO BYC NIE TU, TYLKO W TYCH KLASACH, ALE POZNIEJ O TYM POMYSLE
-		Observer1Collection = new XYSeriesCollection();  
-		Observer2Collection = new XYSeriesCollection(); 
-		SourceCollection = new XYSeriesCollection(); 
-		chart[0] = ChartFactory.createXYLineChart (null, null, null ,Observer1Collection, PlotOrientation.VERTICAL, false, false,false);
-		chart[1] = ChartFactory.createXYLineChart (null, null, null ,Observer2Collection, PlotOrientation.VERTICAL, false, false,false);
-		chart[2] = ChartFactory.createXYLineChart (null, null, null ,SourceCollection, PlotOrientation.VERTICAL, false, false,false);
+//MOZLIWE ZE TO POWINNO BYC NIE TU, TYLKO W TYCH KLASACH, ALE POZNIEJ O TYM POMYSLE
+observer1Collection = new XYSeriesCollection();  
+observer2Collection = new XYSeriesCollection(); 
+sourceCollection = new XYSeriesCollection(); 
+chart[0] = ChartFactory.createXYLineChart (null, null, null ,observer1Collection, PlotOrientation.VERTICAL, false, false,false);
+chart[1] = ChartFactory.createXYLineChart (null, null, null ,observer2Collection, PlotOrientation.VERTICAL, false, false,false);
+chart[2] = ChartFactory.createXYLineChart (null, null, null ,sourceCollection, PlotOrientation.VERTICAL, false, false,false);
+
+XYSeries dataSet1= new XYSeries("Sinus");
+for (double i=0; i <26; i+=0.05) dataSet1.add(i,Math.sin(i)); 
+observer1Collection.addSeries(dataSet1);
+XYSeries dataSet2= new XYSeries("Cosinus");
+for (double i=0; i <26; i+=0.05) dataSet2.add(i,0.5*Math.cos(i/2)); 
+observer2Collection.addSeries(dataSet2);
+XYSeries dataSet3= new XYSeries("Dziwny sinus");
+for (double i=0; i <26; i+=0.05) dataSet3.add(i,Math.cos(i)*i); 
+sourceCollection.addSeries(dataSet3);
 		
-		XYSeries dataSet1= new XYSeries("Sinus");
-		for (double i=0; i <26; i+=0.05) dataSet1.add(i,Math.sin(i)); 
-		Observer1Collection.addSeries(dataSet1);
-		XYSeries dataSet2= new XYSeries("Cosinus");
-		for (double i=0; i <26; i+=0.05) dataSet2.add(i,0.5*Math.cos(i/2)); 
-		Observer2Collection.addSeries(dataSet2);
-		XYSeries dataSet3= new XYSeries("Dziwny sinus");
-		for (double i=0; i <26; i+=0.05) dataSet3.add(i,Math.cos(i)*i); 
-		SourceCollection.addSeries(dataSet3);
 		//tworzy panele
 		pWest = new JPanel();
 		pEast = new JPanel();
-		pAnimation = new MainAnimationPanel();
+		pAnimation = new MainAnimationPanel(this);
 		pChart = new JPanel();
-		pChartSource = new SourceAnimationPanel(chart[0]); 
-		pChartObserver1 = new Observer1AnimationPanel(chart[1]);
-		pChartObserver2 = new Observer2AnimationPanel(chart[2]);
+		pChartSource = new SourceAnimationPanel(this); 
+		pChartObserver1 = new ObserverAnimationPanel(chart[1],observer1Collection, dataSet1);
+		pChartObserver2 = new ObserverAnimationPanel(chart[2],observer2Collection, dataSet2);
 		pLanguage = new JPanel();
 		pOptions = new JPanel();
 		pControl = new JPanel();
@@ -148,68 +150,68 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
   
 		
 		//tworzenie komponentów
-		SwitchPolishButton = new JButton("POLSKI");
-		SwitchEnglishButton = new JButton("ENGLISH");
-		StartButton = new JButton("START");
-		SaveButton = new JButton("ZAPISZ");
-		SoundButton1 = new JButton("<))");
-		SoundButton2 = new JButton("<))");
+		switchPolishButton = new JButton("POLSKI");
+		switchEnglishButton = new JButton("ENGLISH");
+		startButton = new JButton("START");
+		saveButton = new JButton("ZAPISZ");
+		soundButton1 = new JButton("<))");
+		soundButton2 = new JButton("<))");
 				
-		Observer1Checkbox = new JCheckBox("Obserwator 1"); Observer1Checkbox.setSelected(true);
-		Observer2Checkbox = new JCheckBox("Obserwator 2");
+		observer1Checkbox = new JCheckBox("Obserwator 1"); observer1Checkbox.setSelected(true);
+		observer2Checkbox = new JCheckBox("Obserwator 2");
 			
 		//ustawienia sliderów
 		Font SliderFont = new Font("Calibri", Font.BOLD, 11); //kosmetyka
-		Observer1Slider = new JSlider(JSlider.HORIZONTAL, ObserverSlider_MIN, ObserverSlider_MAX, Observer1V);
-		Observer1Slider.setMajorTickSpacing(500); //wiêcej kosmetyki
-		Observer1Slider.setMinorTickSpacing(250);
-		Observer1Slider.setPaintTicks(true);
-		Observer1Slider.setPaintLabels(true);
-		Observer1Slider.setFont(SliderFont);
-		Observer2Slider = new JSlider(JSlider.HORIZONTAL, ObserverSlider_MIN, ObserverSlider_MAX, Observer2V);
-		Observer2Slider.setMajorTickSpacing(500);
-		Observer2Slider.setMinorTickSpacing(250);
-		Observer2Slider.setPaintTicks(true);
-		Observer2Slider.setPaintLabels(true);
-		Observer2Slider.setFont(SliderFont);
-		SourceSlider = new JSlider(JSlider.HORIZONTAL, SourceSlider_MIN, SourceSlider_MAX, SourceV);
-		SourceSlider.setMajorTickSpacing(500);
-		SourceSlider.setMinorTickSpacing(250);
-		SourceSlider.setPaintTicks(true);
-		SourceSlider.setPaintLabels(true);
-		SourceSlider.setFont(SliderFont);
+		observer1Slider = new JSlider(JSlider.HORIZONTAL, observerSlider_MIN, observerSlider_MAX, observer1V);
+		observer1Slider.setMajorTickSpacing(500); //wiêcej kosmetyki
+		observer1Slider.setMinorTickSpacing(250);
+		observer1Slider.setPaintTicks(true);
+		observer1Slider.setPaintLabels(true);
+		observer1Slider.setFont(SliderFont);
+		observer2Slider = new JSlider(JSlider.HORIZONTAL, observerSlider_MIN, observerSlider_MAX, observer2V);
+		observer2Slider.setMajorTickSpacing(500);
+		observer2Slider.setMinorTickSpacing(250);
+		observer2Slider.setPaintTicks(true);
+		observer2Slider.setPaintLabels(true);
+		observer2Slider.setFont(SliderFont);
+		sourceSlider = new JSlider(JSlider.HORIZONTAL, sourceSlider_MIN, sourceSlider_MAX, sourceV);
+		sourceSlider.setMajorTickSpacing(500);
+		sourceSlider.setMinorTickSpacing(250);
+		sourceSlider.setPaintTicks(true);
+		sourceSlider.setPaintLabels(true);
+		sourceSlider.setFont(SliderFont);
 		
-		Observer1SliderField = new JTextField(Integer.toString(Observer1V)); Observer1SliderField.setColumns(4);//ustawia rozmiar pola tekstowego
-		Observer2SliderField = new JTextField(Integer.toString(Observer2V)); Observer2SliderField.setColumns(4);
-		SourceSliderField = new JTextField(Integer.toString(SourceV)); SourceSliderField.setColumns(4);
+		observer1SliderField = new JTextField(Integer.toString(observer1V)); observer1SliderField.setColumns(4);//ustawia rozmiar pola tekstowego
+		observer2SliderField = new JTextField(Integer.toString(observer2V)); observer2SliderField.setColumns(4);
+		sourceSliderField = new JTextField(Integer.toString(sourceV)); sourceSliderField.setColumns(4);
 		
-		Observer1XField = new JTextField(Integer.toString(Observer1X)); Observer1XField.setColumns(4);
-		Observer1YField = new JTextField(Integer.toString(Observer1Y)); Observer1YField.setColumns(4);
-		Observer2XField = new JTextField(Integer.toString(Observer2X)); Observer2XField.setColumns(4);
-		Observer2YField = new JTextField(Integer.toString(Observer2Y)); Observer2YField.setColumns(4);
-		SourceXField = new JTextField(Integer.toString(SourceX)); SourceXField.setColumns(4);
-		SourceYField = new JTextField(Integer.toString(SourceY)); SourceYField.setColumns(4);
-		SourceFreqField = new JTextField(Integer.toString(SoundFreq)); SourceFreqField.setColumns(5);
-		SoundSpeedField = new JTextField(Integer.toString(SoundSpeed)); SoundSpeedField.setColumns(4);
+		observer1XField = new JTextField(Integer.toString(observer1X)); observer1XField.setColumns(4);
+		observer1YField = new JTextField(Integer.toString(observer1Y)); observer1YField.setColumns(4);
+		observer2XField = new JTextField(Integer.toString(observer2X)); observer2XField.setColumns(4);
+		observer2YField = new JTextField(Integer.toString(observer2Y)); observer2YField.setColumns(4);
+		sourceXField = new JTextField(Integer.toString(sourceX)); sourceXField.setColumns(4);
+		sourceYField = new JTextField(Integer.toString(sourceY)); sourceYField.setColumns(4);
+		sourceFreqField = new JTextField(Integer.toString(soundFreq)); sourceFreqField.setColumns(5);
+		soundSpeedField = new JTextField(Integer.toString(soundSpeed)); soundSpeedField.setColumns(4);
 		
-		ObserverMainLabel = new JLabel("Obserwatorzy");
-		ValueXObserver1Label = new JLabel("X:");
-		ValueYObserver1Label = new JLabel("Y:");
-		ValueXObserver2Label = new JLabel("X:");
-		ValueYObserver2Label = new JLabel("Y:");
-		ValueXSourceLabel = new JLabel("X:");
-		ValueYSourceLabel = new JLabel("Y:");
-		SourceMainLabel = new JLabel("Zrodlo");	
-		SliderObserver1LabelV = new JLabel("v:");
-		SliderObserver1LabelMS = new JLabel("m/s");
-		SliderObserver2LabelV = new JLabel("v:");
-		SliderObserver2LabelMS = new JLabel("m/s");
-		SliderSourceLabelV = new JLabel("v:");
-		SliderSourceLabelMS = new JLabel("m/s");
-		SoundSpeedLabel = new JLabel("Predkosc dzwieku:");
-		SoundSpeedLabelMS = new JLabel("m/s");
-		FreqLabel1 = new JLabel("f:");	
-		FreqLabel2 = new JLabel("Hz");
+		observerMainLabel = new JLabel("Obserwatorzy");
+		valueXObserver1Label = new JLabel("X:");
+		valueYObserver1Label = new JLabel("Y:");
+		valueXObserver2Label = new JLabel("X:");
+		valueYObserver2Label = new JLabel("Y:");
+		valueXSourceLabel = new JLabel("X:");
+		valueYSourceLabel = new JLabel("Y:");
+		sourceMainLabel = new JLabel("Zrodlo");	
+		sliderObserver1LabelV = new JLabel("v:");
+		sliderObserver1LabelMS = new JLabel("m/s");
+		sliderObserver2LabelV = new JLabel("v:");
+		sliderObserver2LabelMS = new JLabel("m/s");
+		sliderSourceLabelV = new JLabel("v:");
+		sliderSourceLabelMS = new JLabel("m/s");
+		soundSpeedLabel = new JLabel("Predkosc dzwieku:");
+		soundSpeedLabelMS = new JLabel("m/s");
+		freqLabel1 = new JLabel("f:");	
+		freqLabel2 = new JLabel("Hz");
 		
 		//ustawia layout managery do paneli
 		this.setLayout(new BorderLayout());//sets layout for main panel
@@ -269,8 +271,8 @@ pChartSource.add(wykres);*/
 		pChart.add(pChartObserver2);	
 		
 		//wstawianie komponentów do paneli
-		pLanguage.add(SwitchPolishButton);
-		pLanguage.add(SwitchEnglishButton);
+		pLanguage.add(switchPolishButton);
+		pLanguage.add(switchEnglishButton);
 		
 			//3 panele do pOptions, do kazdego z tych paneli 3 panele, a do nich komponenty			
 		pOptions.add(pObserver1);
@@ -289,72 +291,72 @@ pChartSource.add(wykres);*/
 		pSource.add(pCenterSource);
 		pSource.add(pSouthSource);
 		
-		pNorthObserver1.add(Observer1Checkbox);
-		pNorthObserver1.add(SoundButton1);
-		pCenterObserver1.add(ValueXObserver1Label);
-		pCenterObserver1.add(Observer1XField);
-		pCenterObserver1.add(ValueYObserver1Label);
-		pCenterObserver1.add(Observer1YField);
-		pSouthObserver1.add(SliderObserver1LabelV);
-		pSouthObserver1.add(Observer1Slider);
-		pSouthObserver1.add(Observer1SliderField);
-		pSouthObserver1.add(SliderObserver1LabelMS);
+		pNorthObserver1.add(observer1Checkbox);
+		pNorthObserver1.add(soundButton1);
+		pCenterObserver1.add(valueXObserver1Label);
+		pCenterObserver1.add(observer1XField);
+		pCenterObserver1.add(valueYObserver1Label);
+		pCenterObserver1.add(observer1YField);
+		pSouthObserver1.add(sliderObserver1LabelV);
+		pSouthObserver1.add(observer1Slider);
+		pSouthObserver1.add(observer1SliderField);
+		pSouthObserver1.add(sliderObserver1LabelMS);
 		
-		pNorthObserver2.add(Observer2Checkbox);
-		pNorthObserver2.add(SoundButton2);
-		pCenterObserver2.add(ValueXObserver2Label);
-		pCenterObserver2.add(Observer2XField);
-		pCenterObserver2.add(ValueYObserver2Label);
-		pCenterObserver2.add(Observer2YField);
-		pSouthObserver2.add(SliderObserver2LabelV);
-		pSouthObserver2.add(Observer2Slider);
-		pSouthObserver2.add(Observer2SliderField);
-		pSouthObserver2.add(SliderObserver2LabelMS);
+		pNorthObserver2.add(observer2Checkbox);
+		pNorthObserver2.add(soundButton2);
+		pCenterObserver2.add(valueXObserver2Label);
+		pCenterObserver2.add(observer2XField);
+		pCenterObserver2.add(valueYObserver2Label);
+		pCenterObserver2.add(observer2YField);
+		pSouthObserver2.add(sliderObserver2LabelV);
+		pSouthObserver2.add(observer2Slider);
+		pSouthObserver2.add(observer2SliderField);
+		pSouthObserver2.add(sliderObserver2LabelMS);
 		
-		pNorthSource.add(ValueXSourceLabel);
-		pNorthSource.add(SourceXField);
-		pNorthSource.add(ValueYSourceLabel);
-		pNorthSource.add(SourceYField);
-		pNorthSource.add(FreqLabel1);
-		pNorthSource.add(SourceFreqField);
-		pNorthSource.add(FreqLabel2);
-		pCenterSource.add(SliderSourceLabelV);
-		pCenterSource.add(SourceSlider);
-		pCenterSource.add(SourceSliderField);
-		pCenterSource.add(SliderSourceLabelMS);
-		pSouthSource.add(SoundSpeedLabel);
-		pSouthSource.add(SoundSpeedField);
-		pSouthSource.add(SoundSpeedLabelMS);
+		pNorthSource.add(valueXSourceLabel);
+		pNorthSource.add(sourceXField);
+		pNorthSource.add(valueYSourceLabel);
+		pNorthSource.add(sourceYField);
+		pNorthSource.add(freqLabel1);
+		pNorthSource.add(sourceFreqField);
+		pNorthSource.add(freqLabel2);
+		pCenterSource.add(sliderSourceLabelV);
+		pCenterSource.add(sourceSlider);
+		pCenterSource.add(sourceSliderField);
+		pCenterSource.add(sliderSourceLabelMS);
+		pSouthSource.add(soundSpeedLabel);
+		pSouthSource.add(soundSpeedField);
+		pSouthSource.add(soundSpeedLabelMS);
 		
 		// a tu juz oddzielny panel na 2 przyciski
-		pControl.add(StartButton);
-		pControl.add(SaveButton); 
+		pControl.add(startButton);
+		pControl.add(saveButton); 
 									
 		//LISTENERY
-		Observer1Checkbox.addItemListener(this); // dodawanie listenerów do Checkboxów
-		Observer2Checkbox.addItemListener(this);
+		observer1Checkbox.addItemListener(this); // dodawanie listenerów do Checkboxów
+		observer2Checkbox.addItemListener(this);
 		
-		Observer1Slider.addChangeListener(this); //dodawanie listenerów do sliderów
-		Observer2Slider.addChangeListener(this);
-		SourceSlider.addChangeListener(this);
+		observer1Slider.addChangeListener(this); //dodawanie listenerów do sliderów
+		observer2Slider.addChangeListener(this);
+		sourceSlider.addChangeListener(this);
 		
-		Observer1XField.addKeyListener(this);
-		Observer1YField.addKeyListener(this);
-		Observer2XField.addKeyListener(this);
-		Observer2YField.addKeyListener(this);
-		SourceXField.addKeyListener(this);
-		SourceYField.addKeyListener(this);
-		SourceFreqField.addKeyListener(this);
-		SoundSpeedField.addKeyListener(this);
+		observer1XField.addKeyListener(this);
+		observer1YField.addKeyListener(this);
+		observer2XField.addKeyListener(this);
+		observer2YField.addKeyListener(this);
+		sourceXField.addKeyListener(this);
+		sourceYField.addKeyListener(this);
+		sourceFreqField.addKeyListener(this);
+		soundSpeedField.addKeyListener(this);
 		
-		Observer1SliderField.addKeyListener(this);
-		Observer2SliderField.addKeyListener(this);
-		SourceSliderField.addKeyListener(this);
+		observer1SliderField.addKeyListener(this);
+		observer2SliderField.addKeyListener(this);
+		sourceSliderField.addKeyListener(this);
 		
-		StartButton.addActionListener(this);
-		StartButton.setActionCommand("run");
-		SaveButton.addActionListener(this);
-		SaveButton.setActionCommand("save");
+		startButton.addActionListener(this);
+		startButton.setActionCommand("run");
+		saveButton.addActionListener(this);
+		saveButton.setActionCommand("save");
 		
 		setAnimationParameters();
 		
@@ -371,36 +373,41 @@ pChartSource.add(wykres);*/
 	}
 	
 	public void stateChanged(ChangeEvent arg0) { //listener do Sliderów
-		
-		if(Observer1Slider.getValue()!=Observer1V) { //Slider obserwatora 1			
-			String Slider1String = new Double(Observer1Slider.getValue()).toString();
-			Observer1SliderField.setText(Slider1String);
-			Observer1V=Observer1Slider.getValue();
+		if(observer1Slider.getValue()!=observer1V) { //Slider obserwatora 1			
+			String slider1String = new Double(observer1Slider.getValue()).toString();
+			observer1SliderField.setText(slider1String);
+			observer1V=observer1Slider.getValue();
+			System.out.println("o1v: " + observer1V);
 		}		
-		if(Observer2Slider.getValue()!=Observer2V) { //Slider obserwatora 2			
-			String Slider2String = new Double(Observer2Slider.getValue()).toString();
-			Observer2SliderField.setText(Slider2String);
-			Observer2V=Observer2Slider.getValue();
+		if(observer2Slider.getValue()!=observer2V) { //Slider obserwatora 2			
+			String slider2String = new Double(observer2Slider.getValue()).toString();
+			observer2SliderField.setText(slider2String);
+			observer2V=observer2Slider.getValue();
+			System.out.println("o2v: " + observer2V);
 		}		
-		if(SourceSlider.getValue()!=SourceV) { //Slider zrodla			
-			String SliderSourceString = new Double(SourceSlider.getValue()).toString();
-			SourceSliderField.setText(SliderSourceString);
-			SourceV=SourceSlider.getValue();
+		if(sourceSlider.getValue()!=sourceV) { //Slider zrodla			
+			String sliderSourceString = new Double(sourceSlider.getValue()).toString();
+			sourceSliderField.setText(sliderSourceString);
+			sourceV=sourceSlider.getValue();
+			System.out.println("sv: " + sourceV);
 			}
+		//USTAWIA PARAMETRY ANIMACJI
+		setAnimationParameters();
+		pAnimation.repaint();
 	}
 	
 	public void itemStateChanged(ItemEvent arg0) { // Listener do checkboxów
 			
-			Observer1State=Observer1Checkbox.isSelected();
-			Observer2State=Observer2Checkbox.isSelected();
-			pAnimation.observer1.setAppearance(Observer1State);
-			pAnimation.observer2.setAppearance(Observer2State);
+			observer1State=observer1Checkbox.isSelected();
+			observer2State=observer2Checkbox.isSelected();
+			pAnimation.observer1.setAppearance(observer1State);
+			pAnimation.observer2.setAppearance(observer2State);
 			//debugging
 			System.out.print("Observer1 : ");
-			System.out.println(Observer1State);
+			System.out.println(observer1State);
 			System.out.println(pAnimation.observer1.getAppearance());
 			System.out.print("Observer2 : ");
-			System.out.println(Observer2State);
+			System.out.println(observer2State);
 			System.out.println(pAnimation.observer2.getAppearance());
 			
 			pAnimation.repaint();
@@ -419,55 +426,55 @@ pChartSource.add(wykres);*/
 		try {//DEBUGGING - wypisuje do konsoli co sie wpisalo do zmiennej
 			//listenery do pol tekstowych
 			try {
-				if(Integer.parseInt(Observer1XField.getText())!=Observer1X) {
-					isTextFieldEmpty(Observer1XField);
-					Observer1X = Integer.parseInt(Observer1XField.getText());	
-					System.out.println("O1x:" + Observer1X);
+				if(Integer.parseInt(observer1XField.getText())!=observer1X) {
+					isTextFieldEmpty(observer1XField);
+					observer1X = Integer.parseInt(observer1XField.getText());	
+					System.out.println("O1x:" + observer1X);
 				}
-				else if(Integer.parseInt(Observer1YField.getText())!=Observer1Y) {
-					Observer1Y = Integer.parseInt(Observer1YField.getText());	
-					System.out.println("O1y:" + Observer1Y);
+				else if(Integer.parseInt(observer1YField.getText())!=observer1Y) {
+					observer1Y = Integer.parseInt(observer1YField.getText());	
+					System.out.println("O1y:" + observer1Y);
 				}	
-				else if(Integer.parseInt(Observer2XField.getText())!=Observer2X) {
-					Observer2X = Integer.parseInt(Observer2XField.getText());	
-					System.out.println("O2x:" + Observer2X);
+				else if(Integer.parseInt(observer2XField.getText())!=observer2X) {
+					observer2X = Integer.parseInt(observer2XField.getText());	
+					System.out.println("O2x:" + observer2X);
 				}
-				else if(Integer.parseInt(Observer2YField.getText())!=Observer2Y) {
-					Observer2Y = Integer.parseInt(Observer2YField.getText());	
-					System.out.println("O2y:" + Observer2Y);
+				else if(Integer.parseInt(observer2YField.getText())!=observer2Y) {
+					observer2Y = Integer.parseInt(observer2YField.getText());	
+					System.out.println("O2y:" + observer2Y);
 				}
-				else if(Integer.parseInt(SourceXField.getText())!=SourceX) {
-					SourceX = Integer.parseInt(SourceXField.getText());		
-					System.out.println("Sx:" + SourceX);
+				else if(Integer.parseInt(sourceXField.getText())!=sourceX) {
+					sourceX = Integer.parseInt(sourceXField.getText());		
+					System.out.println("Sx:" + sourceX);
 				}
-				else if(Integer.parseInt(SourceYField.getText())!=SourceY) {
-					SourceY = Integer.parseInt(SourceYField.getText());	
-					System.out.println("Sy:" + SourceY);
+				else if(Integer.parseInt(sourceYField.getText())!=sourceY) {
+					sourceY = Integer.parseInt(sourceYField.getText());	
+					System.out.println("Sy:" + sourceY);
 				}
-				else if(Integer.parseInt(SourceFreqField.getText())!=SoundFreq) {
-					SoundFreq = Integer.parseInt(SourceFreqField.getText());	
-					System.out.println("Sf:" + SoundFreq);
-					pAnimation.setFrequency(SoundFreq);
+				else if(Integer.parseInt(sourceFreqField.getText())!=soundFreq) {
+					soundFreq = Integer.parseInt(sourceFreqField.getText());	
+					System.out.println("Sf:" + soundFreq);
+					pAnimation.setFrequency(soundFreq);
 				}
-				else if(Integer.parseInt(SoundSpeedField.getText())!=SoundSpeed) {
-					SoundSpeed = Integer.parseInt(SoundSpeedField.getText());	
-					System.out.println("Ss:" + SoundSpeed);
-					pAnimation.setSoundSpeed(SoundSpeed);
+				else if(Integer.parseInt(soundSpeedField.getText())!=soundSpeed) {
+					soundSpeed = Integer.parseInt(soundSpeedField.getText());	
+					System.out.println("Ss:" + soundSpeed);
+					pAnimation.setSoundSpeed(soundSpeed);
 				}
-				else if(Integer.parseInt(Observer1SliderField.getText())!=Observer1V) {
-					Observer1V = Integer.parseInt(Observer1SliderField.getText());
-					Observer1Slider.setValue(Integer.parseInt(Observer1SliderField.getText()));
-					System.out.println("O1V:" + Observer1V);
+				else if(Integer.parseInt(observer1SliderField.getText())!=observer1V) {
+					observer1V = Integer.parseInt(observer1SliderField.getText());
+					observer1Slider.setValue(Integer.parseInt(observer1SliderField.getText()));
+					System.out.println("O1V:" + observer1V);
 				}
-				else if(Integer.parseInt(Observer2SliderField.getText())!=Observer2V) {
-					Observer2V = Integer.parseInt(Observer2SliderField.getText());
-					Observer2Slider.setValue(Integer.parseInt(Observer2SliderField.getText()));
-					System.out.println("O2V:" + Observer2V);
+				else if(Integer.parseInt(observer2SliderField.getText())!=observer2V) {
+					observer2V = Integer.parseInt(observer2SliderField.getText());
+					observer2Slider.setValue(Integer.parseInt(observer2SliderField.getText()));
+					System.out.println("O2V:" + observer2V);
 				}
-				else if(Integer.parseInt(SourceSliderField.getText())!=SourceV) {
-					SourceV = Integer.parseInt(SourceSliderField.getText());
-					SourceSlider.setValue(Integer.parseInt(SourceSliderField.getText()));
-					System.out.println("SV:" + SourceV);
+				else if(Integer.parseInt(sourceSliderField.getText())!=sourceV) {
+					sourceV = Integer.parseInt(sourceSliderField.getText());
+					sourceSlider.setValue(Integer.parseInt(sourceSliderField.getText()));
+					System.out.println("SV:" + sourceV);
 				}
 			}
 			catch(EmptyTextFieldException e) {
@@ -476,17 +483,38 @@ pChartSource.add(wykres);*/
 		}
 		catch(Exception e) {
 			System.err.println("Blad key listener!");
-		}
-		pAnimation.repaint();
+		}		
 		//USTAWIA WSZYSTKIE PARAMETRY OBIEKTOW NA ANIMACJI
 		setAnimationParameters();
+		pAnimation.repaint();
 }
 
 
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
+<<<<<<< HEAD
 		if ((action.equals("run"))&&pAnimation.isRunning==false) {
 			pAnimation.mainAnimator.execute();
+=======
+		if ((action.equals("run"))&&isRunning==false) {
+			pAnimation.mainAnimator.execute();	
+			try {
+				pChartSource.worker.execute();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			//STARE
+			/*try {//dzieki temu mozna na nowo puscic animacje jak sie skonczy
+				pChartSource.setIsRunning(true);//wazne - ustawia pole w klasie do wykresu zrodla
+				exec.execute(pAnimation);
+				exec.shutdown();
+				exec = Executors.newSingleThreadExecutor();
+				
+			}catch(RejectedExecutionException e) {
+				
+				e.printStackTrace();
+			}*/			
+>>>>>>> branch 'master' of https://github.com/maciejno/doppler-effect-simulator-pojava2018.git
 		}
 
 			
@@ -495,22 +523,22 @@ pChartSource.add(wykres);*/
 	public void keyPressed(KeyEvent arg0) {	}
 	public void keyTyped(KeyEvent arg0) {}
 
-	public void setObserver1XField(Double val) {Observer1XField.setText(val.toString());}
+	public void setObserver1XField(Double val) {observer1XField.setText(val.toString());}
 
 	public void setNewMainAnimationThread() {exec = Executors.newSingleThreadExecutor();}
 	
 	public void setAnimationParameters() { //ustawia parametry animacji
-		pAnimation.observer1.setX(Observer1X); 
-		pAnimation.observer1.setY(Observer1Y);
-		pAnimation.observer1.setVx(Observer1V);
-		pAnimation.observer2.setX(Observer2X); 
-		pAnimation.observer2.setY(Observer2Y);
-		pAnimation.observer2.setVy(Observer2V);
-		pAnimation.source.setX(SourceX);
-		pAnimation.source.setY(SourceY);
-		pAnimation.source.setVx(SourceV);
-		pAnimation.setSoundSpeed(SoundSpeed);
-		pAnimation.setFrequency(SoundFreq);
+		pAnimation.observer1.setX(observer1X); 
+		pAnimation.observer1.setY(observer1Y);
+		pAnimation.observer1.setVx(observer1V);
+		pAnimation.observer2.setX(observer2X); 
+		pAnimation.observer2.setY(observer2Y);
+		pAnimation.observer2.setVy(observer2V);
+		pAnimation.source.setX(sourceX);
+		pAnimation.source.setY(sourceY);
+		pAnimation.source.setVx(sourceV);
+		pAnimation.setSoundSpeed(soundSpeed);
+		pAnimation.setFrequency(soundFreq);
 	}
 
 }
