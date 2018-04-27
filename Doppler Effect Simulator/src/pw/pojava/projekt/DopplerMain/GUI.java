@@ -490,12 +490,14 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
 
-		if ((action.equals("run"))&&isRunning==false) {						
+		if ((action.equals("run"))&&isRunning==false) {		
+			pAnimation.newWorker();
 			pChartSource.newWorker();
 			pChartObserver1.newWorker();
 			isRunning = true;			
 			try {
-				exec = Executors.newFixedThreadPool(2);
+				exec = Executors.newFixedThreadPool(3);
+				exec.execute(pAnimation.worker);
 				exec.execute(pChartSource.worker);
 				exec.execute(pChartObserver1.worker);
 				exec.shutdown();
@@ -503,7 +505,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				e.printStackTrace();
 			}
 			
-			pAnimation.mainAnimator.execute();	
+			//pAnimation.mainAnimator.execute();	stare
 			//STARE
 			/*try {//dzieki temu mozna na nowo puscic animacje jak sie skonczy
 				exec.execute(pAnimation);

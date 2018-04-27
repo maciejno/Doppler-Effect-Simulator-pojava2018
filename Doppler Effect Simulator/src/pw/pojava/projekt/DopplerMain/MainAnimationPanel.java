@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
+import pw.pojava.projekt.DopplerMain.Observer1AnimationPanel.ObserverSwingWorker;
+
 
 public class MainAnimationPanel extends JPanel {
 
@@ -21,6 +23,7 @@ public class MainAnimationPanel extends JPanel {
 	double soundFreq;
 	Graphics gg;
 	GUI superior; //referencja do klasy w ktorej siedzi
+	mainAnimationWorker worker;	
 	
 	Dimension preferredSize = new Dimension(530,400);
 	
@@ -28,6 +31,7 @@ public class MainAnimationPanel extends JPanel {
 		this.setBackground(new Color(200,255,255));
 		this.setSize(preferredSize);	
 		this.superior = superior;
+		worker = new mainAnimationWorker();
 		
 		//tworzy obiekty na animacjê
 		observer1 = new AnimationObject();
@@ -56,7 +60,7 @@ public class MainAnimationPanel extends JPanel {
     
     synchronized MainAnimationPanel takeThisPanel() {return this;} //metoda, ktora zwraca ten panel  
     
-    SwingWorker<Void, MainAnimationPanel> mainAnimator = new SwingWorker<Void, MainAnimationPanel>() {   	
+    class mainAnimationWorker extends SwingWorker<Void, MainAnimationPanel> {   	
     	
     	protected void process(List<MainAnimationPanel> thisPanel) {
     		for(JPanel pn : thisPanel)
@@ -70,7 +74,7 @@ public class MainAnimationPanel extends JPanel {
 			superior.isRunning=true;
 			
 			synchronized (crests) { while(true) {
-				if(((quasiTime/1000)%period==0)) { // tworzy grzbiet
+				if(((quasiTime/10000)%period==0)) { // tworzy grzbiet
 					WaveCrest crN = new WaveCrest();
 					crN.setV(soundSpeed);
 					crN.setX(source.getX());
@@ -124,6 +128,10 @@ public class MainAnimationPanel extends JPanel {
 			return null;
 		}
 	};
+	
+	public void newWorker() {//metoda do tworzenia nowego swing workera
+		worker = new mainAnimationWorker();		
+	}
     
     /*METODA RUN
 	@Override
