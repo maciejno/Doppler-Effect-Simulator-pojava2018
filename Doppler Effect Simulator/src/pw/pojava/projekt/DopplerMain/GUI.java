@@ -63,8 +63,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	
 	MainAnimationPanel pAnimation;
 	SourceAnimationPanel pChartSource;
-	ObserverAnimationPanel pChartObserver1;
-	ObserverAnimationPanel pChartObserver2;
+	Observer1AnimationPanel pChartObserver1;
+	Observer2AnimationPanel pChartObserver2;
 	
 	JButton switchPolishButton, switchEnglishButton; //przyciski do zmiany jezyka
 	JButton startButton, saveButton; //przyciski ktore maja moc sprawcza :D
@@ -93,39 +93,34 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	JFreeChart [] fchart = new JFreeChart [3];//tablica wykresow
 	protected XYSeriesCollection observer1Collection, observer2Collection, sourceCollection;//kolekcje na dane do wykresow
 	protected XYSeries dataSet1, dataSet2, dataSet3;
-	protected XYDataset sourceDataset;
+	protected XYDataset observer1Dataset, observer2Dataset, sourceDataset;
 	
 	public GUI() {
 		
-//MOZLIWE ZE TO POWINNO BYC NIE TU, TYLKO W TYCH KLASACH, ALE POZNIEJ O TYM POMYSLE
-observer1Collection = new XYSeriesCollection();  
-observer2Collection = new XYSeriesCollection(); 
- 
-
-
-XYSeries dataSet1= new XYSeries("Sinus");
-for (double i=0; i <10; i+=0.05) dataSet1.add(i,Math.sin(i)); 
-observer1Collection.addSeries(dataSet1);
-XYSeries dataSet2= new XYSeries("Cosinus");
-for (double i=0; i <26; i+=0.05) dataSet2.add(i,0.5*Math.cos(i/2)); 
-observer2Collection.addSeries(dataSet2);
-
-sourceCollection = new XYSeriesCollection();
-sourceDataset = sourceCollection;
-fchart[2] = ChartFactory.createXYLineChart (null, null, null ,sourceDataset, PlotOrientation.VERTICAL, false, false,false);
-
-
-fchart[0] = ChartFactory.createXYLineChart (null, null, null ,observer1Collection, PlotOrientation.VERTICAL, false, false,false);
-fchart[1] = ChartFactory.createXYLineChart (null, null, null ,observer2Collection, PlotOrientation.VERTICAL, false, false,false);
-
+		//Tworzenie wykresow
+		sourceCollection = new XYSeriesCollection();
+		sourceDataset = sourceCollection;
+		fchart[0] = ChartFactory.createXYLineChart (null, null, null ,sourceDataset, PlotOrientation.VERTICAL, true, false,false);
+		
+		observer1Collection = new XYSeriesCollection();
+		observer1Dataset = observer1Collection;
+		fchart[1] = ChartFactory.createXYLineChart (null, null, null ,observer1Dataset, PlotOrientation.VERTICAL, true, false,false);
+		
+		observer2Collection = new XYSeriesCollection();
+		observer2Dataset = observer2Collection;
+		fchart[2] = ChartFactory.createXYLineChart (null, null, null ,observer2Dataset, PlotOrientation.VERTICAL, true, false,false);
+		
+		for(int i = 0;i<3;i++) {//ustawia zakres osi y wykresow
+			fchart[i].getXYPlot().getRangeAxis().setRange(-1.1, 1.1);
+		}
 		//tworzy panele
 		pWest = new JPanel();
 		pEast = new JPanel();
 		pAnimation = new MainAnimationPanel(this);
 		pChart = new JPanel();
 		pChartSource = new SourceAnimationPanel(this); 
-		pChartObserver1 = new ObserverAnimationPanel(fchart[1],observer1Collection, dataSet1);
-		pChartObserver2 = new ObserverAnimationPanel(fchart[2],observer2Collection, dataSet2);
+		pChartObserver1 = new Observer1AnimationPanel(this);
+		pChartObserver2 = new Observer2AnimationPanel(this);
 		pLanguage = new JPanel();
 		pOptions = new JPanel();
 		pControl = new JPanel();
@@ -266,12 +261,6 @@ fchart[1] = ChartFactory.createXYLineChart (null, null, null ,observer2Collectio
 		pEast.add(BorderLayout.NORTH, pLanguage);
 		pEast.add(BorderLayout.CENTER, pOptions);
 		pEast.add(BorderLayout.SOUTH, pControl);
-		
-/*xySeriesCollection = new XYSeriesCollection();  
-JFreeChart lineGraph = ChartFactory.createXYLineChart (null, null, null ,xySeriesCollection, PlotOrientation.VERTICAL, false, false,false);
-ChartPanel wykres = new ChartPanel(lineGraph);
-pChartSource.setLayout(new GridLayout(1,1));
-pChartSource.add(wykres);*/
 								
 		//dodaje i ustawia panele z wykresami do panelu pChart
 		pChart.add(pChartSource);
@@ -282,7 +271,7 @@ pChartSource.add(wykres);*/
 		pLanguage.add(switchPolishButton);
 		pLanguage.add(switchEnglishButton);
 		
-			//3 panele do pOptions, do kazdego z tych paneli 3 panele, a do nich komponenty			
+		//3 panele do pOptions, do kazdego z tych paneli 3 panele, a do nich komponenty			
 		pOptions.add(pObserver1);
 		pOptions.add(pObserver2);
 		pOptions.add(pSource);
@@ -502,13 +491,28 @@ pChartSource.add(wykres);*/
 		String action = ae.getActionCommand();
 
 		if ((action.equals("run"))&&isRunning==false) {						
+<<<<<<< HEAD
 			pChartSource.newWorker();		
+=======
+			pChartSource.newWorker();
+			pChartObserver1.newWorker();
+			isRunning = true;			
+>>>>>>> refs/remotes/origin/master
 			try {
+<<<<<<< HEAD
 				
 				exec = Executors.newSingleThreadExecutor();
 				pAnimation.mainAnimator.execute();	
+=======
+				exec = Executors.newFixedThreadPool(2);
+>>>>>>> refs/remotes/origin/master
 				exec.execute(pChartSource.worker);
+<<<<<<< HEAD
 				//exec.shutdown();
+=======
+				exec.execute(pChartObserver1.worker);
+				exec.shutdown();
+>>>>>>> refs/remotes/origin/master
 			}catch(RejectedExecutionException e) {
 				e.printStackTrace();
 			}

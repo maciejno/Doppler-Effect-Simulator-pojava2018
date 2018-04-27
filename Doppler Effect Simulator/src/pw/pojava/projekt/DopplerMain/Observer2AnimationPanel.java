@@ -1,14 +1,21 @@
 package pw.pojava.projekt.DopplerMain;
 
-import org.jfree.chart.JFreeChart;
+import org.jfree.chart.ChartPanel;
 import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 
-public class Observer2AnimationPanel extends ObserverAnimationPanel {
+public class Observer2AnimationPanel extends ChartPanel {
 
 	private static final long serialVersionUID = 1L;
-
-	public Observer2AnimationPanel(JFreeChart chart, XYSeriesCollection collection, XYSeries series) {
-		super(chart,collection,series);
+	XYSeries xySeries;									
+	//SourceSwingWorker worker;	
+	Double x,y;	
+	GUI superior;//referencja do GUI
+	
+	public Observer2AnimationPanel(GUI superior) {
+		super(superior.fchart[2]);
+		xySeries = new XYSeries("Observer 2 signal");
+		superior.observer2Collection.addSeries(xySeries);
+		this.superior = superior;
+		//worker = new SourceSwingWorker();
 	}
 }
