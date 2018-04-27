@@ -491,28 +491,25 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		String action = ae.getActionCommand();
 
 		if ((action.equals("run"))&&isRunning==false) {						
-<<<<<<< HEAD
+
 			pChartSource.newWorker();		
-=======
+
 			pChartSource.newWorker();
 			pChartObserver1.newWorker();
 			isRunning = true;			
->>>>>>> refs/remotes/origin/master
+
 			try {
-<<<<<<< HEAD
-				
 				exec = Executors.newSingleThreadExecutor();
-				pAnimation.mainAnimator.execute();	
-=======
+				
+
 				exec = Executors.newFixedThreadPool(2);
->>>>>>> refs/remotes/origin/master
+				exec.execute(pAnimation.mainAnimator);
 				exec.execute(pChartSource.worker);
-<<<<<<< HEAD
-				//exec.shutdown();
-=======
+				exec.shutdown();
+
 				exec.execute(pChartObserver1.worker);
 				exec.shutdown();
->>>>>>> refs/remotes/origin/master
+
 			}catch(RejectedExecutionException e) {
 				e.printStackTrace();
 			}
