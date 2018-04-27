@@ -490,46 +490,28 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
 
-<<<<<<< HEAD
 		if ((action.equals("run"))&&isRunning==false) {		
 			pAnimation.newWorker();
-=======
-		if ((action.equals("run"))&&isRunning==false) {						
-
-			pChartSource.newWorker();		
-
->>>>>>> refs/remotes/origin/master
 			pChartSource.newWorker();
 			pChartObserver1.newWorker();
 			isRunning = true;			
 
 			try {
-<<<<<<< HEAD
-				exec = Executors.newFixedThreadPool(3);
-				exec.execute(pAnimation.worker);
-				exec.execute(pChartSource.worker);
-=======
 				exec = Executors.newSingleThreadExecutor();
 				
 
 				exec = Executors.newFixedThreadPool(2);
-				exec.execute(pAnimation.mainAnimator);
+				exec.execute(pChartObserver1.worker);
+				exec.execute(pAnimation.worker);
 				exec.execute(pChartSource.worker);
 				exec.shutdown();
 
->>>>>>> refs/remotes/origin/master
-				exec.execute(pChartObserver1.worker);
-				exec.shutdown();
 
 			}catch(RejectedExecutionException e) {
 				e.printStackTrace();
 			}
 			
-<<<<<<< HEAD
-			//pAnimation.mainAnimator.execute();	stare
-=======
-			
->>>>>>> refs/remotes/origin/master
+
 			//STARE
 			/*try {//dzieki temu mozna na nowo puscic animacje jak sie skonczy
 				exec.execute(pAnimation);
@@ -542,12 +524,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			}*/			
 
 		}
-		
-		if ((action.equals("run"))&&isRunning==true)
-		{
-			pAnimation.mainAnimator.cancel(true);
-		}
-
 			
 	}
 	
