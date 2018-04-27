@@ -64,10 +64,10 @@ public class MainAnimationPanel extends JPanel {
     	}
 		
 		@Override
-		protected Void doInBackground() throws Exception {						
+		protected Void doInBackground() throws Exception {
+			superior.isRunning=true;
 			double quasiTime=0; //licznik mierzacy czas
 			double period=1/soundFreq;
-			superior.isRunning=true;
 			
 			synchronized (crests) { while(true) {
 				if(((quasiTime/1000)%period==0)) { // tworzy grzbiet

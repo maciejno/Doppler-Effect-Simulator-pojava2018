@@ -55,7 +55,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			
 	boolean observer1State = true;
 	boolean observer2State = false;
-	boolean isRunning = false;
+	boolean isRunning=false;
 	
 	//panels in main panel
 	JPanel pWest, pEast, pChart, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
@@ -502,17 +502,18 @@ pChartSource.add(wykres);*/
 		String action = ae.getActionCommand();
 
 		if ((action.equals("run"))&&isRunning==false) {						
-			pChartSource.newWorker();
-			isRunning = true;			
+			pChartSource.newWorker();		
 			try {
+				
 				exec = Executors.newSingleThreadExecutor();
+				pAnimation.mainAnimator.execute();	
 				exec.execute(pChartSource.worker);
-				exec.shutdown();
+				//exec.shutdown();
 			}catch(RejectedExecutionException e) {
 				e.printStackTrace();
 			}
 			
-			pAnimation.mainAnimator.execute();	
+			
 			//STARE
 			/*try {//dzieki temu mozna na nowo puscic animacje jak sie skonczy
 				exec.execute(pAnimation);
@@ -524,6 +525,11 @@ pChartSource.add(wykres);*/
 				e.printStackTrace();
 			}*/			
 
+		}
+		
+		if ((action.equals("run"))&&isRunning==true)
+		{
+			pAnimation.mainAnimator.cancel(true);
 		}
 
 			
