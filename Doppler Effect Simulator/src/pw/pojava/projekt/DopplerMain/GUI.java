@@ -63,8 +63,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	
 	MainAnimationPanel pAnimation;
 	SourceAnimationPanel pChartSource;
-	ObserverAnimationPanel pChartObserver1;
-	ObserverAnimationPanel pChartObserver2;
+	Observer1AnimationPanel pChartObserver1;
+	Observer2AnimationPanel pChartObserver2;
 	
 	JButton switchPolishButton, switchEnglishButton; //przyciski do zmiany jezyka
 	JButton startButton, saveButton; //przyciski ktore maja moc sprawcza :D
@@ -100,15 +100,15 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		//Tworzenie wykresow
 		sourceCollection = new XYSeriesCollection();
 		sourceDataset = sourceCollection;
-		fchart[0] = ChartFactory.createXYLineChart (null, null, null ,sourceDataset, PlotOrientation.VERTICAL, false, false,false);
+		fchart[0] = ChartFactory.createXYLineChart (null, null, null ,sourceDataset, PlotOrientation.VERTICAL, true, false,false);
 		
 		observer1Collection = new XYSeriesCollection();
 		observer1Dataset = observer1Collection;
-		fchart[1] = ChartFactory.createXYLineChart (null, null, null ,observer1Dataset, PlotOrientation.VERTICAL, false, false,false);
+		fchart[1] = ChartFactory.createXYLineChart (null, null, null ,observer1Dataset, PlotOrientation.VERTICAL, true, false,false);
 		
 		observer2Collection = new XYSeriesCollection();
 		observer2Dataset = observer2Collection;
-		fchart[2] = ChartFactory.createXYLineChart (null, null, null ,observer2Dataset, PlotOrientation.VERTICAL, false, false,false);
+		fchart[2] = ChartFactory.createXYLineChart (null, null, null ,observer2Dataset, PlotOrientation.VERTICAL, true, false,false);
 		
 		for(int i = 0;i<3;i++) {//ustawia zakres osi y wykresow
 			fchart[i].getXYPlot().getRangeAxis().setRange(-1.1, 1.1);
@@ -119,8 +119,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pAnimation = new MainAnimationPanel(this);
 		pChart = new JPanel();
 		pChartSource = new SourceAnimationPanel(this); 
-		pChartObserver1 = new ObserverAnimationPanel(fchart[1],observer1Collection, dataSet1);
-		pChartObserver2 = new ObserverAnimationPanel(fchart[2],observer2Collection, dataSet2);
+		pChartObserver1 = new Observer1AnimationPanel(this);
+		pChartObserver2 = new Observer2AnimationPanel(this);
 		pLanguage = new JPanel();
 		pOptions = new JPanel();
 		pControl = new JPanel();
@@ -492,10 +492,12 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 
 		if ((action.equals("run"))&&isRunning==false) {						
 			pChartSource.newWorker();
+			pChartObserver1.newWorker();
 			isRunning = true;			
 			try {
-				exec = Executors.newSingleThreadExecutor();
+				exec = Executors.newFixedThreadPool(2);
 				exec.execute(pChartSource.worker);
+				exec.execute(pChartObserver1.worker);
 				exec.shutdown();
 			}catch(RejectedExecutionException e) {
 				e.printStackTrace();
