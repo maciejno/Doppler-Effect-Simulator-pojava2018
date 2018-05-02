@@ -38,7 +38,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	private static final long serialVersionUID = 1L;
 
 	//SERWIS EGZEKUCYJNY DLA WATKU ANIMACJI
-	ExecutorService exec = Executors.newSingleThreadExecutor();
+	ExecutorService exec;
 	
 	//zmienne przechowuj¹ce nastawy komponentów
 	int observer1X = 30; 
@@ -497,10 +497,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			isRunning = true;			
 
 			try {
-				exec = Executors.newSingleThreadExecutor();
-				
-
-				exec = Executors.newFixedThreadPool(2);
+				//exec = Executors.newSingleThreadExecutor();				
+				exec = Executors.newFixedThreadPool(3);
 				exec.execute(pChartObserver1.worker);
 				exec.execute(pAnimation.worker);
 				exec.execute(pChartSource.worker);
