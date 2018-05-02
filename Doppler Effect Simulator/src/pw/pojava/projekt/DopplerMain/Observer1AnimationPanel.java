@@ -16,6 +16,7 @@ public class Observer1AnimationPanel extends ChartPanel{
 	ObserverSwingWorker worker;	
 	Double x,y,f;	
 	GUI superior;//referencja do GUI
+	double pi = Math.PI;
 	
 	public Observer1AnimationPanel(GUI superior) {
 		super(superior.fchart[1]);
@@ -27,7 +28,6 @@ public class Observer1AnimationPanel extends ChartPanel{
 	
 	class ObserverSwingWorker extends SwingWorker<Void,XYDataItem>{
 			
-			double pi = Math.PI;
 			double time =0;//aktualna chwila czasu
 			int sleep = 1;//ms ile spi
 			int maxCount = 3000;//maksymalna liczba punktow na wykresie * freq
@@ -52,8 +52,12 @@ public class Observer1AnimationPanel extends ChartPanel{
 			protected Void doInBackground() throws Exception {//oblicza wartosi sinusa, czas w ms i przesyla do process 
 				//timeDelay = 	
 				while(superior.isRunning) {						
-					if(time>=timeDelay) {	
-						f = new Double(superior.soundFreq * ( (superior.soundSpeed + getVObserver() ) / (superior.soundSpeed - getVSource() ) ));
+					if(time >= timeDelay) {	
+						if(superior.pAnimation.observer1.getX() < superior.pAnimation.source.getX()) {
+							f = new Double(superior.soundFreq * ( (superior.soundSpeed + getVObserver() ) / (superior.soundSpeed + getVSource() ) ));
+						}else {
+							f = new Double(superior.soundFreq * ( (superior.soundSpeed - getVObserver() ) / (superior.soundSpeed - getVSource() ) ));
+						}
 						x = new Double(time);
 						y = new Double(Math.sin(2*pi*(f/100)*time/1000));
 						XYDataItem dataItem = new XYDataItem(x, y);
@@ -78,28 +82,28 @@ public class Observer1AnimationPanel extends ChartPanel{
 		//obie ponizsze metody uwzgledniaja wzgledne polozenie obserwatora i zrodla
 		public double getVObserver() {//zwraca skladowa predkosci obserwatora wzdluz linii laczacej go ze zrodlem
 			double vObserver = superior.pAnimation.observer1.getVx()*Math.cos(getPhiObserver()) + superior.pAnimation.observer1.getVy()*Math.sin(getPhiObserver());			
-			//if(superior.pAnimation.observer1.getX()>superior.pAnimation.source.getX()) {
-			//	vObserver = -vObserver;
-			//}
 			return vObserver;		
 		}
 		public double getVSource() {//zwraca skladowa predkosci zrodla wzdluz linii laczacej je z obserwatorem
 			double vSource = superior.pAnimation.source.getVx()*Math.cos(getPhiSource()) + superior.pAnimation.source.getVy()*Math.sin(getPhiSource());			
-			//if(superior.pAnimation.observer1.getX()>superior.pAnimation.source.getX()) {
-			//	vSource = -vSource;
-			//}
 			return vSource;			
 		}
 		//katy jak w specyfikacji we wzorze
 		public double getPhiObserver() {
 			//phi = arctg((ys-yo)/(xs-xo))
-			
 			double phiObserver = Math.atan((superior.pAnimation.source.getY() - superior.pAnimation.observer1.getY()) / (superior.pAnimation.source.getX() - superior.pAnimation.observer1.getX()));
-			return phiObserver;
+			
+			if(superior.pAnimation.observer1.getY() < superior.pAnimation.source.getY())return module(phiObserver);
+			else return (2*pi-module(phiObserver));
 		}
 		public double getPhiSource() {
 			//phi = arctg((yo-ys)/(xo-xs))
-			double phiSource = Math.atan((superior.pAnimation.observer1.getY() - superior.pAnimation.source.getY()) / (superior.pAnimation.observer1.getX() - superior.pAnimation.source.getX()));
-			return phiSource;
+			double phiSource = Math.atan((superior.pAnimation.source.getY() - superior.pAnimation.observer1.getY()) / (superior.pAnimation.source.getX() - superior.pAnimation.observer1.getX()));
+			if(superior.pAnimation.observer1.getY() < superior.pAnimation.source.getY())return module(phiSource);
+			else return (2*pi-module(phiSource));
+		}
+		public double module(double m) {
+			if(m >= 0) return m;
+			else return (-m);
 		}
 }
