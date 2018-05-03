@@ -31,7 +31,7 @@ public class Observer1AnimationPanel extends ChartPanel{
 			double time =0;//aktualna chwila czasu
 			int sleep = 1;//ms ile spi
 			int maxCount = 3000;//maksymalna liczba punktow na wykresie * freq
-			double timeDelay = 0; //czas zanim fala dotrze do obserwatora
+			double timeDelay = 0.0; //czas zanim fala dotrze do obserwatora
 			
 			ObserverSwingWorker(){
 				xySeries.clear(); //usuwa wszystkie dane z serii
@@ -52,7 +52,7 @@ public class Observer1AnimationPanel extends ChartPanel{
 			protected Void doInBackground() throws Exception {//oblicza wartosi sinusa, czas w ms i przesyla do process 
 				//timeDelay = 	
 				while(superior.isRunning) {						
-					if(time >= timeDelay) {	
+					if(time >= timeDelay) {	//jesli juz fala dotarla
 						if(superior.pAnimation.observer1.getX() < superior.pAnimation.source.getX()) {
 							f = new Double(superior.soundFreq * ( (superior.soundSpeed + getVObserver() ) / (superior.soundSpeed + getVSource() ) ));
 						}else {
@@ -64,8 +64,11 @@ public class Observer1AnimationPanel extends ChartPanel{
 						publish(dataItem);
 						time+=sleep;
 						Thread.sleep(sleep);
-					}else {
-						
+					}else {//jesli jeszcze fala nie dotarla
+						XYDataItem dataItem = new XYDataItem(time, 0.0);
+						publish(dataItem);
+						time+=sleep;
+						Thread.sleep(sleep);
 					}
 				}
 				return null;
@@ -89,20 +92,20 @@ public class Observer1AnimationPanel extends ChartPanel{
 			return vSource;			
 		}
 		//katy jak w specyfikacji we wzorze
-		public double getPhiObserver() {
-			//phi = arctg((ys-yo)/(xs-xo))
+		public double getPhiObserver() {//zwraca kat miedzy wektorem predkosci obserwatora a linia laczaca zrodlo z obserwatorem
+			//phi = arctg((ys-yo)/(xs-xo)) - tak to liczy
 			double phiObserver = Math.atan((superior.pAnimation.source.getY() - superior.pAnimation.observer1.getY()) / (superior.pAnimation.source.getX() - superior.pAnimation.observer1.getX()));
 			
 			if(superior.pAnimation.observer1.getY() < superior.pAnimation.source.getY())return module(phiObserver);
 			else return (2*pi-module(phiObserver));
 		}
-		public double getPhiSource() {
-			//phi = arctg((yo-ys)/(xo-xs))
+		public double getPhiSource() {//zwraca kat miedzy wektorem predkosci zrodla a linia laczaca zrodlo z obserwatorem
+			//phi = arctg((ys-yo)/(xs-xo)) - tak to liczy
 			double phiSource = Math.atan((superior.pAnimation.source.getY() - superior.pAnimation.observer1.getY()) / (superior.pAnimation.source.getX() - superior.pAnimation.observer1.getX()));
 			if(superior.pAnimation.observer1.getY() < superior.pAnimation.source.getY())return module(phiSource);
 			else return (2*pi-module(phiSource));
 		}
-		public double module(double m) {
+		public double module(double m) {//zwraca modul liczby
 			if(m >= 0) return m;
 			else return (-m);
 		}

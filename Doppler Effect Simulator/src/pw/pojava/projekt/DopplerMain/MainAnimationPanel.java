@@ -71,10 +71,10 @@ public class MainAnimationPanel extends JPanel {
 		protected Void doInBackground() throws Exception {
 			superior.isRunning=true;
 			double quasiTime=0; //licznik mierzacy czas
-			double period=1/soundFreq;
+			double period=1000/(soundFreq/100);//przelicza czestotliwosc na 100 razy mniejsza zeby bylo lepiej widac
 			
 			synchronized (crests) { while(true) {
-				if(((quasiTime/10000)%period==0)) { // tworzy grzbiet
+				if(((quasiTime)%period==0)) { // tworzy grzbiet //ten warunek nie dziala poprawnie ponizej 100Hz, bo tam wchodza ulamki
 					WaveCrest crN = new WaveCrest();
 					crN.setV(soundSpeed);
 					crN.setX(source.getX());
@@ -114,14 +114,14 @@ public class MainAnimationPanel extends JPanel {
 					System.out.println("statement...");
 					break;
 				}
-			}}
-			crests.clear();//usuwa wszystkie grzbiety z listy
+			}}			
 			superior.isRunning=false;//koniec animacji
 			try {//usupia na pewien czas a potem czysci ekran
 				TimeUnit.MILLISECONDS.sleep(1500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			crests.clear();//usuwa wszystkie grzbiety z listy
 			superior.setAnimationParameters();
 			repaint();
 			System.out.println("End of animation");		
