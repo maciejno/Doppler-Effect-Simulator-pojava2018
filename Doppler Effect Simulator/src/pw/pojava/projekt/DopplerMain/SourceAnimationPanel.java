@@ -50,12 +50,16 @@ public class SourceAnimationPanel extends ChartPanel{
 		@Override
 		protected Void doInBackground() throws Exception {//oblicza wartosi sinusa, czas w ms i przesyla do process 
 				while(superior.isRunning) {
-					x = new Double(time);
-					y = new Double(Math.sin(2*pi*((double)superior.soundFreq/100)*time/1000));
-					XYDataItem dataItem = new XYDataItem(x, y);
-					publish(dataItem);
-					time+=sleep;
-					Thread.sleep(sleep);	
+					if(!superior.isPaused){ //pauzowanie
+						x = new Double(time);
+						y = new Double(Math.sin(2*pi*((double)superior.soundFreq/100)*time/1000));
+						XYDataItem dataItem = new XYDataItem(x, y);
+						publish(dataItem);
+						time+=sleep;
+						Thread.sleep(sleep);
+					}else { //pauza
+						Thread.sleep(1);
+					}
 				}
 			return null;
 		}

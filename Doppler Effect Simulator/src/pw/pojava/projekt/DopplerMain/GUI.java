@@ -56,6 +56,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	boolean observer1State = true;
 	boolean observer2State = false;
 	boolean isRunning=false;
+	boolean isPaused=false;
 	
 	//panels in main panel
 	JPanel pWest, pEast, pChart, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
@@ -490,39 +491,40 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
 
-		if ((action.equals("run"))&&isRunning==false) {		
-			pAnimation.newWorker();
-			pChartSource.newWorker();
-			pChartObserver1.newWorker();
-			isRunning = true;			
-
-			try {
-				//exec = Executors.newSingleThreadExecutor();				
-				exec = Executors.newFixedThreadPool(3);
-				exec.execute(pChartObserver1.worker);
-				exec.execute(pAnimation.worker);
-				exec.execute(pChartSource.worker);
-				exec.shutdown();
-
-
-			}catch(RejectedExecutionException e) {
-				e.printStackTrace();
+		if (action.equals("run")) {
+			if(isRunning==false)
+			{
+				pAnimation.newWorker();
+				pChartSource.newWorker();
+				pChartObserver1.newWorker();
+				isRunning = true;
+				startButton.setText("STOP");
+			
+				try {
+					//exec = Executors.newSingleThreadExecutor();				
+					exec = Executors.newFixedThreadPool(3);
+					exec.execute(pChartObserver1.worker);
+					exec.execute(pAnimation.worker);
+					exec.execute(pChartSource.worker);
+					exec.shutdown();
+					
+				}catch(RejectedExecutionException e) {
+					e.printStackTrace();
+				}
+			}
+			else //instrukcje do pauzowania
+			{
+				if(isPaused==true){
+				isPaused=false;
+				startButton.setText("STOP");
+				}
+				else{
+					isPaused=true;
+					startButton.setText("START");
+				}
 			}
 			
-
-			//STARE
-			/*try {//dzieki temu mozna na nowo puscic animacje jak sie skonczy
-				exec.execute(pAnimation);
-				exec.shutdown();
-				exec = Executors.newSingleThreadExecutor();
-				
-			}catch(RejectedExecutionException e) {
-				
-				e.printStackTrace();
-			}*/			
-
 		}
-			
 	}
 	
 	public void keyPressed(KeyEvent arg0) {	}

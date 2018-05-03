@@ -51,25 +51,32 @@ public class Observer1AnimationPanel extends ChartPanel{
 			@Override
 			protected Void doInBackground() throws Exception {//oblicza wartosi sinusa, czas w ms i przesyla do process 
 				//timeDelay = 	
-				while(superior.isRunning) {						
-					if(time >= timeDelay) {	//jesli juz fala dotarla
+				while(superior.isRunning) {		
+					
+					if(!superior.isPaused){ //pauzowanie
+						if(time >= timeDelay) {	//jesli juz fala dotarla
 						if(superior.pAnimation.observer1.getX() < superior.pAnimation.source.getX()) {
 							f = new Double(superior.soundFreq * ( (superior.soundSpeed + getVObserver() ) / (superior.soundSpeed + getVSource() ) ));
-						}else {
-							f = new Double(superior.soundFreq * ( (superior.soundSpeed - getVObserver() ) / (superior.soundSpeed - getVSource() ) ));
+							}else {
+								f = new Double(superior.soundFreq * ( (superior.soundSpeed - getVObserver() ) / (superior.soundSpeed - getVSource() ) ));
+							}
+							x = new Double(time);
+							y = new Double(Math.sin(2*pi*(f/100)*time/1000));
+							XYDataItem dataItem = new XYDataItem(x, y);
+							publish(dataItem);
+							time+=sleep;
+							Thread.sleep(sleep);
+						}else {//jesli jeszcze fala nie dotarla
+							XYDataItem dataItem = new XYDataItem(time, 0.0);
+							publish(dataItem);
+							time+=sleep;
+							Thread.sleep(sleep);
 						}
-						x = new Double(time);
-						y = new Double(Math.sin(2*pi*(f/100)*time/1000));
-						XYDataItem dataItem = new XYDataItem(x, y);
-						publish(dataItem);
-						time+=sleep;
-						Thread.sleep(sleep);
-					}else {//jesli jeszcze fala nie dotarla
-						XYDataItem dataItem = new XYDataItem(time, 0.0);
-						publish(dataItem);
-						time+=sleep;
-						Thread.sleep(sleep);
+					
+					}else { //pauza
+						Thread.sleep(1);
 					}
+					
 				}
 				return null;
 			}

@@ -70,12 +70,16 @@ public class MainAnimationPanel extends JPanel {
 		@Override
 		protected Void doInBackground() throws Exception {
 			superior.isRunning=true;
-			double quasiTime=0; //licznik mierzacy czas
-			double period=1000/(soundFreq/100);//przelicza czestotliwosc na 100 razy mniejsza zeby bylo lepiej widac
+			int quasiTime=0; //licznik mierzacy czas
+			double period=(1000/(soundFreq/100));//przelicza czestotliwosc na 100 razy mniejsza zeby bylo lepiej widac
 			
 			synchronized (crests) { while(true) {
-				if(((quasiTime)%period==0)) { // tworzy grzbiet //ten warunek nie dziala poprawnie ponizej 100Hz, bo tam wchodza ulamki
-					WaveCrest crN = new WaveCrest();
+				
+				if(superior.isPaused==false) // warunek do pauzowania
+				{
+				System.out.println(quasiTime%period); // debugging, potem do usuniecia
+				if(quasiTime%period<1) { //dziala od ok. 30Hz, przy nizszych freq caly program sie zawiesza (?)
+					WaveCrest crN = new WaveCrest(); //dziala tez z freq, ktore nie sa wielokrotnosciami 10 - wczesniej nie dzialalo
 					crN.setV(soundSpeed);
 					crN.setX(source.getX());
 					crN.setY(source.getY());
@@ -102,7 +106,7 @@ public class MainAnimationPanel extends JPanel {
 				publish(takeThisPanel());
 				//usypia watek na chwile
 				try {
-					TimeUnit.MILLISECONDS.sleep(1);
+					TimeUnit.MILLISECONDS.sleep(timeQuantum);
 				}catch (InterruptedException e) {
 						e.printStackTrace();
 				}
@@ -114,6 +118,16 @@ public class MainAnimationPanel extends JPanel {
 					System.out.println("statement...");
 					break;
 				}
+				
+			}else //pauza
+			{
+				try {
+					TimeUnit.MILLISECONDS.sleep(1);
+				}catch (InterruptedException e) {
+						e.printStackTrace();
+				}
+			}
+				
 			}}			
 			superior.isRunning=false;//koniec animacji
 			try {//usupia na pewien czas a potem czysci ekran
@@ -124,7 +138,8 @@ public class MainAnimationPanel extends JPanel {
 			crests.clear();//usuwa wszystkie grzbiety z listy
 			superior.setAnimationParameters();
 			repaint();
-			System.out.println("End of animation");		
+			System.out.println("End of animation");
+			superior.startButton.setText("START");
 			return null;
 		}
 	};
