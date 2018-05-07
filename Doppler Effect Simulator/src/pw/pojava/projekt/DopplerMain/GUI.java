@@ -419,43 +419,100 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		return true;
 	}
 	
-	//listener do pol tekstowych
-	public void keyReleased(KeyEvent arg0) { //cos tu nie do konca dziala, bo musi byc cos wpisane w Ob1X zeby inne dzialaly
+	//listenery do pol tekstowych
+	public void keyReleased(KeyEvent arg0) {
 		try {//DEBUGGING - wypisuje do konsoli co sie wpisalo do zmiennej
-			//listenery do pol tekstowych
 			try {
 				if(Integer.parseInt(observer1XField.getText())!=observer1X) {
 					isTextFieldEmpty(observer1XField);
-					observer1X = Integer.parseInt(observer1XField.getText());	
+					observer1X = Integer.parseInt(observer1XField.getText());
+						if(observer1X>pAnimation.getWidth()) {
+							observer1X=pAnimation.getWidth();
+							observer1XField.setText(String.valueOf(observer1X));
+						}
+						if(observer1X<0) {
+							observer1X=0;
+							observer1XField.setText(String.valueOf(0));
+						}
 					System.out.println("O1x:" + observer1X);
 				}
 				else if(Integer.parseInt(observer1YField.getText())!=observer1Y) {
-					observer1Y = Integer.parseInt(observer1YField.getText());	
+					observer1Y = Integer.parseInt(observer1YField.getText());
+						if(observer1Y>pAnimation.getHeight()) {
+							observer1Y=pAnimation.getHeight();
+							observer1YField.setText(String.valueOf(observer1Y));
+						}
+						if(observer1Y<0) {
+							observer1Y=0;
+							observer1YField.setText(String.valueOf(0));
+						}
 					System.out.println("O1y:" + observer1Y);
 				}	
 				else if(Integer.parseInt(observer2XField.getText())!=observer2X) {
-					observer2X = Integer.parseInt(observer2XField.getText());	
+					observer2X = Integer.parseInt(observer2XField.getText());
+						if(observer2X>pAnimation.getWidth()) {
+							observer2X=pAnimation.getWidth();
+							observer2XField.setText(String.valueOf(observer2X));
+						}
+						if(observer2X<0) {
+							observer2X=0;
+							observer2XField.setText(String.valueOf(0));
+						}
 					System.out.println("O2x:" + observer2X);
 				}
 				else if(Integer.parseInt(observer2YField.getText())!=observer2Y) {
-					observer2Y = Integer.parseInt(observer2YField.getText());	
+					observer2Y = Integer.parseInt(observer2YField.getText());
+					if(observer2Y>pAnimation.getHeight()) {
+						observer2Y=pAnimation.getHeight();
+						observer2YField.setText(String.valueOf(observer2Y));
+					}
+					if(observer2Y<0) {
+						observer2Y=0;
+						observer2YField.setText(String.valueOf(0));
+					}
 					System.out.println("O2y:" + observer2Y);
 				}
 				else if(Integer.parseInt(sourceXField.getText())!=sourceX) {
-					sourceX = Integer.parseInt(sourceXField.getText());		
-					System.out.println("Sx:" + sourceX);
+					sourceX = Integer.parseInt(sourceXField.getText());
+					if(sourceX>pAnimation.getWidth()) {
+						sourceX=pAnimation.getWidth();
+						sourceXField.setText(String.valueOf(sourceX));
+					}
+					if(sourceX<0) {
+						sourceX=0;
+						sourceXField.setText(String.valueOf(0));
+					}
+				System.out.println("Sx:" + sourceX);
 				}
 				else if(Integer.parseInt(sourceYField.getText())!=sourceY) {
-					sourceY = Integer.parseInt(sourceYField.getText());	
+					sourceY = Integer.parseInt(sourceYField.getText());
+					if(sourceY>pAnimation.getHeight()) {
+						sourceY=pAnimation.getHeight();
+						sourceYField.setText(String.valueOf(sourceY));
+					}
+					if(sourceY<0) {
+						sourceY=0;
+						sourceYField.setText(String.valueOf(0));
+					}
 					System.out.println("Sy:" + sourceY);
 				}
 				else if(Integer.parseInt(sourceFreqField.getText())!=soundFreq) {
-					soundFreq = Integer.parseInt(sourceFreqField.getText());	
+					soundFreq = Integer.parseInt(sourceFreqField.getText());
+						if(soundFreq<=50) {
+							soundFreq=50;}
+						if(soundFreq>10000) {
+							soundFreq=10000;}
+						sourceFreqField.setText(String.valueOf(soundFreq));
 					System.out.println("Sf:" + soundFreq);
 					pAnimation.setFrequency(soundFreq);
 				}
 				else if(Integer.parseInt(soundSpeedField.getText())!=soundSpeed) {
-					soundSpeed = Integer.parseInt(soundSpeedField.getText());	
+					soundSpeed = Integer.parseInt(soundSpeedField.getText());
+						if(soundSpeed<=0) {
+							soundSpeed=340;}
+						if(soundSpeed>300000000) {
+							soundSpeed=300000000;}
+						soundSpeedField.setText(String.valueOf(soundSpeed));
 					System.out.println("Ss:" + soundSpeed);
 					pAnimation.setSoundSpeed(soundSpeed);
 				}
