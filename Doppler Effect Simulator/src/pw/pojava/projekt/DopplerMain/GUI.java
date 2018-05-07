@@ -502,7 +502,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 							soundFreq=50;}
 						if(soundFreq>10000) {
 							soundFreq=10000;}
-						sourceFreqField.setText(String.valueOf(soundFreq));
+						//sourceFreqField.setText(String.valueOf(soundFreq));
 					System.out.println("Sf:" + soundFreq);
 					pAnimation.setFrequency(soundFreq);
 				}
@@ -512,7 +512,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 							soundSpeed=340;}
 						if(soundSpeed>300000000) {
 							soundSpeed=300000000;}
-						soundSpeedField.setText(String.valueOf(soundSpeed));
+						//soundSpeedField.setText(String.valueOf(soundSpeed));
 					System.out.println("Ss:" + soundSpeed);
 					pAnimation.setSoundSpeed(soundSpeed);
 				}
@@ -547,7 +547,9 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 
 	public void actionPerformed(ActionEvent ae) {
 		String action = ae.getActionCommand();
-
+		
+		sourceFreqField.setText(String.valueOf(soundFreq));
+		soundSpeedField.setText(String.valueOf(soundSpeed));
 		if (action.equals("run")) {
 			if(isRunning==false)
 			{
