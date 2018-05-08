@@ -74,10 +74,10 @@ public class Observer1AnimationPanel extends ChartPanel{
 					
 					if(!gui.isPaused){ //pauzowanie  && (time <= timeRunaway)
 						if((time >= timeDelay)  ) {	//jesli juz fala dotarla i obserwator jej nie uciekl
-						if(gui.pAnimation.observer1.getX() < gui.pAnimation.source.getX()) {
-							f = new Double(gui.soundFreq * ( (gui.soundSpeed + getVObserver() ) / (gui.soundSpeed + getVSource() ) ));
+							if(gui.pAnimation.observer1.getX() < gui.pAnimation.source.getX()) {
+								f = new Double(gui.soundFreq * ( (gui.soundSpeed + getVObserver() ) / (gui.soundSpeed + getVSource() ) ));
 							}else {
-								f = new Double(gui.soundFreq * ( (gui.soundSpeed - getVObserver() ) / (gui.soundSpeed - getVSource() ) ));
+									f = new Double(gui.soundFreq * ( (gui.soundSpeed - getVObserver() ) / (gui.soundSpeed - getVSource() ) ));
 							}
 							x = new Double(time);
 							y = new Double(Math.sin(2*pi*(f/100)*time/1000));
@@ -90,12 +90,10 @@ public class Observer1AnimationPanel extends ChartPanel{
 							publish(dataItem);
 							time+=sleep;
 							Thread.sleep(sleep);
-						}
-					
+						}					
 					}else { //pauza
 						Thread.sleep(1);
-					}
-					
+					}					
 				}
 				return null;
 			}
