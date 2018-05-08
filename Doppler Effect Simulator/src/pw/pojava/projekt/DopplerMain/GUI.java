@@ -198,7 +198,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		sourceFreqField = new JTextField(Integer.toString(soundFreq)); sourceFreqField.setColumns(5);
 		soundSpeedField = new JTextField(Integer.toString(soundSpeed)); soundSpeedField.setColumns(4);
 		
-		observerMainLabel = new JLabel("Obserwatorzy");
+		observerMainLabel = new JLabel();
 		valueXObserver1Label = new JLabel("X:");
 		valueYObserver1Label = new JLabel("Y:");
 		valueXObserver2Label = new JLabel("X:");
@@ -249,8 +249,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pObserver2.setBorder(BorderFactory.createTitledBorder(" "));
 		pSource.setBorder(BorderFactory.createTitledBorder("Zrodlo"));
 		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla"));
-		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora1"));
-		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora2"));
+		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1"));
+		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 2"));
 		//wstawianie paneli w panele
 		//dodaje i ustawia 2 panele: lewy i prawy do glownego panelu
 		this.add(pWest, BorderLayout.CENTER);
@@ -355,6 +355,10 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		startButton.setActionCommand("run");
 		saveButton.addActionListener(this);
 		saveButton.setActionCommand("save");
+		switchPolishButton.addActionListener(this);
+		switchPolishButton.setActionCommand("polish");
+		switchEnglishButton.addActionListener(this);
+		switchEnglishButton.setActionCommand("english");
 		
 		setAnimationParameters();
 		
@@ -591,6 +595,13 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			}
 			
 		}
+		
+		if(action.equals("polish")) { //listenery do wielojezycznosci
+			setLanguagePolish();
+		}
+		if(action.equals("english")) {
+			setLanguageEnglish();
+		}
 	}
 	
 	public void keyPressed(KeyEvent arg0) {	}
@@ -614,6 +625,28 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pAnimation.setFrequency(soundFreq);
 		pAnimation.observer1.setAppearance(observer1State);
 		pAnimation.observer2.setAppearance(observer2State);
+	}
+	
+	void setLanguagePolish() { //zmiana jezyka na POLISH
+		saveButton.setText("ZAPISZ");
+		observer1Checkbox.setText("Obserwator 1");
+		observer2Checkbox.setText("Obserwator 2");
+		pSource.setBorder(BorderFactory.createTitledBorder("Zrodlo"));
+		soundSpeedLabel.setText("Predkosc dzwieku:");
+		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla"));
+		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1"));
+		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 2"));
+	}
+	
+	void setLanguageEnglish() { //Zmiana jezyka na angielski
+		saveButton.setText("SAVE");
+		observer1Checkbox.setText("Observer 1");
+		observer2Checkbox.setText("Observer 2");
+		pSource.setBorder(BorderFactory.createTitledBorder("Source"));
+		soundSpeedLabel.setText("Sound speed:");
+		pChartSource.setBorder(BorderFactory.createTitledBorder("Sound from source"));
+		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 1"));
+		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 2"));
 	}
 
 }
