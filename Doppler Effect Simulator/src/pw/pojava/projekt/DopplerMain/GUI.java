@@ -389,17 +389,20 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			sourceV=sourceSlider.getValue();
 			System.out.println("sv: " + sourceV);
 			}
-		//USTAWIA PARAMETRY ANIMACJI
-		setAnimationParameters();
-		pAnimation.repaint();
+		if(!isRunning) {//jesli animacja idzie, to nie ustawia
+			//USTAWIA PARAMETRY ANIMACJI
+			setAnimationParameters();
+			pAnimation.repaint();
+		}
 	}
 	
 	public void itemStateChanged(ItemEvent arg0) { // Listener do checkboxów
 			
 			observer1State=observer1Checkbox.isSelected();
 			observer2State=observer2Checkbox.isSelected();
-			pAnimation.observer1.setAppearance(observer1State);
-			pAnimation.observer2.setAppearance(observer2State);
+			if(!isRunning) {//jesli animacja idzie, to nie mozna dodac obiektu
+				setAnimationParameters();
+			}
 			//debugging
 			System.out.print("Observer1 : ");
 			System.out.println(observer1State);
@@ -539,9 +542,11 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		catch(Exception e) {
 			System.err.println("Blad key listener!");
 		}		
-		//USTAWIA WSZYSTKIE PARAMETRY OBIEKTOW NA ANIMACJI
-		setAnimationParameters();
-		pAnimation.repaint();
+		if(!isRunning) {//jesli animacja idzie, to nie przypisuje wartosci
+			//USTAWIA WSZYSTKIE PARAMETRY OBIEKTOW NA ANIMACJI
+			setAnimationParameters();
+			pAnimation.repaint();
+		}
 }
 
 
@@ -605,6 +610,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pAnimation.source.setVx(sourceV);
 		pAnimation.setSoundSpeed(soundSpeed);
 		pAnimation.setFrequency(soundFreq);
+		pAnimation.observer1.setAppearance(observer1State);
+		pAnimation.observer2.setAppearance(observer2State);
 	}
 
 }
