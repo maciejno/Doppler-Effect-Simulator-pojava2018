@@ -70,7 +70,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	Observer2AnimationPanel pChartObserver2;
 	
 	JButton switchPolishButton, switchEnglishButton; //przyciski do zmiany jezyka
-	JButton startButton, saveButton, resetButton; //przyciski ktore maja moc sprawcza :D
+	JButton startButton, saveButton; //przyciski ktore maja moc sprawcza :D
 	JButton soundButton1, soundButton2;
 	
 	JCheckBox observer1Checkbox, observer2Checkbox; // Observers CheckBoxes
@@ -104,7 +104,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		sourceCollection = new XYSeriesCollection();
 		sourceDataset = sourceCollection;
 		fchart[0] = ChartFactory.createXYLineChart (null, null, null ,sourceDataset, PlotOrientation.VERTICAL, true, false,false);
-		fchart[0].getXYPlot().getRendererForDataset(sourceDataset).setSeriesPaint(0,Color.red);
 		
 		observer1Collection = new XYSeriesCollection();
 		observer1Dataset = observer1Collection;
@@ -204,7 +203,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		sourceFreqField = new JTextField(Integer.toString(soundFreq)); sourceFreqField.setColumns(5);
 		soundSpeedField = new JTextField(Integer.toString(soundSpeed)); soundSpeedField.setColumns(4);
 		
-		observerMainLabel = new JLabel();
+		observerMainLabel = new JLabel("Obserwatorzy");
 		valueXObserver1Label = new JLabel("X:");
 		valueYObserver1Label = new JLabel("Y:");
 		valueXObserver2Label = new JLabel("X:");
@@ -255,8 +254,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pObserver2.setBorder(BorderFactory.createTitledBorder(" "));
 		pSource.setBorder(BorderFactory.createTitledBorder("Zrodlo"));
 		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla"));
-		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1"));
-		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 2"));
+		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora1"));
+		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora2"));
 		//wstawianie paneli w panele
 		//dodaje i ustawia 2 panele: lewy i prawy do glownego panelu
 		this.add(pWest, BorderLayout.CENTER);
@@ -362,15 +361,12 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		startButton.setActionCommand("run");
 		saveButton.addActionListener(this);
 		saveButton.setActionCommand("save");
-<<<<<<< HEAD
 		switchPolishButton.addActionListener(this);
 		switchPolishButton.setActionCommand("polish");
 		switchEnglishButton.addActionListener(this);
 		switchEnglishButton.setActionCommand("english");
-=======
 		resetButton.addActionListener(this);
 		resetButton.setActionCommand("reset");
->>>>>>> branch 'master' of https://github.com/maciejno/doppler-effect-simulator-pojava2018.git
 		
 		setAnimationParameters();
 		
@@ -609,19 +605,14 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			}
 			isRunning = false;
 		}
-		
-		if(action.equals("polish")) { //listenery do wielojezycznosci
-			setLanguagePolish();
-		}
-		if(action.equals("english")) {
-			setLanguageEnglish();
-		}
 	}
 	
 	public void keyPressed(KeyEvent arg0) {	}
 	public void keyTyped(KeyEvent arg0) {}
 
 	public void setObserver1XField(Double val) {observer1XField.setText(val.toString());}
+
+	public void setNewMainAnimationThread() {exec = Executors.newSingleThreadExecutor();}
 	
 	public void setAnimationParameters() { //ustawia parametry animacji
 		pAnimation.observer1.setX(observer1X); 
