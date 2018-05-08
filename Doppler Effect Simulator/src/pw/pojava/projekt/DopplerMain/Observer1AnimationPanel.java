@@ -45,14 +45,17 @@ public class Observer1AnimationPanel extends ChartPanel{
 				System.out.println(timeRunaway);
 			}
 			
-			private void countTimeDelayAndRunaway() {
-				double deltaSqrt = Math.sqrt( gui.soundSpeed*gui.soundSpeed * 
+			private void countTimeDelayAndRunaway() {//nieraz daje NaN, ale interpretuje jako 0, wiec dziala
+				double deltaSqrt = 0.0;		
+				deltaSqrt = Math.sqrt( gui.soundSpeed*gui.soundSpeed * 
 						(gui.observer1X*gui.observer1X - 2*gui.observer1X*gui.sourceX + gui.sourceX*gui.sourceX + Math.pow( (gui.observer1Y-gui.sourceY), 2.0))
-						-gui.observer1V*gui.observer1V*Math.pow( (gui.observer1Y-gui.sourceY), 2.0));				
+						-gui.observer1V*gui.observer1V*Math.pow( (gui.observer1Y-gui.sourceY), 2.0));
 				timeRunaway = -( (-gui.observer1V*gui.observer1X+gui.observer1V*gui.sourceX+deltaSqrt)
-						/ (gui.soundSpeed*gui.soundSpeed-gui.observer1V*gui.observer1V) );
-				timeRunaway = timeRunaway*1000;//zeby w ms
+					/ (gui.soundSpeed*gui.soundSpeed-gui.observer1V*gui.observer1V) );
+				timeRunaway = timeRunaway*1000;//zeby w ms		
 				
+				if(timeRunaway<0)timeRunaway = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie uciekl	
+								
 				timeDelay =  (gui.observer1V*gui.observer1X - gui.observer1V*gui.sourceX+deltaSqrt)
 						/ (gui.soundSpeed*gui.soundSpeed-gui.observer1V*gui.observer1V) ;
 				timeDelay = timeDelay*1000;//zeby w ms			
@@ -68,12 +71,10 @@ public class Observer1AnimationPanel extends ChartPanel{
 	 		   	}
 	 	   	}
 			@Override
-			protected Void doInBackground() throws Exception {//oblicza wartosi sinusa, czas w ms i przesyla do process 
-				//timeDelay = 	
-				while(gui.isRunning) {		
-					
-					if(!gui.isPaused){ //pauzowanie  && (time <= timeRunaway)
-						if((time >= timeDelay)  ) {	//jesli juz fala dotarla i obserwator jej nie uciekl
+			protected Void doInBackground() throws Exception {//oblicza wartosi sinusa, czas w ms i przesyla do process 				
+				while(gui.isRunning) {							
+					if(!gui.isPaused){ //pauzowanie  
+						if((time >= timeDelay && (time <= timeRunaway))  ) {	//jesli juz fala dotarla i obserwator jej nie uciekl
 							if(gui.pAnimation.observer1.getX() < gui.pAnimation.source.getX()) {
 								f = new Double(gui.soundFreq * ( (gui.soundSpeed + getVObserver() ) / (gui.soundSpeed + getVSource() ) ));
 							}else {
@@ -103,7 +104,6 @@ public class Observer1AnimationPanel extends ChartPanel{
 			worker = new ObserverSwingWorker();		
 		}
 		
-		//DOPRACOWAC
 		
 		//zwracaja chwilowa predkosc 
 		//obie ponizsze metody uwzgledniaja wzgledne polozenie obserwatora i zrodla
