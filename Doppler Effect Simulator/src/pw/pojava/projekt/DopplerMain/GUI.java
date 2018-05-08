@@ -43,15 +43,15 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	ExecutorService exec;
 	
 	//zmienne przechowuj¹ce nastawy komponentów
-	int observer1X = 30; 
-	int observer1Y = 30;
+	int observer1X = 150; 
+	int observer1Y = 130;
 	int observer1V = 40;
-	int observer2X = 10;
+	int observer2X = 200;
 	int observer2Y = 10;
 	int observer2V = 50;
 	int sourceX = 480;
-	int sourceY = 270;
-	int sourceV = -150;
+	int sourceY = 150;
+	int sourceV = -110;
 	int soundSpeed = 300;
 	int soundFreq = 250;
 			
