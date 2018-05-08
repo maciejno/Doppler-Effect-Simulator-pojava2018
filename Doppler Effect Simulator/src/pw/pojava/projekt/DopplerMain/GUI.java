@@ -70,8 +70,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	Observer2AnimationPanel pChartObserver2;
 	
 	JButton switchPolishButton, switchEnglishButton; //przyciski do zmiany jezyka
-	JButton startButton, saveButton, resetButton; //przyciski ktore maja moc sprawcza :D
-	JButton soundButton1, soundButton2;
+	JButton startButton, saveButton; //przyciski ktore maja moc sprawcza :D
+	JButton soundButton1, soundButton2, resetButton;
 	
 	JCheckBox observer1Checkbox, observer2Checkbox; // Observers CheckBoxes
 	JSlider observer1Slider, observer2Slider, sourceSlider;//Sliders for speed of objests
@@ -104,7 +104,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		sourceCollection = new XYSeriesCollection();
 		sourceDataset = sourceCollection;
 		fchart[0] = ChartFactory.createXYLineChart (null, null, null ,sourceDataset, PlotOrientation.VERTICAL, true, false,false);
-		fchart[0].getXYPlot().getRendererForDataset(sourceDataset).setSeriesPaint(0,Color.red);
 		
 		observer1Collection = new XYSeriesCollection();
 		observer1Dataset = observer1Collection;
@@ -255,8 +254,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pObserver2.setBorder(BorderFactory.createTitledBorder(" "));
 		pSource.setBorder(BorderFactory.createTitledBorder("Zrodlo"));
 		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla"));
-		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora1"));
-		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora2"));
+		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1"));
+		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 2"));
 		//wstawianie paneli w panele
 		//dodaje i ustawia 2 panele: lewy i prawy do glownego panelu
 		this.add(pWest, BorderLayout.CENTER);
@@ -362,6 +361,10 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		startButton.setActionCommand("run");
 		saveButton.addActionListener(this);
 		saveButton.setActionCommand("save");
+		switchPolishButton.addActionListener(this);
+		switchPolishButton.setActionCommand("polish");
+		switchEnglishButton.addActionListener(this);
+		switchEnglishButton.setActionCommand("english");
 		resetButton.addActionListener(this);
 		resetButton.setActionCommand("reset");
 		
@@ -564,6 +567,14 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		
 		sourceFreqField.setText(String.valueOf(soundFreq));
 		soundSpeedField.setText(String.valueOf(soundSpeed));
+		
+		if(action.equals("polish")) { //wieojezyczosc
+			setLanguagePolish();
+		}
+		if(action.equals("english")) {
+			setLanguageEnglish();
+		}
+		
 		if (action.equals("run")) {
 			if(isRunning==false){
 				pAnimation.newWorker();
@@ -602,6 +613,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	public void keyTyped(KeyEvent arg0) {}
 
 	public void setObserver1XField(Double val) {observer1XField.setText(val.toString());}
+
+	public void setNewMainAnimationThread() {exec = Executors.newSingleThreadExecutor();}
 	
 	public void setAnimationParameters() { //ustawia parametry animacji
 		pAnimation.observer1.setX(observer1X); 
@@ -617,6 +630,28 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pAnimation.setFrequency(soundFreq);
 		pAnimation.observer1.setAppearance(observer1State);
 		pAnimation.observer2.setAppearance(observer2State);
+	}
+	
+	void setLanguagePolish() { //zmiana jezyka na POLISH
+		saveButton.setText("ZAPISZ");
+		observer1Checkbox.setText("Obserwator 1");
+		observer2Checkbox.setText("Obserwator 2");
+		pSource.setBorder(BorderFactory.createTitledBorder("Zrodlo"));
+		soundSpeedLabel.setText("Predkosc dzwieku:");
+		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla"));
+		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1"));
+		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 2"));
+	}
+	
+	void setLanguageEnglish() { //Zmiana jezyka na angielski
+		saveButton.setText("SAVE");
+		observer1Checkbox.setText("Observer 1");
+		observer2Checkbox.setText("Observer 2");
+		pSource.setBorder(BorderFactory.createTitledBorder("Source"));
+		soundSpeedLabel.setText("Sound speed:");
+		pChartSource.setBorder(BorderFactory.createTitledBorder("Sound from source"));
+		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 1"));
+		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 2"));
 	}
 
 }
