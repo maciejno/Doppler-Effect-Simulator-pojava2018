@@ -12,7 +12,7 @@ public class AnimationObject {//obserwator, badz zrodlo dzwieku
 	
 	public AnimationObject() {
 		super();
-		color = new Color (100,150,200);
+		color = new Color (50,50,250);
 	}	
 	public void paint(Graphics g){
 		if(appearance==true)

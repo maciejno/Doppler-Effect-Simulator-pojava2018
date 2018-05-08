@@ -1,6 +1,7 @@
 package pw.pojava.projekt.DopplerMain;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -13,6 +14,7 @@ import java.awt.event.KeyListener;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -68,7 +70,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	Observer2AnimationPanel pChartObserver2;
 	
 	JButton switchPolishButton, switchEnglishButton; //przyciski do zmiany jezyka
-	JButton startButton, saveButton; //przyciski ktore maja moc sprawcza :D
+	JButton startButton, saveButton, resetButton; //przyciski ktore maja moc sprawcza :D
 	JButton soundButton1, soundButton2;
 	
 	JCheckBox observer1Checkbox, observer2Checkbox; // Observers CheckBoxes
@@ -102,14 +104,17 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		sourceCollection = new XYSeriesCollection();
 		sourceDataset = sourceCollection;
 		fchart[0] = ChartFactory.createXYLineChart (null, null, null ,sourceDataset, PlotOrientation.VERTICAL, true, false,false);
+		fchart[0].getXYPlot().getRendererForDataset(sourceDataset).setSeriesPaint(0,Color.red);
 		
 		observer1Collection = new XYSeriesCollection();
 		observer1Dataset = observer1Collection;
 		fchart[1] = ChartFactory.createXYLineChart (null, null, null ,observer1Dataset, PlotOrientation.VERTICAL, true, false,false);
+		fchart[1].getXYPlot().getRendererForDataset(observer1Dataset).setSeriesPaint(0,Color.black);
 		
 		observer2Collection = new XYSeriesCollection();
 		observer2Dataset = observer2Collection;
 		fchart[2] = ChartFactory.createXYLineChart (null, null, null ,observer2Dataset, PlotOrientation.VERTICAL, true, false,false);
+		fchart[2].getXYPlot().getRendererForDataset(observer2Dataset).setSeriesPaint(0,Color.blue);
 		
 		for(int i = 0;i<3;i++) {//ustawia zakres osi y wykresow
 			fchart[i].getXYPlot().getRangeAxis().setRange(-1.1, 1.1);
@@ -158,6 +163,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		switchEnglishButton = new JButton("ENGLISH");
 		startButton = new JButton("START");
 		saveButton = new JButton("ZAPISZ");
+		resetButton = new JButton("RESET");
 		soundButton1 = new JButton("<))");
 		soundButton2 = new JButton("<))");
 				
@@ -329,6 +335,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		// a tu juz oddzielny panel na 2 przyciski
 		pControl.add(startButton);
 		pControl.add(saveButton); 
+		pControl.add(resetButton);
 									
 		//LISTENERY
 		observer1Checkbox.addItemListener(this); // dodawanie listenerów do Checkboxów
@@ -355,10 +362,15 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		startButton.setActionCommand("run");
 		saveButton.addActionListener(this);
 		saveButton.setActionCommand("save");
+<<<<<<< HEAD
 		switchPolishButton.addActionListener(this);
 		switchPolishButton.setActionCommand("polish");
 		switchEnglishButton.addActionListener(this);
 		switchEnglishButton.setActionCommand("english");
+=======
+		resetButton.addActionListener(this);
+		resetButton.setActionCommand("reset");
+>>>>>>> branch 'master' of https://github.com/maciejno/doppler-effect-simulator-pojava2018.git
 		
 		setAnimationParameters();
 		
@@ -560,40 +572,42 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		sourceFreqField.setText(String.valueOf(soundFreq));
 		soundSpeedField.setText(String.valueOf(soundSpeed));
 		if (action.equals("run")) {
-			if(isRunning==false)
-			{
+			if(isRunning==false){
 				pAnimation.newWorker();
 				pChartSource.newWorker();
 				pChartObserver1.newWorker();
 				pChartObserver2.newWorker();
 				isRunning = true;
-				startButton.setText("STOP");
-			
-				try {
-					//exec = Executors.newSingleThreadExecutor();				
+				startButton.setText("PAUZA");			
+				try {				
 					exec = Executors.newFixedThreadPool(4);
-					exec.execute(pChartObserver1.worker);
-					exec.execute(pChartObserver2.worker);
+					if(pAnimation.observer1.appearance)exec.execute(pChartObserver1.worker);
+					if(pAnimation.observer2.appearance)exec.execute(pChartObserver2.worker);					
 					exec.execute(pAnimation.worker);
 					exec.execute(pChartSource.worker);
-					exec.shutdown();
-					
+					exec.shutdown();					
 				}catch(RejectedExecutionException e) {
 					e.printStackTrace();
 				}
-			}
-			else //instrukcje do pauzowania
-			{
+			}else{//instrukcje do pauzowania
 				if(isPaused==true){
 				isPaused=false;
-				startButton.setText("STOP");
-				}
-				else{
+				startButton.setText("PAUZA");
+				}else{
 					isPaused=true;
 					startButton.setText("START");
 				}
+			}			
+		}
+		else if(action.equals("reset")) {
+			exec.shutdownNow();
+			try {
+				exec.awaitTermination(500,TimeUnit.MILLISECONDS);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
+			isRunning = false;
 		}
 		
 		if(action.equals("polish")) { //listenery do wielojezycznosci
@@ -608,8 +622,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	public void keyTyped(KeyEvent arg0) {}
 
 	public void setObserver1XField(Double val) {observer1XField.setText(val.toString());}
-
-	public void setNewMainAnimationThread() {exec = Executors.newSingleThreadExecutor();}
 	
 	public void setAnimationParameters() { //ustawia parametry animacji
 		pAnimation.observer1.setX(observer1X); 
