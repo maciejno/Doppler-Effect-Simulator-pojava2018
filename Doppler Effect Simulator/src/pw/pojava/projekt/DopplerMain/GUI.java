@@ -254,8 +254,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pObserver2.setBorder(BorderFactory.createTitledBorder(" "));
 		pSource.setBorder(BorderFactory.createTitledBorder("Zrodlo"));
 		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla"));
-		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora1"));
-		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora2"));
+		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1"));
+		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 2"));
 		//wstawianie paneli w panele
 		//dodaje i ustawia 2 panele: lewy i prawy do glownego panelu
 		this.add(pWest, BorderLayout.CENTER);
