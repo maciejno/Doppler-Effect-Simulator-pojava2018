@@ -77,7 +77,7 @@ public class MainAnimationPanel extends JPanel {
 				
 				if(superior.isPaused==false) // warunek do pauzowania
 				{
-					System.out.println(quasiTime%period); // debugging, potem do usuniecia
+					//System.out.println(quasiTime%period); // debugging, potem do usuniecia
 					if(quasiTime%period<1) { //dziala od ok. 30Hz, przy nizszych freq caly program sie zawiesza (?)
 						WaveCrest crN = new WaveCrest(); //dziala tez z freq, ktore nie sa wielokrotnosciami 10 - wczesniej nie dzialalo
 						crN.setV(soundSpeed);

@@ -375,19 +375,19 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			String slider1String = new Double(observer1Slider.getValue()).toString();
 			observer1SliderField.setText(slider1String);
 			observer1V=observer1Slider.getValue();
-			System.out.println("o1v: " + observer1V);
+			//System.out.println("o1v: " + observer1V);
 		}		
 		if(observer2Slider.getValue()!=observer2V) { //Slider obserwatora 2			
 			String slider2String = new Double(observer2Slider.getValue()).toString();
 			observer2SliderField.setText(slider2String);
 			observer2V=observer2Slider.getValue();
-			System.out.println("o2v: " + observer2V);
+			//System.out.println("o2v: " + observer2V);
 		}		
 		if(sourceSlider.getValue()!=sourceV) { //Slider zrodla			
 			String sliderSourceString = new Double(sourceSlider.getValue()).toString();
 			sourceSliderField.setText(sliderSourceString);
 			sourceV=sourceSlider.getValue();
-			System.out.println("sv: " + sourceV);
+			//System.out.println("sv: " + sourceV);
 			}
 		if(!isRunning) {//jesli animacja idzie, to nie ustawia
 			//USTAWIA PARAMETRY ANIMACJI
@@ -404,12 +404,12 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				setAnimationParameters();
 			}
 			//debugging
-			System.out.print("Observer1 : ");
-			System.out.println(observer1State);
-			System.out.println(pAnimation.observer1.getAppearance());
-			System.out.print("Observer2 : ");
-			System.out.println(observer2State);
-			System.out.println(pAnimation.observer2.getAppearance());
+			//System.out.print("Observer1 : ");
+			//System.out.println(observer1State);
+			//System.out.println(pAnimation.observer1.getAppearance());
+			//System.out.print("Observer2 : ");
+			//System.out.println(observer2State);
+			//System.out.println(pAnimation.observer2.getAppearance());
 			
 			pAnimation.repaint();
 	}
@@ -437,7 +437,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 							observer1X=0;
 							observer1XField.setText(String.valueOf(0));
 						}
-					System.out.println("O1x:" + observer1X);
+					//System.out.println("O1x:" + observer1X);
 				}
 				else if(Integer.parseInt(observer1YField.getText())!=observer1Y) {
 					observer1Y = Integer.parseInt(observer1YField.getText());
@@ -449,7 +449,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 							observer1Y=0;
 							observer1YField.setText(String.valueOf(0));
 						}
-					System.out.println("O1y:" + observer1Y);
+					//System.out.println("O1y:" + observer1Y);
 				}	
 				else if(Integer.parseInt(observer2XField.getText())!=observer2X) {
 					observer2X = Integer.parseInt(observer2XField.getText());
@@ -461,7 +461,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 							observer2X=0;
 							observer2XField.setText(String.valueOf(0));
 						}
-					System.out.println("O2x:" + observer2X);
+					//System.out.println("O2x:" + observer2X);
 				}
 				else if(Integer.parseInt(observer2YField.getText())!=observer2Y) {
 					observer2Y = Integer.parseInt(observer2YField.getText());
@@ -473,7 +473,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 						observer2Y=0;
 						observer2YField.setText(String.valueOf(0));
 					}
-					System.out.println("O2y:" + observer2Y);
+					//System.out.println("O2y:" + observer2Y);
 				}
 				else if(Integer.parseInt(sourceXField.getText())!=sourceX) {
 					sourceX = Integer.parseInt(sourceXField.getText());
@@ -485,7 +485,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 						sourceX=0;
 						sourceXField.setText(String.valueOf(0));
 					}
-				System.out.println("Sx:" + sourceX);
+				//System.out.println("Sx:" + sourceX);
 				}
 				else if(Integer.parseInt(sourceYField.getText())!=sourceY) {
 					sourceY = Integer.parseInt(sourceYField.getText());
@@ -497,7 +497,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 						sourceY=0;
 						sourceYField.setText(String.valueOf(0));
 					}
-					System.out.println("Sy:" + sourceY);
+					//System.out.println("Sy:" + sourceY);
 				}
 				else if(Integer.parseInt(sourceFreqField.getText())!=soundFreq) {
 					soundFreq = Integer.parseInt(sourceFreqField.getText());
@@ -506,7 +506,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 						if(soundFreq>10000) {
 							soundFreq=10000;}
 						//sourceFreqField.setText(String.valueOf(soundFreq));
-					System.out.println("Sf:" + soundFreq);
+					//System.out.println("Sf:" + soundFreq);
 					pAnimation.setFrequency(soundFreq);
 				}
 				else if(Integer.parseInt(soundSpeedField.getText())!=soundSpeed) {
@@ -516,23 +516,23 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 						if(soundSpeed>300000000) {
 							soundSpeed=300000000;}
 						//soundSpeedField.setText(String.valueOf(soundSpeed));
-					System.out.println("Ss:" + soundSpeed);
+					//System.out.println("Ss:" + soundSpeed);
 					pAnimation.setSoundSpeed(soundSpeed);
 				}
 				else if(Integer.parseInt(observer1SliderField.getText())!=observer1V) {
 					observer1V = Integer.parseInt(observer1SliderField.getText());
 					observer1Slider.setValue(Integer.parseInt(observer1SliderField.getText()));
-					System.out.println("O1V:" + observer1V);
+					//System.out.println("O1V:" + observer1V);
 				}
 				else if(Integer.parseInt(observer2SliderField.getText())!=observer2V) {
 					observer2V = Integer.parseInt(observer2SliderField.getText());
 					observer2Slider.setValue(Integer.parseInt(observer2SliderField.getText()));
-					System.out.println("O2V:" + observer2V);
+					//System.out.println("O2V:" + observer2V);
 				}
 				else if(Integer.parseInt(sourceSliderField.getText())!=sourceV) {
 					sourceV = Integer.parseInt(sourceSliderField.getText());
 					sourceSlider.setValue(Integer.parseInt(sourceSliderField.getText()));
-					System.out.println("SV:" + sourceV);
+					//System.out.println("SV:" + sourceV);
 				}
 			}
 			catch(EmptyTextFieldException e) {
@@ -540,7 +540,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			}
 		}
 		catch(Exception e) {
-			System.err.println("Blad key listener!");
+			System.err.println("Blad key listener - moze nie liczba calkowita albo puste pole!");
 		}		
 		if(!isRunning) {//jesli animacja idzie, to nie przypisuje wartosci
 			//USTAWIA WSZYSTKIE PARAMETRY OBIEKTOW NA ANIMACJI
