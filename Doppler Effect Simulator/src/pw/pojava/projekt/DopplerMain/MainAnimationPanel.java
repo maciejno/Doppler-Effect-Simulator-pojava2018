@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
-import pw.pojava.projekt.DopplerMain.Observer1AnimationPanel.ObserverSwingWorker;
+
 
 
 public class MainAnimationPanel extends JPanel {

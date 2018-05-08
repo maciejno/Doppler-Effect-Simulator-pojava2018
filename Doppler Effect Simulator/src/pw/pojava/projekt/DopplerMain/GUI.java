@@ -120,8 +120,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pAnimation = new MainAnimationPanel(this);
 		pChart = new JPanel();
 		pChartSource = new SourceAnimationPanel(this); 
-		pChartObserver1 = new Observer1AnimationPanel(this);
-		pChartObserver2 = new Observer2AnimationPanel(this);
+		pChartObserver1 = new Observer1AnimationPanel(this, fchart[1]);
+		pChartObserver2 = new Observer2AnimationPanel(this, fchart[2]);
 		pLanguage = new JPanel();
 		pOptions = new JPanel();
 		pControl = new JPanel();
@@ -561,13 +561,15 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				pAnimation.newWorker();
 				pChartSource.newWorker();
 				pChartObserver1.newWorker();
+				pChartObserver2.newWorker();
 				isRunning = true;
 				startButton.setText("STOP");
 			
 				try {
 					//exec = Executors.newSingleThreadExecutor();				
-					exec = Executors.newFixedThreadPool(3);
+					exec = Executors.newFixedThreadPool(4);
 					exec.execute(pChartObserver1.worker);
+					exec.execute(pChartObserver2.worker);
 					exec.execute(pAnimation.worker);
 					exec.execute(pChartSource.worker);
 					exec.shutdown();
