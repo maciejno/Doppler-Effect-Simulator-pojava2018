@@ -37,6 +37,8 @@ public class MainAnimationPanel extends JPanel {
 		observer1 = new AnimationObject();
 		observer2 = new AnimationObject();
 		source = new AnimationObject();
+		source.setColor(new Color(250,50,50));
+		observer1.setColor(Color.black);
 		observer1.setAppearance(true); //ustawia domyslne istnienie obserwatorów
         observer2.setAppearance(false);
 		source.setAppearance(true); //zrodlo jest zawsze.
