@@ -109,7 +109,7 @@ public class MainAnimationPanel extends JPanel {
 					try {
 						TimeUnit.MILLISECONDS.sleep(timeQuantum);
 					}catch (InterruptedException e) {
-							System.err.println("Przerwano animacje");;
+							System.err.println("Przerwano animacje");
 					}
 					quasiTime=quasiTime+timeQuantum;
 					
@@ -125,10 +125,14 @@ public class MainAnimationPanel extends JPanel {
 					}
 				}else //pauza
 				{
+					if(superior.isRunning==false) {//warunek zakonczenia jesli sie wcisnie RESET
+						Thread.sleep(20);
+						break;
+					}
 					try {
 						TimeUnit.MILLISECONDS.sleep(1);
 					}catch (InterruptedException e) {
-							e.printStackTrace();
+						System.err.println("Przerwano animacje");
 					}
 				}
 					
@@ -142,6 +146,7 @@ public class MainAnimationPanel extends JPanel {
 			}
 			crests.clear();//usuwa wszystkie grzbiety z listy
 			superior.setAnimationParameters();
+			superior.isPaused = false;
 			repaint();
 			System.out.println("End of animation");
 			superior.startButton.setText("START");
