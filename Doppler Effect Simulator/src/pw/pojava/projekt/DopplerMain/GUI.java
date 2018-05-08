@@ -593,14 +593,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			}			
 		}
 		else if(action.equals("reset")) {
-			exec.shutdownNow();
-			try {
-				exec.awaitTermination(500,TimeUnit.MILLISECONDS);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			isRunning = false;
+			exec.shutdownNow();						
 		}
 	}
 	

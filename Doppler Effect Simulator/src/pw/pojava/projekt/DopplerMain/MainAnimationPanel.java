@@ -76,7 +76,6 @@ public class MainAnimationPanel extends JPanel {
 			double period=(1000/(soundFreq/100));//przelicza czestotliwosc na 100 razy mniejsza zeby bylo lepiej widac
 			
 			synchronized (crests) { while(true) {
-				
 				if(superior.isPaused==false) // warunek do pauzowania
 				{
 					//System.out.println(quasiTime%period); // debugging, potem do usuniecia
@@ -110,7 +109,7 @@ public class MainAnimationPanel extends JPanel {
 					try {
 						TimeUnit.MILLISECONDS.sleep(timeQuantum);
 					}catch (InterruptedException e) {
-							e.printStackTrace();
+							System.err.println("Przerwano animacje");;
 					}
 					quasiTime=quasiTime+timeQuantum;
 					
@@ -120,17 +119,21 @@ public class MainAnimationPanel extends JPanel {
 						System.out.println("statement...");
 						break;
 					}
-					
-			}else //pauza
-			{
-				try {
-					TimeUnit.MILLISECONDS.sleep(1);
-				}catch (InterruptedException e) {
-						e.printStackTrace();
+					if(superior.isRunning==false) {//warunek zakonczenia jesli sie wcisnie RESET
+						Thread.sleep(50);
+						break;
+					}
+				}else //pauza
+				{
+					try {
+						TimeUnit.MILLISECONDS.sleep(1);
+					}catch (InterruptedException e) {
+							e.printStackTrace();
+					}
 				}
-			}
-				
-			}}			
+					
+				}
+			}			
 			superior.isRunning=false;//koniec animacji
 			try {//usupia na pewien czas a potem czysci ekran
 				TimeUnit.MILLISECONDS.sleep(1500);
