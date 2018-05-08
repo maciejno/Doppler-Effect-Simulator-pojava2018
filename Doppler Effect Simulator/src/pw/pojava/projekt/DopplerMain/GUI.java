@@ -71,7 +71,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	
 	JButton switchPolishButton, switchEnglishButton; //przyciski do zmiany jezyka
 	JButton startButton, saveButton; //przyciski ktore maja moc sprawcza :D
-	JButton soundButton1, soundButton2;
+	JButton soundButton1, soundButton2, resetButton;
 	
 	JCheckBox observer1Checkbox, observer2Checkbox; // Observers CheckBoxes
 	JSlider observer1Slider, observer2Slider, sourceSlider;//Sliders for speed of objests
@@ -567,6 +567,14 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		
 		sourceFreqField.setText(String.valueOf(soundFreq));
 		soundSpeedField.setText(String.valueOf(soundSpeed));
+		
+		if(action.equals("polish")) { //wieojezyczosc
+			setLanguagePolish();
+		}
+		if(action.equals("english")) {
+			setLanguageEnglish();
+		}
+		
 		if (action.equals("run")) {
 			if(isRunning==false){
 				pAnimation.newWorker();
