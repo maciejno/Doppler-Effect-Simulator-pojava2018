@@ -13,6 +13,7 @@ public class MainFrame extends JFrame {
 	public MainFrame(){		
 		this.setSize(860,640);
 		this.setResizable(true);//zeby rozmiar okna byl staly
+		this.setMinimumSize(new Dimension(860,640));//ustawia minimalny rozmiar okna
 		this.setTitle("Symulator efektu Dopplera");
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);

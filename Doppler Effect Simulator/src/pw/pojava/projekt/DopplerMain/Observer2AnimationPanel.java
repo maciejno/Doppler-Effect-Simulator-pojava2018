@@ -51,17 +51,35 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 		double deltaSqrt = 0.0;		
 		deltaSqrt = Math.sqrt( gui.soundSpeed*gui.soundSpeed * 
 				(gui.observer2X*gui.observer2X - 2*gui.observer2X*gui.sourceX + gui.sourceX*gui.sourceX + Math.pow( (gui.observer2Y-gui.sourceY), 2.0))
-				-gui.observer2V*gui.observer2V*Math.pow( (gui.observer2X-gui.sourceX), 2.0));
-		timeRunaway = -( (-gui.observer2V*gui.observer2Y+gui.observer2V*gui.sourceY+deltaSqrt)
-			/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
-		timeRunaway = timeRunaway*1000;//zeby w ms		
+				-gui.observer2V*gui.observer2V*Math.pow( (gui.observer2X-gui.sourceX), 2.0));					
 		
+		if(module((double)gui.sourceV)<=gui.soundSpeed) {//przypadek nienaddzwiekowy		
+			timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
+					/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
+			timeDelay = timeDelay*1000;//zeby w ms	
+			timeRunaway = -( (-gui.observer2V*gui.observer2Y+gui.observer2V*gui.sourceY+deltaSqrt)
+					/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
+				timeRunaway = timeRunaway*1000;//zeby w ms
+		}
+		else {//przypadek naddzwiekowy
+			double machNumber = module(gui.sourceV) / gui.soundSpeed;//liczba Macha
+			double machAngle = Math.asin(1/machNumber);//kat Macha
+			double tanMA = Math.tan(machAngle);//tangens kata Macha - nachylenie ramienia stozka do poziomu
+			System.out.println(machNumber);
+			System.out.println(machAngle);
+			System.out.println(tanMA);
+			//czas przeciecia z gornym ramieniem stozka
+			double tUpperArm = (tanMA*(gui.observer2X-gui.sourceX)+gui.sourceY-gui.observer2Y) / (-gui.observer2V+gui.sourceV*tanMA);
+			//czas przeciecia z dolnym ramieniem stozka
+			double tLowerArm = (tanMA*(gui.sourceX-gui.observer2X)+gui.sourceY-gui.observer2Y) / (-gui.observer2V-gui.sourceV*tanMA);
+			System.out.println(tUpperArm);System.out.println(tLowerArm);
+			//wybiera ktore ramie przetnie i odpowiedni czas
+			timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
+			timeRunaway=tLowerArm*1000;
+			System.out.println(timeDelay);
+			System.out.println(timeRunaway);
+		}
 		if(timeRunaway<0)timeRunaway = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie uciekl	
-						
-		timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
-				/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
-		timeDelay = timeDelay*1000;//zeby w ms		
-		
 	}
 
 	@Override
