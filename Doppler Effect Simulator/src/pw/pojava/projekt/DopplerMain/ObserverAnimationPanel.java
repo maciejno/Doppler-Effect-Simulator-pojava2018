@@ -57,7 +57,7 @@ public abstract class ObserverAnimationPanel extends ChartPanel {
 			@Override
 			abstract protected Void doInBackground() throws Exception; //oblicza wartosi sinusa, czas w ms i przesyla do process 								
 		}
-		abstract void countTimeDelayAndRunaway();
+		abstract void countTimeDelayAndRunaway();//liczy czasy opoznienia i ucieczki
 		public abstract void newWorker(); //metoda do tworzenia nowego swing workera
 		
 		//katy jak w specyfikacji we wzorze					

@@ -61,6 +61,7 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 					/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
 				timeRunaway = timeRunaway*1000;//zeby w ms
 		}
+		//DOPRACOWAC
 		else {//przypadek naddzwiekowy
 			double machNumber = module(gui.sourceV) / gui.soundSpeed;//liczba Macha
 			double machAngle = Math.asin(1/machNumber);//kat Macha

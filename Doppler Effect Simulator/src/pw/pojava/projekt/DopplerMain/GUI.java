@@ -107,16 +107,17 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		observer1Collection = new XYSeriesCollection();
 		observer1Dataset = observer1Collection;
 		fchart[1] = ChartFactory.createXYLineChart (null, null, null ,observer1Dataset, PlotOrientation.VERTICAL, true, false,false);
-		fchart[1].getXYPlot().getRendererForDataset(observer1Dataset).setSeriesPaint(0,Color.black);
+		fchart[1].getXYPlot().getRendererForDataset(observer1Dataset).setSeriesPaint(0,Color.black);//ustawia kolor linii
 		
 		observer2Collection = new XYSeriesCollection();
 		observer2Dataset = observer2Collection;
 		fchart[2] = ChartFactory.createXYLineChart (null, null, null ,observer2Dataset, PlotOrientation.VERTICAL, true, false,false);
-		fchart[2].getXYPlot().getRendererForDataset(observer2Dataset).setSeriesPaint(0,Color.blue);
+		fchart[2].getXYPlot().getRendererForDataset(observer2Dataset).setSeriesPaint(0,Color.blue);//ustawia kolor linii
 		
 		for(int i = 0;i<3;i++) {//ustawia zakres osi y wykresow
 			fchart[i].getXYPlot().getRangeAxis().setRange(-1.1, 1.1);
 		}
+		
 		//tworzy panele
 		pWest = new JPanel();
 		pEast = new JPanel();
@@ -330,7 +331,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pSouthSource.add(soundSpeedField);
 		pSouthSource.add(soundSpeedLabelMS);
 		
-		// a tu juz oddzielny panel na 2 przyciski
+		// a tu juz oddzielny panel na 3 przyciski
 		pControl.add(startButton);
 		pControl.add(saveButton); 
 		pControl.add(resetButton);
@@ -371,6 +372,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		
 	}//koniec konstruktora
 
+	//ta metoda na razie nie jest uzywana
 	private ImageIcon createImageIcon(String path, String description) { //wa¿ne coœ do dodawania ikonek
 		java.net.URL imgURL = getClass().getResource(path);
 	    if (imgURL != null) {
@@ -383,19 +385,19 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	
 	public void stateChanged(ChangeEvent arg0) { //listener do Sliderów
 		if(observer1Slider.getValue()!=observer1V) { //Slider obserwatora 1			
-			String slider1String = new Double(observer1Slider.getValue()).toString();
+			String slider1String = new Integer(observer1Slider.getValue()).toString();
 			observer1SliderField.setText(slider1String);
 			observer1V=observer1Slider.getValue();
 			//System.out.println("o1v: " + observer1V);
 		}		
 		if(observer2Slider.getValue()!=observer2V) { //Slider obserwatora 2			
-			String slider2String = new Double(observer2Slider.getValue()).toString();
+			String slider2String = new Integer(observer2Slider.getValue()).toString();
 			observer2SliderField.setText(slider2String);
 			observer2V=observer2Slider.getValue();
 			//System.out.println("o2v: " + observer2V);
 		}		
 		if(sourceSlider.getValue()!=sourceV) { //Slider zrodla			
-			String sliderSourceString = new Double(sourceSlider.getValue()).toString();
+			String sliderSourceString = new Integer(sourceSlider.getValue()).toString();
 			sourceSliderField.setText(sliderSourceString);
 			sourceV=sourceSlider.getValue();
 			//System.out.println("sv: " + sourceV);
@@ -413,15 +415,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			observer2State=observer2Checkbox.isSelected();
 			if(!isRunning) {//jesli animacja idzie, to nie mozna dodac obiektu
 				setAnimationParameters();
-			}
-			//debugging
-			//System.out.print("Observer1 : ");
-			//System.out.println(observer1State);
-			//System.out.println(pAnimation.observer1.getAppearance());
-			//System.out.print("Observer2 : ");
-			//System.out.println(observer2State);
-			//System.out.println(pAnimation.observer2.getAppearance());
-			
+			}						
 			pAnimation.repaint();
 	}
 	
