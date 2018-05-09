@@ -59,11 +59,30 @@ private static final long serialVersionUID = 1L;
 		timeRunaway = timeRunaway*1000;//zeby w ms		
 		
 		if(timeRunaway<0)timeRunaway = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie uciekl	
-						
-		timeDelay =  (gui.observer1V*gui.observer1X - gui.observer1V*gui.sourceX+deltaSqrt)
-				/ (gui.soundSpeed*gui.soundSpeed-gui.observer1V*gui.observer1V) ;
-		timeDelay = timeDelay*1000;//zeby w ms
+		
+		if(module((double)gui.sourceV)<=gui.soundSpeed) {//przypadek nienaddzwiekowy
+			timeDelay =  (gui.observer1V*gui.observer1X - gui.observer1V*gui.sourceX+deltaSqrt)
+					/ (gui.soundSpeed*gui.soundSpeed-gui.observer1V*gui.observer1V) ;
+			timeDelay = timeDelay*1000;//zeby w ms
+		}else {//przypadek naddzwiekowy
+			double machNumber = module(gui.sourceV) / gui.soundSpeed;//liczba Macha
+			double machAngle = Math.asin(1/machNumber);//kat Macha
+			double tanMA = Math.tan(machAngle);//tangens kata Macha - nachylenie ramienia stozka do poziomu
+			System.out.println(machNumber);
+			System.out.println(machAngle);
+			System.out.println(tanMA);
+			//czas przeciecia z gornym ramieniem stozka
+			double tUpperArm = (-tanMA*(gui.observer1X-gui.sourceX)+gui.observer1Y-gui.sourceY) / (tanMA*(gui.observer1V-gui.sourceV));
+			//czas przeciecia z dolnym ramieniem stozka
+			double tLowerArm = (-tanMA*(gui.sourceX-gui.observer1X)+gui.observer1Y-gui.sourceY) / (tanMA*(gui.sourceV-gui.observer1V));
+			System.out.println(tUpperArm);System.out.println(tLowerArm);
+			//wybiera ktore ramie przetnie i odpowiedni czas
+			if(gui.observer1Y > gui.sourceY) timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
+			else timeDelay=tLowerArm*1000;
+			System.out.println(timeDelay);
+		}
 	}
+	
 	@Override
 	public void newWorker() {//metoda do tworzenia nowego swing workera
 		worker = new Observer1SwingWorker();	

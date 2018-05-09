@@ -142,7 +142,7 @@ public class MainAnimationPanel extends JPanel {
 			try {//usupia na pewien czas a potem czysci ekran
 				TimeUnit.MILLISECONDS.sleep(1500);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				System.err.println("Przerwano animacje");
 			}
 			crests.clear();//usuwa wszystkie grzbiety z listy
 			superior.setAnimationParameters();
