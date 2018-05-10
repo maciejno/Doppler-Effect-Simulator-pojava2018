@@ -575,7 +575,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				pChartObserver1.newWorker();
 				pChartObserver2.newWorker();
 				isRunning = true;
-				startButton.setText("PAUZA");			
+				startButton.setText("STOP");			
 				try {				
 					exec = Executors.newFixedThreadPool(4);
 					if(pAnimation.observer1.appearance)exec.execute(pChartObserver1.worker);
@@ -589,7 +589,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			}else{//instrukcje do pauzowania
 				if(isPaused==true){
 				isPaused=false;
-				startButton.setText("PAUZA");
+				startButton.setText("STOP");
 				}else{
 					isPaused=true;
 					startButton.setText("START");
