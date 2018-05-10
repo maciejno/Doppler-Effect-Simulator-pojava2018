@@ -11,10 +11,15 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -97,6 +102,16 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	protected XYSeries dataSet1, dataSet2, dataSet3;
 	protected XYDataset observer1Dataset, observer2Dataset, sourceDataset;
 	
+	//ikonki
+	ImageIcon polish =  new ImageIcon(getClass().getResource("/polish.png"));
+	ImageIcon english = new ImageIcon(getClass().getResource("/english.png"));
+	ImageIcon soundON = new ImageIcon(getClass().getResource("/soundON.png"));
+	ImageIcon soundOFF = new ImageIcon(getClass().getResource("/soundOFF.png"));
+	ImageIcon start = new ImageIcon(getClass().getResource("/start.png"));
+	ImageIcon stop = new ImageIcon(getClass().getResource("/stop.png"));
+	ImageIcon reset = new ImageIcon(getClass().getResource("/reset.png"));
+	ImageIcon save = new ImageIcon(getClass().getResource("/save.png"));
+	
 	public GUI() {
 		
 		//Tworzenie wykresow
@@ -148,23 +163,22 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pNorthSource = new JPanel();
 		pCenterSource = new JPanel();
 		pSouthSource = new JPanel();
-		
-		//ikonki
-	/*	ImageIcon polish =  createImageIcon("pw/pojava/projekt/DopplerMain/icons/polish.jpg", "a pretty but meaningless splat");
-		ImageIcon english = new ImageIcon("pw\\pojava\\projekt\\DopplerMain\\icons\\english.png");
-		ImageIcon audio = new ImageIcon("icons\\audio.png");
-		ImageIcon start = new ImageIcon("icons\\start.png");
-		ImageIcon zapisz = new ImageIcon("icons\\zapisz.png");*/
   
-		
 		//tworzenie komponentów
-		switchPolishButton = new JButton("POLSKI");
-		switchEnglishButton = new JButton("ENGLISH");
+		switchPolishButton = new JButton("Polski");
+		switchPolishButton.setIcon(polish);
+		switchEnglishButton = new JButton("English");
+		switchEnglishButton.setIcon(english);
 		startButton = new JButton("START");
+		startButton.setIcon(start);
 		saveButton = new JButton("ZAPISZ");
+		saveButton.setIcon(save);
 		resetButton = new JButton("RESET");
-		soundButton1 = new JButton("<))");
-		soundButton2 = new JButton("<))");
+		resetButton.setIcon(reset);
+		soundButton1 = new JButton();
+		soundButton1.setIcon(soundOFF);	
+		soundButton2 = new JButton();
+		soundButton2.setIcon(soundOFF);	
 				
 		observer1Checkbox = new JCheckBox("Obserwator 1"); observer1Checkbox.setSelected(true);
 		observer2Checkbox = new JCheckBox("Obserwator 2");
@@ -590,9 +604,11 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				if(isPaused==true){
 				isPaused=false;
 				startButton.setText("STOP");
+				startButton.setIcon(stop);
 				}else{
 					isPaused=true;
 					startButton.setText("START");
+					startButton.setIcon(start);
 				}
 			}			
 		}

@@ -3,9 +3,12 @@ package pw.pojava.projekt.DopplerMain;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
@@ -26,6 +29,11 @@ public class MainAnimationPanel extends JPanel {
 	mainAnimationWorker worker;	
 	
 	Dimension preferredSize = new Dimension(530,400);
+	
+	//ikony obserwatorow
+	//Image observer1Icon = new Image(getClass().getResource("/observer1.png"));
+	//ImageIcon observer2Icon = new ImageIcon(getClass().getResource("/observer2.png"));
+	//ImageIcon sourceIcon = new ImageIcon(getClass().getResource("/observer1.png"));
 	
 	public MainAnimationPanel(GUI superior) {
 		this.setBackground(new Color(200,255,255));
@@ -150,6 +158,7 @@ public class MainAnimationPanel extends JPanel {
 			repaint();
 			System.out.println("End of animation");
 			superior.startButton.setText("START");
+			superior.startButton.setIcon(superior.start);
 			return null;
 		}
 	};
