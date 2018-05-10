@@ -59,9 +59,8 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 			timeDelay = timeDelay*1000;//zeby w ms	
 			timeRunaway = -( (-gui.observer2V*gui.observer2Y+gui.observer2V*gui.sourceY+deltaSqrt)
 					/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
-				timeRunaway = timeRunaway*1000;//zeby w ms
+			timeRunaway = timeRunaway*1000;//zeby w ms
 		}
-		//DOPRACOWAC
 		else {//przypadek naddzwiekowy
 			double machNumber = module(gui.sourceV) / gui.soundSpeed;//liczba Macha
 			double machAngle = Math.asin(1/machNumber);//kat Macha
@@ -69,10 +68,9 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 			//czas przeciecia z gornym ramieniem stozka
 			double tUpperArm = (gui.observer2X - gui.sourceX + cotMA*(gui.observer2Y - gui.sourceY)) 
 					/ (gui.sourceV - cotMA*gui.observer2V);
-			//BLEDNE
 			//czas przeciecia z dolnym ramieniem stozka
 			double tLowerArm = (gui.observer2X - gui.sourceX - cotMA*(gui.observer2Y - gui.sourceY)) 
-					/ (cotMA*(gui.observer2V - gui.sourceV));
+					/ (cotMA*gui.observer2V + gui.sourceV);
 			if(gui.observer2Y>gui.sourceY) {
 				//wybiera ktore ramie przetnie i odpowiedni czas
 				timeDelay=tLowerArm*1000 ;//mnozenie zeby bylo w ms
@@ -82,6 +80,7 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 				timeRunaway=tLowerArm*1000;
 			}
 		}
+		if(timeDelay<0)timeDelay = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie zaczal	
 		if(timeRunaway<0)timeRunaway = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie uciekl	
 	}
 

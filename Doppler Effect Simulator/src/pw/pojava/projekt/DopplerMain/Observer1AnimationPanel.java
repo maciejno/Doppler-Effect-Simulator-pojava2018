@@ -54,10 +54,7 @@ private static final long serialVersionUID = 1L;
 		deltaSqrt = Math.sqrt( gui.soundSpeed*gui.soundSpeed * 
 				(gui.observer1X*gui.observer1X - 2*gui.observer1X*gui.sourceX + gui.sourceX*gui.sourceX + Math.pow( (gui.observer1Y-gui.sourceY), 2.0))
 				-gui.observer1V*gui.observer1V*Math.pow( (gui.observer1Y-gui.sourceY), 2.0));
-			
-		
-		
-		
+					
 		if((module((double)gui.sourceV)<=gui.soundSpeed)) {//przypadek nienaddzwiekowy
 			timeDelay =  (gui.observer1V*gui.observer1X - gui.observer1V*gui.sourceX+deltaSqrt)
 					/ (gui.soundSpeed*gui.soundSpeed-gui.observer1V*gui.observer1V) ;
@@ -69,15 +66,12 @@ private static final long serialVersionUID = 1L;
 			double machNumber = module(gui.sourceV) / gui.soundSpeed;//liczba Macha
 			double machAngle = Math.asin(1/machNumber);//kat Macha
 			double tanMA = Math.tan(machAngle);//tangens kata Macha - nachylenie ramienia stozka do poziomu
-			System.out.println(machNumber);
-			System.out.println(machAngle);
-			System.out.println(tanMA);
 			//czas przeciecia z gornym ramieniem stozka
 			double tUpperArm = (-tanMA*(gui.observer1X-gui.sourceX)+gui.observer1Y-gui.sourceY) / (tanMA*(gui.observer1V-gui.sourceV));
 			//czas przeciecia z dolnym ramieniem stozka
 			double tLowerArm = (-tanMA*(gui.sourceX-gui.observer1X)+gui.observer1Y-gui.sourceY) / (tanMA*(gui.sourceV-gui.observer1V));
-			System.out.println(tUpperArm);System.out.println(tLowerArm);
 									
+			//jak jada w ta sama strone to upper jest upper itd, a jak w przeciwna to upper jest lower i vice versa (chyba)
 			//jesli jada w te sama strone - wyprzedzanie odrzutowcow
 			if((gui.sourceV>0 && gui.observer1V>0)||(gui.sourceV<0 && gui.observer1V<0)) {
 				//wybiera ktore ramie przetnie uciekajac
@@ -94,8 +88,8 @@ private static final long serialVersionUID = 1L;
 						/ (gui.soundSpeed*gui.soundSpeed-gui.observer1V*gui.observer1V) );
 				timeRunaway = timeRunaway*1000;//zeby w ms	
 			}
-			System.out.println(timeDelay);
 		}
+		if(timeDelay<0)timeDelay = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie zaczal
 		if(timeRunaway<0)timeRunaway = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie uciekl	
 	}
 	
