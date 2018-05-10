@@ -65,20 +65,22 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 		else {//przypadek naddzwiekowy
 			double machNumber = module(gui.sourceV) / gui.soundSpeed;//liczba Macha
 			double machAngle = Math.asin(1/machNumber);//kat Macha
-			double tanMA = Math.tan(machAngle);//tangens kata Macha - nachylenie ramienia stozka do poziomu
-			System.out.println(machNumber);
-			System.out.println(machAngle);
-			System.out.println(tanMA);
+			double cotMA = 1/(Math.tan(machAngle));//cotangens kata Macha - nachylenie ramienia stozka do pionu
 			//czas przeciecia z gornym ramieniem stozka
-			double tUpperArm = (tanMA*(gui.observer2X-gui.sourceX)+gui.sourceY-gui.observer2Y) / (-gui.observer2V+gui.sourceV*tanMA);
+			double tUpperArm = (gui.observer2X - gui.sourceX + cotMA*(gui.observer2Y - gui.sourceY)) 
+					/ (gui.sourceV - cotMA*gui.observer2V);
+			//BLEDNE
 			//czas przeciecia z dolnym ramieniem stozka
-			double tLowerArm = (tanMA*(gui.sourceX-gui.observer2X)+gui.sourceY-gui.observer2Y) / (-gui.observer2V-gui.sourceV*tanMA);
-			System.out.println(tUpperArm);System.out.println(tLowerArm);
-			//wybiera ktore ramie przetnie i odpowiedni czas
-			timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
-			timeRunaway=tLowerArm*1000;
-			System.out.println(timeDelay);
-			System.out.println(timeRunaway);
+			double tLowerArm = (gui.observer2X - gui.sourceX - cotMA*(gui.observer2Y - gui.sourceY)) 
+					/ (cotMA*(gui.observer2V - gui.sourceV));
+			if(gui.observer2Y>gui.sourceY) {
+				//wybiera ktore ramie przetnie i odpowiedni czas
+				timeDelay=tLowerArm*1000 ;//mnozenie zeby bylo w ms
+				timeRunaway=tUpperArm*1000;
+			}else {
+				timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
+				timeRunaway=tLowerArm*1000;
+			}
 		}
 		if(timeRunaway<0)timeRunaway = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie uciekl	
 	}
