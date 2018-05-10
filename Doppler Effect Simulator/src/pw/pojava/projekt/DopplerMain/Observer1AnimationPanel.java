@@ -54,16 +54,17 @@ private static final long serialVersionUID = 1L;
 		deltaSqrt = Math.sqrt( gui.soundSpeed*gui.soundSpeed * 
 				(gui.observer1X*gui.observer1X - 2*gui.observer1X*gui.sourceX + gui.sourceX*gui.sourceX + Math.pow( (gui.observer1Y-gui.sourceY), 2.0))
 				-gui.observer1V*gui.observer1V*Math.pow( (gui.observer1Y-gui.sourceY), 2.0));
-		timeRunaway = -( (-gui.observer1V*gui.observer1X+gui.observer1V*gui.sourceX+deltaSqrt)
-			/ (gui.soundSpeed*gui.soundSpeed-gui.observer1V*gui.observer1V) );
-		timeRunaway = timeRunaway*1000;//zeby w ms		
+			
 		
-		if(timeRunaway<0)timeRunaway = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie uciekl	
 		
-		if(module((double)gui.sourceV)<=gui.soundSpeed) {//przypadek nienaddzwiekowy
+		
+		if((module((double)gui.sourceV)<=gui.soundSpeed)) {//przypadek nienaddzwiekowy
 			timeDelay =  (gui.observer1V*gui.observer1X - gui.observer1V*gui.sourceX+deltaSqrt)
 					/ (gui.soundSpeed*gui.soundSpeed-gui.observer1V*gui.observer1V) ;
 			timeDelay = timeDelay*1000;//zeby w ms
+			timeRunaway = -( (-gui.observer1V*gui.observer1X+gui.observer1V*gui.sourceX+deltaSqrt)
+					/ (gui.soundSpeed*gui.soundSpeed-gui.observer1V*gui.observer1V) );
+			timeRunaway = timeRunaway*1000;//zeby w ms	
 		}else {//przypadek naddzwiekowy
 			double machNumber = module(gui.sourceV) / gui.soundSpeed;//liczba Macha
 			double machAngle = Math.asin(1/machNumber);//kat Macha
@@ -76,11 +77,26 @@ private static final long serialVersionUID = 1L;
 			//czas przeciecia z dolnym ramieniem stozka
 			double tLowerArm = (-tanMA*(gui.sourceX-gui.observer1X)+gui.observer1Y-gui.sourceY) / (tanMA*(gui.sourceV-gui.observer1V));
 			System.out.println(tUpperArm);System.out.println(tLowerArm);
-			//wybiera ktore ramie przetnie i odpowiedni czas
-			if(gui.observer1Y > gui.sourceY) timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
-			else timeDelay=tLowerArm*1000;
+									
+			//jesli jada w te sama strone - wyprzedzanie odrzutowcow
+			if((gui.sourceV>0 && gui.observer1V>0)||(gui.sourceV<0 && gui.observer1V<0)) {
+				//wybiera ktore ramie przetnie uciekajac
+				if(gui.observer1Y > gui.sourceY) timeRunaway=tLowerArm*1000 ;//mnozenie zeby bylo w ms
+				else timeRunaway=tUpperArm*1000;
+				timeDelay =  (gui.observer1V*gui.observer1X - gui.observer1V*gui.sourceX+deltaSqrt)
+						/ (gui.soundSpeed*gui.soundSpeed-gui.observer1V*gui.observer1V) ;
+				timeDelay = timeDelay*1000;//zeby w ms	
+			}else {//jesli w przeciwna
+				//wybiera ktore ramie przetnie i odpowiedni czas
+				if(gui.observer1Y > gui.sourceY) timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
+				else timeDelay=tLowerArm*1000;
+				timeRunaway = -( (-gui.observer1V*gui.observer1X+gui.observer1V*gui.sourceX+deltaSqrt)
+						/ (gui.soundSpeed*gui.soundSpeed-gui.observer1V*gui.observer1V) );
+				timeRunaway = timeRunaway*1000;//zeby w ms	
+			}
 			System.out.println(timeDelay);
 		}
+		if(timeRunaway<0)timeRunaway = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie uciekl	
 	}
 	
 	@Override

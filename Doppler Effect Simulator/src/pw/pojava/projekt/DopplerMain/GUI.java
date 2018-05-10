@@ -117,16 +117,16 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		//Tworzenie wykresow
 		sourceCollection = new XYSeriesCollection();
 		sourceDataset = sourceCollection;
-		fchart[0] = ChartFactory.createXYLineChart (null, null, null ,sourceDataset, PlotOrientation.VERTICAL, true, false,false);
+		fchart[0] = ChartFactory.createXYLineChart (null, null, null ,sourceDataset, PlotOrientation.VERTICAL, false, false,false);
 		
 		observer1Collection = new XYSeriesCollection();
 		observer1Dataset = observer1Collection;
-		fchart[1] = ChartFactory.createXYLineChart (null, null, null ,observer1Dataset, PlotOrientation.VERTICAL, true, false,false);
+		fchart[1] = ChartFactory.createXYLineChart (null, null, null ,observer1Dataset, PlotOrientation.VERTICAL, false, false,false);
 		fchart[1].getXYPlot().getRendererForDataset(observer1Dataset).setSeriesPaint(0,Color.black);//ustawia kolor linii
 		
 		observer2Collection = new XYSeriesCollection();
 		observer2Dataset = observer2Collection;
-		fchart[2] = ChartFactory.createXYLineChart (null, null, null ,observer2Dataset, PlotOrientation.VERTICAL, true, false,false);
+		fchart[2] = ChartFactory.createXYLineChart (null, null, null ,observer2Dataset, PlotOrientation.VERTICAL, false, false,false);
 		fchart[2].getXYPlot().getRendererForDataset(observer2Dataset).setSeriesPaint(0,Color.blue);//ustawia kolor linii
 		
 		for(int i = 0;i<3;i++) {//ustawia zakres osi y wykresow
@@ -589,7 +589,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				pChartObserver1.newWorker();
 				pChartObserver2.newWorker();
 				isRunning = true;
-				startButton.setText("STOP");			
+				startButton.setText("STOP");	
+				startButton.setIcon(stop);
 				try {				
 					exec = Executors.newFixedThreadPool(4);
 					if(pAnimation.observer1.appearance)exec.execute(pChartObserver1.worker);
