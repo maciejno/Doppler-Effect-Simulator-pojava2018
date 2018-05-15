@@ -71,17 +71,37 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 			//czas przeciecia z dolnym ramieniem stozka
 			double tLowerArm = (gui.observer2X - gui.sourceX - cotMA*(gui.observer2Y - gui.sourceY)) 
 					/ (cotMA*gui.observer2V + gui.sourceV);
-			if(gui.observer2Y>gui.sourceY) {
+						
+			if(gui.observer2Y<gui.sourceY) {//jak obserwator jest wyzej niz zrodlo
 				//wybiera ktore ramie przetnie i odpowiedni czas
-				timeDelay=tLowerArm*1000 ;//mnozenie zeby bylo w ms
-				timeRunaway=tUpperArm*1000;
-			}else {
-				timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
-				timeRunaway=tLowerArm*1000;
+				//observer2X to x przeciecia z liniami
+				if(gui.observer2X>(gui.sourceX+gui.sourceV*tUpperArm)){//jesli przetnie sie na stozku a nie poza nim z gornym ramieniem			
+					timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
+					timeRunaway=tLowerArm*1000;
+				}else {
+					if(gui.observer2X > (gui.sourceX+gui.sourceV*tLowerArm)){//jesli przetnie sie na stozku a nie poza nim z dolnym ramieniem			
+						timeDelay=tLowerArm*1000 ;//mnozenie zeby bylo w ms
+						timeRunaway=200000000;//bo juz nie ucieknie
+					}
+				}
+			}else {//jak obserwator jest nizej niz zrodlo
+				//wybiera ktore ramie przetnie i odpowiedni czas
+				//observer2X to x przeciecia z liniami
+				if(gui.observer2X>(gui.sourceX+gui.sourceV*tLowerArm)){//jesli przetnie sie na stozku a nie poza nim z dolnym ramieniem			
+					timeDelay=tLowerArm*1000 ;//mnozenie zeby bylo w ms
+					timeRunaway=tUpperArm*1000;
+				}else {
+					if(gui.observer2X > (gui.sourceX+gui.sourceV*tUpperArm)){//jesli przetnie sie na stozku a nie poza nim z gornym ramieniem			
+						timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
+						timeRunaway=200000000;//bo juz nie ucieknie
+					}
+				}
 			}
 		}
 		if(timeDelay<0)timeDelay = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie zaczal	
-		if(timeRunaway<0)timeRunaway = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie uciekl	
+		if(timeRunaway<0)timeRunaway = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie uciekl
+		if(timeRunaway<timeDelay)timeRunaway = 200000000;//jezeli czas ucieczki bylby mniejszy niz dotarcia
+		System.out.println(timeDelay);System.out.println(timeRunaway);
 	}
 
 	@Override
