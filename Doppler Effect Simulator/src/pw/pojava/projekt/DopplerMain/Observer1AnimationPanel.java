@@ -95,12 +95,12 @@ private static final long serialVersionUID = 1L;
 	
 	@Override
 	public void newWorker() {//metoda do tworzenia nowego swing workera
-		worker = new Observer1SwingWorker();	
+		worker = new Observer1SwingWorker();
 	}
 	@Override
 	public double getVObserver() {//zwraca skladowa predkosci obserwatora wzdluz linii laczacej go ze zrodlem
 		double vObserver = gui.pAnimation.observer1.getVx()*Math.cos(getPhiObserver()) + gui.pAnimation.observer1.getVy()*Math.sin(getPhiObserver());			
-		return vObserver;		
+		return vObserver;
 	}
 
 	@Override

@@ -75,25 +75,49 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 			if(gui.observer2Y<gui.sourceY) {//jak obserwator jest wyzej niz zrodlo
 				//wybiera ktore ramie przetnie i odpowiedni czas
 				//observer2X to x przeciecia z liniami
-				if(gui.observer2X>(gui.sourceX+gui.sourceV*tUpperArm)){//jesli przetnie sie na stozku a nie poza nim z gornym ramieniem			
-					timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
-					timeRunaway=tLowerArm*1000;
-				}else {
-					if(gui.observer2X > (gui.sourceX+gui.sourceV*tLowerArm)){//jesli przetnie sie na stozku a nie poza nim z dolnym ramieniem			
+				if(gui.sourceV<0) {//jesli zrodlo leci w lewo
+					if(gui.observer2X>(gui.sourceX+gui.sourceV*tUpperArm)){//jesli przetnie sie na stozku a nie poza nim z gornym ramieniem			
+						timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
+						timeRunaway=tLowerArm*1000;
+					}else {
+						if(gui.observer2X > (gui.sourceX+gui.sourceV*tLowerArm)){//jesli przetnie sie na stozku a nie poza nim z dolnym ramieniem			
+							timeDelay=tLowerArm*1000 ;//mnozenie zeby bylo w ms
+							timeRunaway=200000000;//bo juz nie ucieknie
+						}
+					}
+				}else {//jesli zrodlo leci w prawo
+					if(gui.observer2X<(gui.sourceX+gui.sourceV*tLowerArm)){//jesli przetnie sie na stozku a nie poza nim z gornym ramieniem			
 						timeDelay=tLowerArm*1000 ;//mnozenie zeby bylo w ms
-						timeRunaway=200000000;//bo juz nie ucieknie
+						timeRunaway=tUpperArm*1000;
+					}else {
+						if(gui.observer2X < (gui.sourceX+gui.sourceV*tUpperArm)){//jesli przetnie sie na stozku a nie poza nim z dolnym ramieniem			
+							timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
+							timeRunaway=200000000;//bo juz nie ucieknie
+						}
 					}
 				}
 			}else {//jak obserwator jest nizej niz zrodlo
 				//wybiera ktore ramie przetnie i odpowiedni czas
 				//observer2X to x przeciecia z liniami
-				if(gui.observer2X>(gui.sourceX+gui.sourceV*tLowerArm)){//jesli przetnie sie na stozku a nie poza nim z dolnym ramieniem			
-					timeDelay=tLowerArm*1000 ;//mnozenie zeby bylo w ms
-					timeRunaway=tUpperArm*1000;
-				}else {
-					if(gui.observer2X > (gui.sourceX+gui.sourceV*tUpperArm)){//jesli przetnie sie na stozku a nie poza nim z gornym ramieniem			
+				if(gui.sourceV<0) {//jesli zrodlo leci w lewo
+					if(gui.observer2X>(gui.sourceX+gui.sourceV*tLowerArm)){//jesli przetnie sie na stozku a nie poza nim z dolnym ramieniem			
+						timeDelay=tLowerArm*1000 ;//mnozenie zeby bylo w ms
+						timeRunaway=tUpperArm*1000;
+					}else {
+						if(gui.observer2X > (gui.sourceX+gui.sourceV*tUpperArm)){//jesli przetnie sie na stozku a nie poza nim z gornym ramieniem			
+							timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
+							timeRunaway=200000000;//bo juz nie ucieknie
+						}
+					}
+				}else {	//jesli w prawo leci zrodlo			
+					if(gui.observer2X<(gui.sourceX+gui.sourceV*tUpperArm)){//jesli przetnie sie na stozku a nie poza nim z dolnym ramieniem			
 						timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
-						timeRunaway=200000000;//bo juz nie ucieknie
+						timeRunaway=tLowerArm*1000;
+					}else {
+						if(gui.observer2X < (gui.sourceX+gui.sourceV*tLowerArm)){//jesli przetnie sie na stozku a nie poza nim z gornym ramieniem			
+							timeDelay=tLowerArm*1000 ;//mnozenie zeby bylo w ms
+							timeRunaway=200000000;//bo juz nie ucieknie
+						}
 					}
 				}
 			}
