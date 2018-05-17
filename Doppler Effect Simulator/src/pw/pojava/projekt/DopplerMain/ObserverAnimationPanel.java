@@ -28,7 +28,19 @@ public abstract class ObserverAnimationPanel extends ChartPanel {
 		
 	}
 	
-	public abstract class ObserverSwingWorker extends SwingWorker<Void,XYDataItem>{
+	public class DataToSimulate{//klasa przechowujaca dane przesylane do processa - punkt wykresu i czestotliwosc chwilowa dzwieku
+		XYDataItem xyDataItem;
+		Double freq;
+		
+		DataToSimulate(XYDataItem xy, Double f){
+			xyDataItem = xy;
+			freq = f;
+		}
+		public XYDataItem getXY() {return xyDataItem;}
+		public Double getFreq() {return freq;}
+	}
+	
+	public abstract class ObserverSwingWorker extends SwingWorker<Void,DataToSimulate>{
 			
 			double time =0;//aktualna chwila czasu [ms]
 			int sleep = 1;//ms ile spi
@@ -47,9 +59,9 @@ public abstract class ObserverAnimationPanel extends ChartPanel {
 											
 			//UWAGA: jest dzielenie freq przez 100, zeby pracowalo dla szerszego zakresu czestotliwosci - dzieki temu jest do 10-15kHzkHz, a nie do 100-150Hz
 			@Override
-	 	   	protected void process(List<XYDataItem> dane) {//dodaje dane do serii i jak jest ich za duzo to usuwa
-	 		   	for(XYDataItem d : dane) {
-	 		   		xySeries.add(d);
+	 	   	protected void process(List<DataToSimulate> data) {//dodaje dane do serii i jak jest ich za duzo to usuwa
+	 		   	for(DataToSimulate d : data) {
+	 		   		xySeries.add(d.getXY());
 	 		   	while(xySeries.getItemCount()>maxCount/((double)gui.soundFreq/100))//if(xySeries.getItemCount()>500)//jak sie zmieni wartosc maxCount, to szerokosc inna
 	 		   			xySeries.remove(0);	//to na gorze co zakomentowane jesli ma sie nie dostosowywac do czestotliwosci szerokosc okna 
 	 		   	}

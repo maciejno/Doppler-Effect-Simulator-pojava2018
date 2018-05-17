@@ -30,13 +30,19 @@ private static final long serialVersionUID = 1L;
 						}
 						x = new Double(time);
 						y = new Double(Math.sin(2*pi*(f/100)*time/1000));
-						XYDataItem dataItem = new XYDataItem(x, y);
+						XYDataItem xyDataItem = new XYDataItem(x, y);
+						
+						DataToSimulate dataItem = new DataToSimulate(xyDataItem,f);
 						publish(dataItem);
+						
 						time+=sleep;
 						Thread.sleep(sleep);
 					}else {//jesli jeszcze fala nie dotarla
-						XYDataItem dataItem = new XYDataItem(time, 0.0);
+						XYDataItem xyDataItem = new XYDataItem(time, 0.0);
+						
+						DataToSimulate dataItem = new DataToSimulate(xyDataItem,0.0);
 						publish(dataItem);
+						
 						time+=sleep;
 						Thread.sleep(sleep);
 					}					
