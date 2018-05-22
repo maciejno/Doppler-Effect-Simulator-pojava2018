@@ -1,7 +1,5 @@
 package pw.pojava.projekt.DopplerMain;
 
-import java.util.List;
-
 import javax.swing.SwingWorker;
 
 import org.jfree.chart.ChartPanel;
@@ -57,15 +55,6 @@ public abstract class ObserverAnimationPanel extends ChartPanel {
 				//System.out.println(timeRunaway);
 			}
 											
-			//UWAGA: jest dzielenie freq przez 100, zeby pracowalo dla szerszego zakresu czestotliwosci - dzieki temu jest do 10-15kHzkHz, a nie do 100-150Hz
-			@Override
-	 	   	protected void process(List<DataToSimulate> data) {//dodaje dane do serii i jak jest ich za duzo to usuwa
-	 		   	for(DataToSimulate d : data) {
-	 		   		xySeries.add(d.getXY());
-	 		   	while(xySeries.getItemCount()>maxCount/((double)gui.soundFreq/100))//if(xySeries.getItemCount()>500)//jak sie zmieni wartosc maxCount, to szerokosc inna
-	 		   			xySeries.remove(0);	//to na gorze co zakomentowane jesli ma sie nie dostosowywac do czestotliwosci szerokosc okna 
-	 		   	}
-	 	   	}
 			@Override
 			abstract protected Void doInBackground() throws Exception; //oblicza wartosi sinusa, czas w ms i przesyla do process 								
 		}
