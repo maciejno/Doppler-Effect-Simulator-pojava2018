@@ -107,6 +107,25 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 							timeRunaway=200000000;//bo juz nie ucieknie
 						}
 					}
+//>>>>>>>>>>>TU JEST ROZBABRANE//bez tego w sumie dziala oprocz przeciecia z okregiem na koncu stozka		
+					/*double yUpperArm = gui.observer2Y + gui.observer2V*tUpperArm;
+					double yTangentPoint = -(deltaSqrt*gui.observer2V + gui.observer2Y*gui.soundSpeed*gui.soundSpeed - gui.sourceY*gui.observer2V*gui.observer2V)
+							/(gui.observer2V*gui.observer2V-gui.soundSpeed*gui.soundSpeed);
+					
+					//double tTangentPoint = -(deltaSqrt+gui.observer2V*(gui.observer2Y-gui.sourceY))
+					//		/(gui.observer2V*gui.observer2V-gui.soundSpeed*gui.soundSpeed);
+					//tTangentPoint = tTangentPoint*1000;//zeby w ms
+					System.out.println(deltaSqrt + " --> pierwiastek");
+					System.out.println(yTangentPoint + " -->y tangent");
+					System.out.println(yUpperArm + "-->y z ramieniem");
+					
+					if(yUpperArm<yTangentPoint) {//jesli przecina ramie jak sie stozek skonczyl, to przecina pierwszy okrag												
+						timeDelay = (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
+								/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
+						timeDelay = timeDelay*1000;//zeby w ms
+						System.out.println(timeDelay+ "-->zmienione?");
+					}*/
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 				}else {//jesli zrodlo leci w prawo
 					if(gui.observer2X<(gui.sourceX+gui.sourceV*tLowerArm)){//jesli przetnie sie na stozku a nie poza nim z gornym ramieniem			
 						timeDelay=tLowerArm*1000 ;//mnozenie zeby bylo w ms
@@ -147,7 +166,7 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 		if(timeDelay<0)timeDelay = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie zaczal	
 		if(timeRunaway<0)timeRunaway = 200000000;//duzy czas jak jest ujemna wartosc, zeby nigdy nie uciekl
 		if(timeRunaway<timeDelay)timeRunaway = 200000000;//jezeli czas ucieczki bylby mniejszy niz dotarcia
-		System.out.println(timeDelay);System.out.println(timeRunaway);
+		System.out.println(timeDelay + "-->koncowe Delay");System.out.println(timeRunaway+ "-->koncowe Runaway");
 	}
 
 	@Override
