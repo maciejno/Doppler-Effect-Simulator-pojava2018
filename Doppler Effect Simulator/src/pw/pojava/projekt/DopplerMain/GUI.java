@@ -58,7 +58,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	int sourceV = -110;
 	int soundSpeed = 300;
 	int soundFreq = 250;
-			
+	
 	boolean observer1State = true;
 	boolean observer2State = false;
 	boolean isRunning=false;
@@ -267,7 +267,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pObserver1.setBorder(BorderFactory.createTitledBorder(" "));
 		pObserver2.setBorder(BorderFactory.createTitledBorder(" "));
 		pSource.setBorder(BorderFactory.createTitledBorder("Zrodlo"));
-		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla"));
+		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla:     " + soundFreq + "Hz"));
 		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1:     0Hz"));
 		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 2:     0Hz"));
 		//wstawianie paneli w panele
@@ -524,6 +524,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 							soundFreq=50;}
 						if(soundFreq>10000) {
 							soundFreq=10000;}
+						pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla:     " + soundFreq + "Hz"));
 						//sourceFreqField.setText(String.valueOf(soundFreq));
 					//System.out.println("Sf:" + soundFreq);
 					pAnimation.setFrequency(soundFreq);
