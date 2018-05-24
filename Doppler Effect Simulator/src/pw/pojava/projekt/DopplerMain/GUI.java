@@ -20,6 +20,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -112,7 +113,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	ImageIcon reset = new ImageIcon(getClass().getResource("/reset.png"));
 	ImageIcon save = new ImageIcon(getClass().getResource("/save.png"));
 	
-	public GUI() {
+	public GUI() throws LineUnavailableException {
 		
 		//Tworzenie wykresow
 		sourceCollection = new XYSeriesCollection();
@@ -593,9 +594,14 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				startButton.setText("STOP");	
 				startButton.setIcon(stop);
 				try {				
-					exec = Executors.newFixedThreadPool(4);
-					if(pAnimation.observer1.appearance)exec.execute(pChartObserver1.worker);
-					if(pAnimation.observer2.appearance)exec.execute(pChartObserver2.worker);					
+					exec = Executors.newFixedThreadPool(5);
+					if(pAnimation.observer1.appearance) {
+						exec.execute(pChartObserver1.worker);
+						exec.execute(pChartObserver1.sound1.production);
+					}
+					if(pAnimation.observer2.appearance) {
+						exec.execute(pChartObserver2.worker);					
+					}
 					exec.execute(pAnimation.worker);
 					exec.execute(pChartSource.worker);
 					exec.shutdown();					
