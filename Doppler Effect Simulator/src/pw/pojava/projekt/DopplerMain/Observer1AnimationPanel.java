@@ -1,7 +1,12 @@
 package pw.pojava.projekt.DopplerMain;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
 import javax.swing.BorderFactory;
 
 import org.jfree.chart.JFreeChart;
@@ -12,17 +17,19 @@ import org.jfree.data.xy.XYSeries;
 
 public class Observer1AnimationPanel extends ObserverAnimationPanel{
 
-private static final long serialVersionUID = 1L;									
+private static final long serialVersionUID = 1L;		
+
+	sound sound1 = new sound();
 	
-	public Observer1AnimationPanel(GUI gui, JFreeChart chart) {
+	public Observer1AnimationPanel(GUI gui, JFreeChart chart) throws LineUnavailableException {
 		super(gui,chart);		
 		super.xySeries = new XYSeries("Observer 1 signal");
 		gui.observer1Collection.addSeries(xySeries);
 		super.worker = new Observer1SwingWorker();
+		
 	}
 
 	class Observer1SwingWorker extends ObserverSwingWorker{
-		
 		//UWAGA: jest dzielenie freq przez 100, zeby pracowalo dla szerszego zakresu czestotliwosci - dzieki temu jest do 10-15kHzkHz, a nie do 100-150Hz
 		@Override
 		protected void process(List<DataToSimulate> data) {//dodaje dane do serii i jak jest ich za duzo to usuwa
@@ -30,6 +37,7 @@ private static final long serialVersionUID = 1L;
 			else gui.pChartObserver1.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 1:     " + (data.get(data.size()-1).getFreq()).intValue() + "Hz"));
 			
 			for(DataToSimulate d : data) {
+				sound1.setSound(d.getFreq());
  		   		xySeries.add(d.getXY());
  		   	while(xySeries.getItemCount()>maxCount/((double)gui.soundFreq/100))//if(xySeries.getItemCount()>500)//jak sie zmieni wartosc maxCount, to szerokosc inna
  		   			xySeries.remove(0);	//to na gorze co zakomentowane jesli ma sie nie dostosowywac do czestotliwosci szerokosc okna 
@@ -38,7 +46,8 @@ private static final long serialVersionUID = 1L;
 		@Override
 		protected Void doInBackground() throws Exception {
 			//oblicza wartosi sinusa, czas w ms i przesyla do process 				
-			while(gui.isRunning) {							
+			while(gui.isRunning) {
+				sound1.status=true;
 				if(!gui.isPaused){ //pauzowanie  
 					if((time >= timeDelay && (time <= timeRunaway))  ) {	//jesli juz fala dotarla i obserwator jej nie uciekl
 						if(gui.pAnimation.observer1.getX() < gui.pAnimation.source.getX()) {
@@ -68,6 +77,7 @@ private static final long serialVersionUID = 1L;
 					Thread.sleep(1);
 				}					
 			}
+			sound1.stop();
 			return null;
 		}
 		
@@ -120,6 +130,7 @@ private static final long serialVersionUID = 1L;
 	@Override
 	public void newWorker() {//metoda do tworzenia nowego swing workera
 		worker = new Observer1SwingWorker();
+		sound1.newSound();
 	}
 	@Override
 	public double getVObserver() {//zwraca skladowa predkosci obserwatora wzdluz linii laczacej go ze zrodlem
