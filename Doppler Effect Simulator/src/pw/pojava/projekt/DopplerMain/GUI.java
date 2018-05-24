@@ -11,14 +11,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -509,8 +505,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				}
 				else if(Integer.parseInt(sourceFreqField.getText())!=soundFreq) {
 					soundFreq = Integer.parseInt(sourceFreqField.getText());
-						if(soundFreq<=100) {
-							soundFreq=100;}
+						if(soundFreq<=50) {
+							soundFreq=50;}
 						if(soundFreq>10000) {
 							soundFreq=10000;}
 						if(language.equals("polish")) pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla:     " + soundFreq + "Hz"));

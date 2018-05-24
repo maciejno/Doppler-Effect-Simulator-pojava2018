@@ -109,23 +109,12 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 						}
 					}
 //>>>>>>>>>>>TU JEST ROZBABRANE//bez tego w sumie dziala oprocz przeciecia z okregiem na koncu stozka		
-					/*double yUpperArm = gui.observer2Y + gui.observer2V*tUpperArm;
-					double yTangentPoint = -(deltaSqrt*gui.observer2V + gui.observer2Y*gui.soundSpeed*gui.soundSpeed - gui.sourceY*gui.observer2V*gui.observer2V)
-							/(gui.observer2V*gui.observer2V-gui.soundSpeed*gui.soundSpeed);
-					
-					//double tTangentPoint = -(deltaSqrt+gui.observer2V*(gui.observer2Y-gui.sourceY))
-					//		/(gui.observer2V*gui.observer2V-gui.soundSpeed*gui.soundSpeed);
-					//tTangentPoint = tTangentPoint*1000;//zeby w ms
-					System.out.println(deltaSqrt + " --> pierwiastek");
-					System.out.println(yTangentPoint + " -->y tangent");
-					System.out.println(yUpperArm + "-->y z ramieniem");
-					
-					if(yUpperArm<yTangentPoint) {//jesli przecina ramie jak sie stozek skonczyl, to przecina pierwszy okrag												
-						timeDelay = (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
-								/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
-						timeDelay = timeDelay*1000;//zeby w ms
-						System.out.println(timeDelay+ "-->zmienione?");
-					}*/
+					/*
+					  double
+					  
+					  
+					   
+					 */
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 				}else {//jesli zrodlo leci w prawo
 					if(gui.observer2X<(gui.sourceX+gui.sourceV*tLowerArm)){//jesli przetnie sie na stozku a nie poza nim z gornym ramieniem			
