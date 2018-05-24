@@ -87,7 +87,7 @@ public class MainAnimationPanel extends JPanel {
 				if(superior.isPaused==false) // warunek do pauzowania
 				{
 					//System.out.println(quasiTime%period); // debugging, potem do usuniecia
-					if(quasiTime%period<1) { //dziala od ok. 30Hz, przy nizszych freq caly program sie zawiesza (?)
+					if(quasiTime%period<1 ) { 
 						WaveCrest crN = new WaveCrest(); //dziala tez z freq, ktore nie sa wielokrotnosciami 10 - wczesniej nie dzialalo
 						crN.setV(soundSpeed);
 						crN.setX(source.getX());
@@ -128,7 +128,7 @@ public class MainAnimationPanel extends JPanel {
 						break;
 					}
 					if(superior.isRunning==false) {//warunek zakonczenia jesli sie wcisnie RESET
-						Thread.sleep(50);
+						Thread.sleep(20);
 						break;
 					}
 				}else //pauza
@@ -138,7 +138,7 @@ public class MainAnimationPanel extends JPanel {
 						break;
 					}
 					try {
-						TimeUnit.MILLISECONDS.sleep(1);
+						TimeUnit.MILLISECONDS.sleep(timeQuantum);
 					}catch (InterruptedException e) {
 						System.err.println("Przerwano animacje");
 					}

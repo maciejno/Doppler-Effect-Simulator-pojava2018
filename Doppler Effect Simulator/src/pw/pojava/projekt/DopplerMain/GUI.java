@@ -11,7 +11,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -63,6 +62,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	boolean observer2State = false;
 	boolean isRunning=false;
 	boolean isPaused=false;
+	String language = "polish";
 	
 	//panels in main panel
 	JPanel pWest, pEast, pChart, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
@@ -385,17 +385,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		setAnimationParameters();
 		
 	}//koniec konstruktora
-
-	//ta metoda na razie nie jest uzywana
-	private ImageIcon createImageIcon(String path, String description) { //wa¿ne coœ do dodawania ikonek
-		java.net.URL imgURL = getClass().getResource(path);
-	    if (imgURL != null) {
-	        return new ImageIcon(imgURL, description);
-	    } else {
-	        System.err.println("Couldn't find file:  " + path + " :(");
-	        return null;
-	    }
-	}
 	
 	public void stateChanged(ChangeEvent arg0) { //listener do Sliderów
 		if(observer1Slider.getValue()!=observer1V) { //Slider obserwatora 1			
@@ -520,11 +509,12 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				}
 				else if(Integer.parseInt(sourceFreqField.getText())!=soundFreq) {
 					soundFreq = Integer.parseInt(sourceFreqField.getText());
-						if(soundFreq<=50) {
-							soundFreq=50;}
+						if(soundFreq<=100) {
+							soundFreq=100;}
 						if(soundFreq>10000) {
 							soundFreq=10000;}
-						pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla:     " + soundFreq + "Hz"));
+						if(language.equals("polish")) pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla:     " + soundFreq + "Hz"));
+						else pChartSource.setBorder(BorderFactory.createTitledBorder("Sound from source:     " + soundFreq + "Hz"));
 						//sourceFreqField.setText(String.valueOf(soundFreq));
 					//System.out.println("Sf:" + soundFreq);
 					pAnimation.setFrequency(soundFreq);
@@ -644,23 +634,25 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	}
 	
 	void setLanguagePolish() { //zmiana jezyka na POLISH
+		language = "polish";
 		saveButton.setText("ZAPISZ");
 		observer1Checkbox.setText("Obserwator 1");
 		observer2Checkbox.setText("Obserwator 2");
 		pSource.setBorder(BorderFactory.createTitledBorder("Zrodlo"));
 		soundSpeedLabel.setText("Predkosc dzwieku:");
-		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla"));
+		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla:     " + soundFreq + "Hz"));
 		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1"));
 		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 2"));
 	}
 	
 	void setLanguageEnglish() { //Zmiana jezyka na angielski
+		language = "english";
 		saveButton.setText("SAVE");
 		observer1Checkbox.setText("Observer 1");
 		observer2Checkbox.setText("Observer 2");
 		pSource.setBorder(BorderFactory.createTitledBorder("Source"));
 		soundSpeedLabel.setText("Sound speed:");
-		pChartSource.setBorder(BorderFactory.createTitledBorder("Sound from source"));
+		pChartSource.setBorder(BorderFactory.createTitledBorder("Sound from source:     " + soundFreq + "Hz"));
 		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 1"));
 		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 2"));
 	}

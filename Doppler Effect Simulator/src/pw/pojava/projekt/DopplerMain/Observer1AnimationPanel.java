@@ -8,7 +8,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYDataItem;
 import org.jfree.data.xy.XYSeries;
 
-import pw.pojava.projekt.DopplerMain.ObserverAnimationPanel.DataToSimulate;
 
 
 public class Observer1AnimationPanel extends ObserverAnimationPanel{
@@ -27,7 +26,9 @@ private static final long serialVersionUID = 1L;
 		//UWAGA: jest dzielenie freq przez 100, zeby pracowalo dla szerszego zakresu czestotliwosci - dzieki temu jest do 10-15kHzkHz, a nie do 100-150Hz
 		@Override
 		protected void process(List<DataToSimulate> data) {//dodaje dane do serii i jak jest ich za duzo to usuwa
-			gui.pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1:     " + (data.get(data.size()-1).getFreq()).intValue() + "Hz"));
+			if(gui.language.equals("polish")) gui.pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1:     " + (data.get(data.size()-1).getFreq()).intValue() + "Hz"));							
+			else gui.pChartObserver1.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 1:     " + (data.get(data.size()-1).getFreq()).intValue() + "Hz"));
+			
 			for(DataToSimulate d : data) {
  		   		xySeries.add(d.getXY());
  		   	while(xySeries.getItemCount()>maxCount/((double)gui.soundFreq/100))//if(xySeries.getItemCount()>500)//jak sie zmieni wartosc maxCount, to szerokosc inna
