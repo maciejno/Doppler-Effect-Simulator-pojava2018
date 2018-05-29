@@ -660,17 +660,17 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	}
 	
 	// G E T Y
-	public int getOb1X() {return observer1X;}
-	public int getOb1Y() {return observer1Y;}
-	public int getOb1V() {return observer1V;}
-	public int getOb2X() {return observer2X;}
-	public int getOb2Y() {return observer2Y;}
-	public int getOb2V() {return observer2V;}
-	public int getSourceX() {return sourceX;}
-	public int getSourceY() {return sourceY;}
-	public int getSourceV() {return sourceV;}
-	public int getSoundV() {return soundSpeed;}
-	public int getSoundFreq() {return soundFreq;}
+	public double getOb1X() {return (double)observer1X;}
+	public double getOb1Y() {return (double)observer1Y;}
+	public double getOb1V() {return (double)observer1V;}
+	public double getOb2X() {return (double)observer2X;}
+	public double getOb2Y() {return (double)observer2Y;}
+	public double getOb2V() {return (double)observer2V;}
+	public double getSourceX() {return (double)sourceX;}
+	public double getSourceY() {return (double)sourceY;}
+	public double getSourceV() {return (double)sourceV;}
+	public double getSoundV() {return (double)soundSpeed;}
+	public double getSoundFreq() {return (double)soundFreq;}
 	
 	
 	
