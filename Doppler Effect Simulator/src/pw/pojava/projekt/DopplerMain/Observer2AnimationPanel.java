@@ -109,12 +109,15 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 						}
 					}
 //>>>>>>>>>>>TU JEST ROZBABRANE//bez tego w sumie dziala oprocz przeciecia z okregiem na koncu stozka		
-					/*
-					  double
-					  
-					  
-					   
-					 */
+					//zmienne pomocnicze do wyliczenia tangetX0 - x0 dla przeciecia toru ruchu z punktem stycznosci okregu z ramieniem
+		/*			
+					double bigSqrt;//taki duzy pierwiastek do wzotu na tangentX0 - do licznika
+					double numerator;//licznik
+					double denominator;//mianownik
+					
+					bigSqrt = Math.sqrt( () * (( () * () )^2) );
+					
+					double tangentX0 = (numerator)/(denominator);*/
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 				}else {//jesli zrodlo leci w prawo
 					if(gui.observer2X<(gui.sourceX+gui.sourceV*tLowerArm)){//jesli przetnie sie na stozku a nie poza nim z gornym ramieniem			

@@ -11,16 +11,11 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 
 import javax.sound.sampled.LineUnavailableException;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -114,7 +109,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	ImageIcon reset = new ImageIcon(getClass().getResource("/reset.png"));
 	ImageIcon save = new ImageIcon(getClass().getResource("/save.png"));
 	
-	public GUI() {
+	public GUI() throws LineUnavailableException {
 		
 		//Tworzenie wykresow
 		sourceCollection = new XYSeriesCollection();
@@ -663,5 +658,20 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 1"));
 		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 2"));
 	}
-
+	
+	// G E T Y
+	public int getOb1X() {return observer1X;}
+	public int getOb1Y() {return observer1Y;}
+	public int getOb1V() {return observer1V;}
+	public int getOb2X() {return observer2X;}
+	public int getOb2Y() {return observer2Y;}
+	public int getOb2V() {return observer2V;}
+	public int getSourceX() {return sourceX;}
+	public int getSourceY() {return sourceY;}
+	public int getSourceV() {return sourceV;}
+	public int getSoundV() {return soundSpeed;}
+	public int getSoundFreq() {return soundFreq;}
+	
+	
+	
 }

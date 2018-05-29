@@ -1,12 +1,8 @@
 package pw.pojava.projekt.DopplerMain;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
 import javax.swing.BorderFactory;
 
 import org.jfree.chart.JFreeChart;
