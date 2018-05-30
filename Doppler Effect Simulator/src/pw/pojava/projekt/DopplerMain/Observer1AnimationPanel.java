@@ -20,13 +20,15 @@ public class Observer1AnimationPanel extends ObserverAnimationPanel{
 
 private static final long serialVersionUID = 1L;		
 
-	sound sound1 = new sound();
+sound sound1 = new sound();
 	
 	public Observer1AnimationPanel(GUI gui, JFreeChart chart) throws LineUnavailableException {
 		super(gui,chart);		
 		super.xySeries = new XYSeries("Observer 1 signal");
 		gui.observer1Collection.addSeries(xySeries);
 		super.worker = new Observer1SwingWorker();
+		
+		sound1.newSound();
 		
 	}
 
@@ -76,7 +78,7 @@ private static final long serialVersionUID = 1L;
 					Thread.sleep(1);
 				}					
 			}
-			sound1.stop();
+			sound1.status=false;
 			return null;
 		}
 		
@@ -129,7 +131,12 @@ private static final long serialVersionUID = 1L;
 	@Override
 	public void newWorker() {//metoda do tworzenia nowego swing workera
 		worker = new Observer1SwingWorker();
-		sound1.newSound();
+		try {
+			sound1.newSound();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public double getVObserver() {//zwraca skladowa predkosci obserwatora wzdluz linii laczacej go ze zrodlem
