@@ -618,8 +618,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 					}
 					if(pAnimation.observer2.appearance) {
 						exec.execute(pChartObserver2.worker);
-						//if(whoPlay==2)
-							//exec.execute(pChartObserver2.sound2);
+						if(whoPlay==2)
+							exec.execute(pChartObserver2.sound2);
 					}
 					exec.execute(pAnimation.worker);
 					exec.execute(pChartSource.worker);

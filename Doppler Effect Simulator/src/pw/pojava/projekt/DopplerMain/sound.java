@@ -30,11 +30,10 @@ public class sound implements Runnable	{
 	AudioFormat format; //do dzwieku
 	
 	public  void newSound() throws LineUnavailableException {
-		greatBuffer.clear();
 		format=new AudioFormat(44100f,16,2,true,true); //wazne rzeczy do robienia dzwieku
 	    line=AudioSystem.getSourceDataLine(format);
 		line.open(format);
-		new Thread(this).start();
+		new Thread(this);
 
 	}
 	
@@ -81,6 +80,7 @@ public class sound implements Runnable	{
 
 	@Override
 	public void run() {
+		greatBuffer.clear();
 	    byte[] buffer=new byte[4];
 	    int bufferposition=0;
 		while(status){ 

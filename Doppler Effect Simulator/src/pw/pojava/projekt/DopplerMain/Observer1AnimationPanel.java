@@ -74,8 +74,8 @@ sound sound1;
 						Thread.sleep(sleep);
 					}					
 				}else { //pauza
-					Thread.sleep(1);
 					sound1.setSound(0);
+					Thread.sleep(1);
 				}					
 			}
 			sound1.status=false;
