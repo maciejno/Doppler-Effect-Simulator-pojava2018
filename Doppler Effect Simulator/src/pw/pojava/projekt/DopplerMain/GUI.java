@@ -73,7 +73,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	boolean isRunning=false;
 	boolean isPaused=false;
 	String language = "polish";
-	int whoPlay =0; //przechowuje informacje o tym kto odtwarza dzwiek, gdy 0 to nikt
+	int whoPlay =0; //przechowuje informacje o tym kto odtwarza dzwiek, gdy 0 to nikt. 1, 2 - obserator 1 lub 2
 	
 	//panels in main panel
 	JPanel pWest, pEast, pChart, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
@@ -201,6 +201,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		
 		comboBox = new JComboBox<String>(options) ;
 		comboBox.addItem("Odrzutowce");
+		comboBox.addItem("Ucieczka");
+		comboBox.addItem("Na morza dnie");
 				
 		//ustawienia sliderów
 		Font SliderFont = new Font("Calibri", Font.BOLD, 11); //kosmetyka
@@ -685,7 +687,13 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			isRunning = false;
 			pChartObserver1.sound1.status=false;
 			//pChartObserver2.sound2.status=false;
-			exec.shutdownNow();
+			exec.shutdownNow();	
+		}
+		else if(action.equals("save")) {
+			if(whoPlay==1)
+				pChartObserver1.sound1.save("Obserwator 1");
+			else if(whoPlay==2)
+				pChartObserver2.sound2.save("Obserwator 2");
 			
 		}
 		

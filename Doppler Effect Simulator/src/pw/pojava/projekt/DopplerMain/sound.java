@@ -52,7 +52,7 @@ public class sound implements Runnable	{
 	    i++;
 	    byteBuffer[i] = (byte) (x & 0xff);
 	    }
-	    File out = new File(name); //tworzy plik
+	    File out = new File(name + ".wav"); //tworzy plik
 	    boolean bigEndian = true; //kolejnosc zapisu bajtow
 	    boolean signed = true; //parametry pliku .wav
 	    int bits = 16;
