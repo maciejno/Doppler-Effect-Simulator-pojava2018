@@ -625,6 +625,13 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				pAnimation.newWorker();
 				pChartSource.newWorker();
 				pChartObserver1.newWorker();
+				try {
+					pChartObserver1.sound1.newSound();
+				} catch (LineUnavailableException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				pChartObserver1.sound1.status=true;
 				pChartObserver2.newWorker();
 				isRunning = true;
 				startButton.setText("STOP");	
@@ -633,7 +640,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 					exec = Executors.newFixedThreadPool(5);
 					if(pAnimation.observer1.appearance) {
 						exec.execute(pChartObserver1.worker);
-						exec.execute(pChartObserver1.sound1.production);
+						exec.execute(pChartObserver1.sound1);
 					}
 					if(pAnimation.observer2.appearance) {
 						exec.execute(pChartObserver2.worker);					

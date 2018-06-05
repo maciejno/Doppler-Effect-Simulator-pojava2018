@@ -4,49 +4,44 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.List;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+import javax.swing.SwingWorker;
 
-public class sound implements Runnable {
+import pw.pojava.projekt.DopplerMain.ObserverAnimationPanel.DataToSimulate;
+import pw.pojava.projekt.DopplerMain.ObserverAnimationPanel.ObserverSwingWorker;
+
+public class sound implements Runnable	{
 	
-	Thread production;
 
 	double freq=440;
 	double volume=4200;
 	final double sampleRate = 44100.0;
 	SourceDataLine line; //wazna rzecz
 	boolean status=false; //status odtwarzania
-	long c=0; //licznik sampli
-	ArrayList<Float> greatBuffer; //bufor przechowujacy dzwiek do zapisu
+	ArrayList<Float> greatBuffer = new ArrayList<Float>();
+    long c=0;
+
+
+	AudioFormat format; //do dzwieku
 	
-	public sound() throws LineUnavailableException {
-		final AudioFormat format=new AudioFormat(44100f,16,2,true,true); //wazne rzeczy do robienia dzwieku
-		greatBuffer = new ArrayList<Float>();
+	public  void newSound() throws LineUnavailableException {
+		format=new AudioFormat(44100f,16,2,true,true); //wazne rzeczy do robienia dzwieku
 	    line=AudioSystem.getSourceDataLine(format);
 		line.open(format);
+		new Thread(this).start();
 	}
 	
 	public void setSound(double f) { //zmienia tylko czestotliwosc
 		freq = f;
 	}
 	
-	 /*public void setSound(double f, double v) { //zmienia czestotliwosc i amplitude
-		freq = f;
-		volume = v;
-	} */
-	
-	public void stop() {
-		status=false;
-	}
-	
-	public void newSound() { //tworzy nowy watek
-		production = new Thread(this);
-	}
+		
 	
 	public void save(String name) {  //zapis do pliku
 		final byte[] byteBuffer = new byte[greatBuffer.size() * 2]; //bufor do zapisu
@@ -55,7 +50,7 @@ public class sound implements Runnable {
 	    final int x = (int) (greatBuffer.get(bufferIndex++)*1);
 	    byteBuffer[i] = (byte) (x>>>8); // ...w postaaci bitow
 	    i++;
-	    byteBuffer[i] = (byte) (x & 0xff); //analogicznie jak w run()
+	    byteBuffer[i] = (byte) (x & 0xff);
 	    }
 	    File out = new File(name); //tworzy plik
 	    boolean bigEndian = true; //kolejnosc zapisu bajtow
@@ -79,35 +74,39 @@ public class sound implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    
-	    c=0; //reset ilosci sampli
+	    //reset ilosci sampli
 		greatBuffer.clear(); //usuwa poprzedni zapis
 	}
 	
+
 	@Override
 	public void run() {
-		System.out.println("uruchomiono watek dzwieku");
-		byte[] buffer=new byte[100]; //bufor do ciaglego odtwarzania
-	    int bufferposition=0; //licznik pozycji w buforze
-	    
-	    while(status){
+	    byte[] buffer=new byte[16];
+	    int bufferposition=0;
+		while(status){
+		      //Generate a sample
 		      short sample=(short) (Math.sin(2*Math.PI*c/(sampleRate/freq))*volume);
 		      greatBuffer.add((float) sample);
 
-		      buffer[bufferposition]=(byte) (sample>>>8); //rozdziela sample na 2 bity i wrzuca do bufora
+		      //Split the sample into two bytes and store them in the buffer
+		      buffer[bufferposition]=(byte) (sample>>>8);
 		      bufferposition++;
 		      buffer[bufferposition]=(byte) (sample & 0xff);
 		      bufferposition++;
 
-		      if(bufferposition>=buffer.length){ //jesli bufor sie wypelni, wysyla dzwiek do glosnikow
+		      //if the buffer is full, send it to the speakers
+		      if((bufferposition>=buffer.length)&&status==true){
 		        line.write(buffer,0,buffer.length);
 		        line.start();
-
-		        bufferposition=0; //reset bufora
+		        //Reset the buffer
+		        bufferposition=0;
 		      }
-		      c++; //sample+1
-		    }  
+		      c++;
+	    }
+		c=0;
 	}
 	
+      
+
+}	
 	
-}
