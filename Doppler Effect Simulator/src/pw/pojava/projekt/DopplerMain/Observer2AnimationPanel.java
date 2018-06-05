@@ -75,11 +75,10 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 		double deltaSqrt = 0.0;		
 		deltaSqrt = Math.sqrt( gui.soundSpeed*gui.soundSpeed * 
 				(gui.observer2X*gui.observer2X - 2*gui.observer2X*gui.sourceX + gui.sourceX*gui.sourceX + Math.pow( (gui.observer2Y-gui.sourceY), 2.0))
-				-gui.observer2V*gui.observer2V*Math.pow( (gui.observer2X-gui.sourceX), 2.0));	
-//>>>>>>>>>>>>>>>>>		POPRAWIC
-		double time = (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
-		/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V);//do przyblizania potem
-//>>>>>>>>>>>>>>>>>>>>>>>>		
+				-gui.observer2V*gui.observer2V*Math.pow( (gui.observer2X-gui.sourceX), 2.0));			
+		//DO PRZYBLIZANIA CZAS POTRZEBNY
+		double time = module((gui.getOb2Y()-gui.getSourceY())/(gui.getSoundV()-gui.getOb2V()));//do przyblizania przecinania
+				
 		if(module((double)gui.sourceV)<=gui.soundSpeed) {//przypadek nienaddzwiekowy		
 			timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
 					/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
