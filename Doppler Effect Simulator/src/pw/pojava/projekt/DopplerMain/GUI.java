@@ -64,6 +64,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	boolean observer2State = false;
 	boolean isRunning=false;
 	boolean isPaused=false;
+	int whoPlay =1; //przechowuje informacje o tym kto odtwarza dzwiek, gdy 0 to nikt
 	
 	//panels in main panel
 	JPanel pWest, pEast, pChart, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
@@ -177,7 +178,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		resetButton = new JButton("RESET");
 		resetButton.setIcon(reset);
 		soundButton1 = new JButton();
-		soundButton1.setIcon(soundOFF);	
+		soundButton1.setIcon(soundON);	
 		soundButton2 = new JButton();
 		soundButton2.setIcon(soundOFF);	
 				
@@ -382,6 +383,10 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		switchEnglishButton.setActionCommand("english");
 		resetButton.addActionListener(this);
 		resetButton.setActionCommand("reset");
+		soundButton1.addActionListener(this);
+		soundButton1.setActionCommand("s1");
+		soundButton2.addActionListener(this);
+		soundButton2.setActionCommand("s2");
 		
 		setAnimationParameters();
 		
@@ -589,13 +594,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				pAnimation.newWorker();
 				pChartSource.newWorker();
 				pChartObserver1.newWorker();
-				try {
-					pChartObserver1.sound1.newSound();
-				} catch (LineUnavailableException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				pChartObserver1.sound1.status=true;
 				pChartObserver2.newWorker();
 				isRunning = true;
 				startButton.setText("STOP");	
@@ -604,10 +602,13 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 					exec = Executors.newFixedThreadPool(5);
 					if(pAnimation.observer1.appearance) {
 						exec.execute(pChartObserver1.worker);
-						exec.execute(pChartObserver1.sound1);
+						if(whoPlay==1)
+							exec.execute(pChartObserver1.sound1);
 					}
 					if(pAnimation.observer2.appearance) {
-						exec.execute(pChartObserver2.worker);					
+						exec.execute(pChartObserver2.worker);
+						if(whoPlay==2)
+							exec.execute(pChartObserver2.sound2);
 					}
 					exec.execute(pAnimation.worker);
 					exec.execute(pChartSource.worker);
@@ -629,8 +630,46 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		}
 		else if(action.equals("reset")) {
 			isRunning = false;
-			exec.shutdownNow();						
+			pChartObserver1.sound1.status=false;
+			pChartObserver2.sound2.status=false;
+			exec.shutdownNow();
+			
 		}
+		
+		else if(action.equals("s1")) {
+			if(whoPlay==0) {
+				soundButton1.setIcon(soundON);
+				whoPlay=1;
+			}
+			else if(whoPlay==1) {
+				soundButton1.setIcon(soundOFF);
+				whoPlay=0;
+			}
+			else if(whoPlay==2) {
+				soundButton1.setIcon(soundON);
+				soundButton2.setIcon(soundOFF);
+				whoPlay=1;
+			}
+		}
+		
+		else if(action.equals("s2")) {
+			if(whoPlay==0) {
+				soundButton2.setIcon(soundON);
+				whoPlay=2;
+			}
+			else if(whoPlay==1) {
+				soundButton1.setIcon(soundOFF);
+				soundButton2.setIcon(soundON);
+				whoPlay=2;
+			}
+			else if(whoPlay==2) {
+				soundButton2.setIcon(soundOFF);
+				whoPlay=0;
+			}
+		
+		}
+		System.out.println(whoPlay);
+		
 	}
 	
 	public void keyPressed(KeyEvent arg0) {	}

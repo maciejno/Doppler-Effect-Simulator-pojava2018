@@ -27,18 +27,19 @@ public class sound implements Runnable	{
 	ArrayList<Float> greatBuffer = new ArrayList<Float>();
     long c=0;
 
-
 	AudioFormat format; //do dzwieku
 	
 	public  void newSound() throws LineUnavailableException {
+		greatBuffer.clear();
 		format=new AudioFormat(44100f,16,2,true,true); //wazne rzeczy do robienia dzwieku
 	    line=AudioSystem.getSourceDataLine(format);
 		line.open(format);
 		new Thread(this).start();
+
 	}
 	
 	public void setSound(double f) { //zmienia tylko czestotliwosc
-		freq = f;
+		freq = Math.abs(f);
 	}
 	
 		
@@ -75,34 +76,34 @@ public class sound implements Runnable	{
 			e.printStackTrace();
 		}
 	    //reset ilosci sampli
-		greatBuffer.clear(); //usuwa poprzedni zapis
 	}
 	
 
 	@Override
 	public void run() {
-	    byte[] buffer=new byte[16];
+	    byte[] buffer=new byte[4];
 	    int bufferposition=0;
-		while(status){
-		      //Generate a sample
-		      short sample=(short) (Math.sin(2*Math.PI*c/(sampleRate/freq))*volume);
+		while(status){ 
+			//generuje sample
+			short sample = 0;
+				sample=(short) (Math.sin(2*Math.PI*c/(sampleRate/freq))*volume);
+		      
 		      greatBuffer.add((float) sample);
 
-		      //Split the sample into two bytes and store them in the buffer
+		      //dzieli sample na 2 i przechowuje w buforze
 		      buffer[bufferposition]=(byte) (sample>>>8);
 		      bufferposition++;
 		      buffer[bufferposition]=(byte) (sample & 0xff);
 		      bufferposition++;
 
-		      //if the buffer is full, send it to the speakers
-		      if((bufferposition>=buffer.length)&&status==true){
+		      //jesli bufor jest pelen, wysyla zawartosc na glosniki
+		      if(bufferposition>=buffer.length){
 		        line.write(buffer,0,buffer.length);
 		        line.start();
-		        //Reset the buffer
 		        bufferposition=0;
 		      }
 		      c++;
-	    }
+		}
 		c=0;
 	}
 	

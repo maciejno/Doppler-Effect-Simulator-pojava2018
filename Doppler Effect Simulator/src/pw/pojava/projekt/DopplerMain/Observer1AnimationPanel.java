@@ -27,7 +27,6 @@ sound sound1 = new sound();
 		super.xySeries = new XYSeries("Observer 1 signal");
 		gui.observer1Collection.addSeries(xySeries);
 		super.worker = new Observer1SwingWorker();
-		
 		sound1.newSound();
 		
 	}
@@ -38,8 +37,8 @@ sound sound1 = new sound();
 		protected void process(List<DataToSimulate> data) {//dodaje dane do serii i jak jest ich za duzo to usuwa
 			gui.pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1:     " + (data.get(data.size()-1).getFreq()).intValue() + "Hz"));
 			for(DataToSimulate d : data) {
-				sound1.setSound(d.getFreq());
  		   		xySeries.add(d.getXY());
+ 		   		sound1.setSound(d.getFreq());
  		   	while(xySeries.getItemCount()>maxCount/((double)gui.soundFreq/100))//if(xySeries.getItemCount()>500)//jak sie zmieni wartosc maxCount, to szerokosc inna
  		   			xySeries.remove(0);	//to na gorze co zakomentowane jesli ma sie nie dostosowywac do czestotliwosci szerokosc okna 
  		   	}
@@ -76,8 +75,10 @@ sound sound1 = new sound();
 					}					
 				}else { //pauza
 					Thread.sleep(1);
+					sound1.setSound(0);
 				}					
 			}
+			sound1.line.close();
 			sound1.status=false;
 			return null;
 		}
@@ -137,6 +138,7 @@ sound sound1 = new sound();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		sound1.status=true;
 	}
 	@Override
 	public double getVObserver() {//zwraca skladowa predkosci obserwatora wzdluz linii laczacej go ze zrodlem
