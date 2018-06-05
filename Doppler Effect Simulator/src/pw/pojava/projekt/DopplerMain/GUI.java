@@ -11,21 +11,29 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 
-import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
@@ -64,6 +72,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	boolean observer2State = false;
 	boolean isRunning=false;
 	boolean isPaused=false;
+	String language = "polish";
 	int whoPlay =0; //przechowuje informacje o tym kto odtwarza dzwiek, gdy 0 to nikt
 	
 	//panels in main panel
@@ -78,6 +87,9 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	JButton switchPolishButton, switchEnglishButton; //przyciski do zmiany jezyka
 	JButton startButton, saveButton; //przyciski ktore maja moc sprawcza :D
 	JButton soundButton1, soundButton2, resetButton;
+	
+	String[] options = { "Domyslny",  };//do inicjalizacji comboBoxa
+	JComboBox<String> comboBox; //combo box do ciekawych przypadkow
 	
 	JCheckBox observer1Checkbox, observer2Checkbox; // Observers CheckBoxes
 	JSlider observer1Slider, observer2Slider, sourceSlider;//Sliders for speed of objests
@@ -113,6 +125,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	ImageIcon stop = new ImageIcon(getClass().getResource("/stop.png"));
 	ImageIcon reset = new ImageIcon(getClass().getResource("/reset.png"));
 	ImageIcon save = new ImageIcon(getClass().getResource("/save.png"));
+	
+	
 	
 	public GUI() throws LineUnavailableException {
 		
@@ -184,7 +198,10 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				
 		observer1Checkbox = new JCheckBox("Obserwator 1"); observer1Checkbox.setSelected(true);
 		observer2Checkbox = new JCheckBox("Obserwator 2");
-			
+		
+		comboBox = new JComboBox<String>(options) ;
+		comboBox.addItem("Odrzutowce");
+				
 		//ustawienia sliderów
 		Font SliderFont = new Font("Calibri", Font.BOLD, 11); //kosmetyka
 		observer1Slider = new JSlider(JSlider.HORIZONTAL, observerSlider_MIN, observerSlider_MAX, observer1V);
@@ -264,7 +281,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pSouthSource.setLayout(new FlowLayout(flowLayoutOrientation));
 		
 		//ramki do paneli
-		pLanguage.setBorder(BorderFactory.createTitledBorder(" "));
+		pLanguage.setBorder(BorderFactory.createTitledBorder("Ustawienia"));
 		pControl.setBorder(BorderFactory.createTitledBorder(" "));
 		pObserver1.setBorder(BorderFactory.createTitledBorder(" "));
 		pObserver2.setBorder(BorderFactory.createTitledBorder(" "));
@@ -290,6 +307,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pChart.add(pChartObserver2);	
 		
 		//wstawianie komponentów do paneli
+		pLanguage.add(comboBox);
 		pLanguage.add(switchPolishButton);
 		pLanguage.add(switchEnglishButton);
 		
@@ -353,6 +371,33 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pControl.add(resetButton);
 									
 		//LISTENERY
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<		
+		/*comboBox.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	        	Integer[] data = new Integer [13];
+				try {
+					data = loadData((String)comboBox.getSelectedItem());
+				} catch (URISyntaxException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+	        	observer1X=data [0]; 
+	    		observer1Y=data[1];
+	    		observer1V=data[2];
+	    		observer2X=data[3]; 
+	    		observer2Y=data[4];
+	    		observer2V=data[5];
+	    		sourceX=data[6];
+	    		sourceY=data[7];
+	    		sourceV=data[8];
+	    		soundSpeed=data[9];
+	    		soundFreq=data[10];
+	    		if(data[11]==1)observer1State=true; else observer1State=false;
+	    		if(data[12]==1)observer2State=true; else observer2State=false;
+	        	setAnimationParameters();
+	        }
+	      });*/
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>		
 		observer1Checkbox.addItemListener(this); // dodawanie listenerów do Checkboxów
 		observer2Checkbox.addItemListener(this);
 		
@@ -391,18 +436,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		setAnimationParameters();
 		
 	}//koniec konstruktora
-
-	//ta metoda na razie nie jest uzywana
-	private ImageIcon createImageIcon(String path, String description) { //wa¿ne coœ do dodawania ikonek
-		java.net.URL imgURL = getClass().getResource(path);
-	    if (imgURL != null) {
-	        return new ImageIcon(imgURL, description);
-	    } else {
-	        System.err.println("Couldn't find file:  " + path + " :(");
-	        return null;
-	    }
-	}
 	
+
 	public void stateChanged(ChangeEvent arg0) { //listener do Sliderów
 		if(observer1Slider.getValue()!=observer1V) { //Slider obserwatora 1			
 			String slider1String = new Integer(observer1Slider.getValue()).toString();
@@ -604,6 +639,13 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				pAnimation.newWorker();
 				pChartSource.newWorker();
 				pChartObserver1.newWorker();
+				try {
+					pChartObserver1.sound1.newSound();
+				} catch (LineUnavailableException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				pChartObserver1.sound1.status=true;
 				pChartObserver2.newWorker();
 				isRunning = true;
 				startButton.setText("STOP");	
@@ -687,7 +729,43 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	public void setObserver1XField(Double val) {observer1XField.setText(val.toString());}
 
 	public void setNewMainAnimationThread() {exec = Executors.newSingleThreadExecutor();}
-	
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>	
+	protected Integer [] loadData(String fileName) throws URISyntaxException {//do wczytywania danych z pliku
+		Integer [] data = new Integer [13];//tablica na dane
+		InputStreamReader streamReader = null;
+
+		
+		File wybranyPlik = new File(new URI("/" + fileName +".txt"));
+		BufferedReader bufferedReader = null;
+		try {			
+			FileInputStream plikWejsciowy = new FileInputStream(wybranyPlik);
+			java.io.InputStream inputStream = plikWejsciowy ; // Otwieramy plik
+			streamReader = new InputStreamReader(inputStream,
+					Charset.forName("UTF-8")); // Otwieramy readera
+			bufferedReader = new BufferedReader(streamReader); // Buforujemy readera
+			String line;//na linie tekstu
+			line = bufferedReader.readLine();//wczytanie linii tekstu do bufora
+			
+			
+			for (int i = 0;i<13;i++) { // readLine() zwraca null jesli plik sie skonczyl
+				//System.out.println(line);	 			
+				data[i]= Integer.parseInt(line);
+				line = bufferedReader.readLine();
+			}			
+		} catch (IOException e) {	
+			System.out.println("Blad przy otwarciu");
+			e.printStackTrace();				
+		}
+		try {				
+			streamReader.close();
+			bufferedReader.close();
+		} catch (IOException e) {
+			System.out.println("BLAD PRZY ZAMYKANIU PLIKU!");
+			System.exit(3);
+			}
+		return data;
+	}
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<	
 	public void setAnimationParameters() { //ustawia parametry animacji
 		pAnimation.observer1.setX(observer1X); 
 		pAnimation.observer1.setY(observer1Y);
@@ -705,25 +783,44 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	}
 	
 	void setLanguagePolish() { //zmiana jezyka na POLISH
+		language = "polish";
 		saveButton.setText("ZAPISZ");
 		observer1Checkbox.setText("Obserwator 1");
 		observer2Checkbox.setText("Obserwator 2");
 		pSource.setBorder(BorderFactory.createTitledBorder("Zrodlo"));
 		soundSpeedLabel.setText("Predkosc dzwieku:");
-		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla"));
+		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla:     " + soundFreq + "Hz"));
 		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1"));
 		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 2"));
+		pLanguage.setBorder(BorderFactory.createTitledBorder("Ustawienia"));
 	}
 	
 	void setLanguageEnglish() { //Zmiana jezyka na angielski
+		language = "english";
 		saveButton.setText("SAVE");
 		observer1Checkbox.setText("Observer 1");
 		observer2Checkbox.setText("Observer 2");
 		pSource.setBorder(BorderFactory.createTitledBorder("Source"));
 		soundSpeedLabel.setText("Sound speed:");
-		pChartSource.setBorder(BorderFactory.createTitledBorder("Sound from source"));
+		pChartSource.setBorder(BorderFactory.createTitledBorder("Sound from source:     " + soundFreq + "Hz"));
 		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 1"));
 		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 2"));
+		pLanguage.setBorder(BorderFactory.createTitledBorder("Settings"));
 	}
-
+	
+	// G E T Y
+	public double getOb1X() {return (double)observer1X;}
+	public double getOb1Y() {return (double)observer1Y;}
+	public double getOb1V() {return (double)observer1V;}
+	public double getOb2X() {return (double)observer2X;}
+	public double getOb2Y() {return (double)observer2Y;}
+	public double getOb2V() {return (double)observer2V;}
+	public double getSourceX() {return (double)sourceX;}
+	public double getSourceY() {return (double)sourceY;}
+	public double getSourceV() {return (double)sourceV;}
+	public double getSoundV() {return (double)soundSpeed;}
+	public double getSoundFreq() {return (double)soundFreq;}
+	
+	
+	
 }

@@ -1,19 +1,14 @@
 package pw.pojava.projekt.DopplerMain;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
 import javax.swing.BorderFactory;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYDataItem;
 import org.jfree.data.xy.XYSeries;
 
-import pw.pojava.projekt.DopplerMain.ObserverAnimationPanel.DataToSimulate;
 
 
 public class Observer1AnimationPanel extends ObserverAnimationPanel{
@@ -35,7 +30,9 @@ sound sound1;
 		//UWAGA: jest dzielenie freq przez 100, zeby pracowalo dla szerszego zakresu czestotliwosci - dzieki temu jest do 10-15kHzkHz, a nie do 100-150Hz
 		@Override
 		protected void process(List<DataToSimulate> data) {//dodaje dane do serii i jak jest ich za duzo to usuwa
-			gui.pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1:     " + (data.get(data.size()-1).getFreq()).intValue() + "Hz"));
+			if(gui.language.equals("polish")) gui.pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1:     " + (data.get(data.size()-1).getFreq()).intValue() + "Hz"));							
+			else gui.pChartObserver1.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 1:     " + (data.get(data.size()-1).getFreq()).intValue() + "Hz"));
+			
 			for(DataToSimulate d : data) {
  		   		xySeries.add(d.getXY());
  		   		sound1.setSound(d.getFreq());
