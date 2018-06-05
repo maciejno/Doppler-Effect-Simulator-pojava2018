@@ -20,14 +20,14 @@ public class Observer1AnimationPanel extends ObserverAnimationPanel{
 
 private static final long serialVersionUID = 1L;		
 
-sound sound1 = new sound();
+sound sound1;
 	
 	public Observer1AnimationPanel(GUI gui, JFreeChart chart) throws LineUnavailableException {
 		super(gui,chart);		
 		super.xySeries = new XYSeries("Observer 1 signal");
 		gui.observer1Collection.addSeries(xySeries);
 		super.worker = new Observer1SwingWorker();
-		sound1.newSound();
+		sound1 = new sound();
 		
 	}
 
@@ -78,8 +78,8 @@ sound sound1 = new sound();
 					sound1.setSound(0);
 				}					
 			}
-			sound1.line.close();
 			sound1.status=false;
+			sound1.line.close();
 			return null;
 		}
 		

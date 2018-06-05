@@ -64,7 +64,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	boolean observer2State = false;
 	boolean isRunning=false;
 	boolean isPaused=false;
-	int whoPlay =1; //przechowuje informacje o tym kto odtwarza dzwiek, gdy 0 to nikt
+	int whoPlay =0; //przechowuje informacje o tym kto odtwarza dzwiek, gdy 0 to nikt
 	
 	//panels in main panel
 	JPanel pWest, pEast, pChart, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
@@ -178,7 +178,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		resetButton = new JButton("RESET");
 		resetButton.setIcon(reset);
 		soundButton1 = new JButton();
-		soundButton1.setIcon(soundON);	
+		soundButton1.setIcon(soundOFF);	
 		soundButton2 = new JButton();
 		soundButton2.setIcon(soundOFF);	
 				
@@ -430,9 +430,19 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	}
 	
 	public void itemStateChanged(ItemEvent arg0) { // Listener do checkboxów
+		
+			if((!observer1Checkbox.isSelected())&&whoPlay==1) {
+				soundButton1.setIcon(soundOFF);
+				whoPlay=0;
+			}
+			if((!observer2Checkbox.isSelected())&&whoPlay==2) {
+				whoPlay=0;
+				soundButton2.setIcon(soundOFF);
+			}
 			
 			observer1State=observer1Checkbox.isSelected();
 			observer2State=observer2Checkbox.isSelected();
+				
 			if(!isRunning) {//jesli animacja idzie, to nie mozna dodac obiektu
 				setAnimationParameters();
 			}						
@@ -599,6 +609,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				startButton.setText("STOP");	
 				startButton.setIcon(stop);
 				try {				
+					System.out.println(whoPlay);
 					exec = Executors.newFixedThreadPool(5);
 					if(pAnimation.observer1.appearance) {
 						exec.execute(pChartObserver1.worker);
@@ -607,8 +618,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 					}
 					if(pAnimation.observer2.appearance) {
 						exec.execute(pChartObserver2.worker);
-						if(whoPlay==2)
-							exec.execute(pChartObserver2.sound2);
+						//if(whoPlay==2)
+							//exec.execute(pChartObserver2.sound2);
 					}
 					exec.execute(pAnimation.worker);
 					exec.execute(pChartSource.worker);
@@ -631,17 +642,17 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		else if(action.equals("reset")) {
 			isRunning = false;
 			pChartObserver1.sound1.status=false;
-			pChartObserver2.sound2.status=false;
+			//pChartObserver2.sound2.status=false;
 			exec.shutdownNow();
 			
 		}
 		
 		else if(action.equals("s1")) {
-			if(whoPlay==0) {
+			if((whoPlay==0)&&(observer1State==true)) {
 				soundButton1.setIcon(soundON);
 				whoPlay=1;
 			}
-			else if(whoPlay==1) {
+			else if((whoPlay==1)&&(observer1State==true)) {
 				soundButton1.setIcon(soundOFF);
 				whoPlay=0;
 			}
@@ -653,11 +664,11 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		}
 		
 		else if(action.equals("s2")) {
-			if(whoPlay==0) {
+			if((whoPlay==0)&&(observer2State==true)) {
 				soundButton2.setIcon(soundON);
 				whoPlay=2;
 			}
-			else if(whoPlay==1) {
+			else if((whoPlay==1)&&(observer2State==true)) {
 				soundButton1.setIcon(soundOFF);
 				soundButton2.setIcon(soundON);
 				whoPlay=2;
@@ -668,8 +679,6 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			}
 		
 		}
-		System.out.println(whoPlay);
-		
 	}
 	
 	public void keyPressed(KeyEvent arg0) {	}
