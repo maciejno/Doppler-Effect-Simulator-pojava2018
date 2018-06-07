@@ -11,6 +11,8 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 import pw.pojava.projekt.DopplerMain.ObserverAnimationPanel.DataToSimulate;
@@ -19,8 +21,8 @@ import pw.pojava.projekt.DopplerMain.ObserverAnimationPanel.ObserverSwingWorker;
 public class sound implements Runnable	{
 	
 
-	double freq=440;
-	double volume=4200;
+	double freq=0;
+	double volume=5000;
 	final double sampleRate = 44100.0;
 	SourceDataLine line; //wazna rzecz
 	boolean status=false; //status odtwarzania
@@ -44,6 +46,7 @@ public class sound implements Runnable	{
 		
 	
 	public void save(String name) {  //zapis do pliku
+		if(greatBuffer.isEmpty()==false) {
 		final byte[] byteBuffer = new byte[greatBuffer.size() * 2]; //bufor do zapisu
 	    int bufferIndex = 0;
 	    for (int i = 0; i < byteBuffer.length; i++) { //przepisuje dane z wielkiego bufora do bufora zapisujcego... 
@@ -52,7 +55,12 @@ public class sound implements Runnable	{
 	    i++;
 	    byteBuffer[i] = (byte) (x & 0xff);
 	    }
-	    File out = new File(name + ".wav"); //tworzy plik
+	    
+	    JFileChooser fileChooser = new JFileChooser();  //File chooser
+        int returnVal = fileChooser.showSaveDialog(null);
+        if(returnVal == JFileChooser.APPROVE_OPTION) { }
+        File out = fileChooser.getSelectedFile();
+	    
 	    boolean bigEndian = true; //kolejnosc zapisu bajtow
 	    boolean signed = true; //parametry pliku .wav
 	    int bits = 16;
@@ -73,16 +81,20 @@ public class sound implements Runnable	{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			}
 		}
-	    //reset ilosci sampli
-	}
+	    else {
+	    	//JOptionPane.showInputDialog(this, "Wpisano niepeprawne wartosci", "Blad!", JOptionPane.ERROR_MESSAGE);
+	    	}
+	    } //koniec
 	
 
 	@Override
 	public void run() {
 		greatBuffer.clear();
-	    byte[] buffer=new byte[4];
+	    byte[] buffer=new byte[64];
 	    int bufferposition=0;
+	    freq=0;
 		while(status){ 
 			//generuje sample
 			short sample = 0;
