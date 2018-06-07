@@ -33,8 +33,7 @@ public class MainFrame extends JFrame {
 				JFrame mainFrame = null;
 				try {
 					mainFrame = new MainFrame();
-				} catch (LineUnavailableException e) {
-					// TODO Auto-generated catch block
+				} catch (LineUnavailableException e) {					
 					e.printStackTrace();
 				}
 				mainFrame.setVisible(true);

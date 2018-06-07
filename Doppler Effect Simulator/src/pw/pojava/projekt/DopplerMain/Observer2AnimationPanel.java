@@ -122,7 +122,7 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 						}
 					}
 					//A CO JESLI PRZECINA TEN OKRAG NA TYLE STOZKA? --> TU WLASNIE LICZY PRZYBLIZONA METODA
-					System.out.println("kat Macha: " + machAngle);
+					/*System.out.println("kat Macha: " + machAngle);
 					if(machAngle<0.785){//jesli mniejszy niz 45 stopni
 						if(gui.getOb2X()>gui.getSourceX()) {//jesli przecina okrag z tylu
 							timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
@@ -141,7 +141,7 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
 							timeRunaway = timeRunaway*1000;//zeby w ms							
 						}
-					}
+					}*/
 					
 
 				}else {//jesli zrodlo leci w prawo
@@ -156,7 +156,7 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 					}
 				}
 				//A CO JESLI PRZECINA TEN OKRAG NA TYLE STOZKA? --> TU WLASNIE LICZY PRZYBLIZONA METODA
-				System.out.println("kat Macha: " + machAngle);
+				/*System.out.println("kat Macha: " + machAngle);
 				if(machAngle<0.785){//jesli mniejszy niz 45 stopni
 					if(gui.getOb2X()<gui.getSourceX()) {//jesli przecina okrag z tylu
 						timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
@@ -175,7 +175,7 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 								/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
 						timeRunaway = timeRunaway*1000;//zeby w ms							
 					}
-				}
+				}*/
 				
 			}else {//jak obserwator jest nizej niz zrodlo
 				//wybiera ktore ramie przetnie i odpowiedni czas
@@ -191,7 +191,7 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 						}
 					}
 					//A CO JESLI PRZECINA TEN OKRAG NA TYLE STOZKA? --> TU WLASNIE LICZY PRZYBLIZONA METODA
-					System.out.println("kat Macha: " + machAngle);
+				/*	System.out.println("kat Macha: " + machAngle);
 					if(machAngle<0.785){//jesli mniejszy niz 45 stopni
 						if(gui.getOb2X()>gui.getSourceX()) {//jesli przecina okrag z tylu
 							timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
@@ -210,7 +210,7 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
 							timeRunaway = timeRunaway*1000;//zeby w ms							
 						}
-					}
+					}*/
 				}else {	//jesli w prawo leci zrodlo			
 					if(gui.observer2X<(gui.sourceX+gui.sourceV*tUpperArm)){//jesli przetnie sie na stozku a nie poza nim z dolnym ramieniem			
 						timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
@@ -222,7 +222,7 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 						}
 					}
 					//A CO JESLI PRZECINA TEN OKRAG NA TYLE STOZKA? --> TU WLASNIE LICZY PRZYBLIZONA METODA
-					System.out.println("kat Macha: " + machAngle);
+					/*System.out.println("kat Macha: " + machAngle);
 					if(machAngle<0.785){//jesli mniejszy niz 45 stopni
 						if(gui.getOb2X()<gui.getSourceX()) {//jesli przecina okrag z tylu
 							timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
@@ -241,7 +241,7 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
 							timeRunaway = timeRunaway*1000;//zeby w ms							
 						}
-					}
+					}*/
 				}	
 			}
 		}
