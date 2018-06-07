@@ -14,12 +14,14 @@ import javax.sound.sampled.SourceDataLine;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import pw.pojava.projekt.DopplerMain.ObserverAnimationPanel.DataToSimulate;
 import pw.pojava.projekt.DopplerMain.ObserverAnimationPanel.ObserverSwingWorker;
 
-public class sound implements Runnable	{
+public class Sound implements Runnable	{
 	
+	GUI superior;
 
 	double freq=0;
 	double volume=5000;
@@ -30,6 +32,10 @@ public class sound implements Runnable	{
     long c=0;
 
 	AudioFormat format; //do dzwieku
+	
+	Sound(GUI gui) {
+		superior=gui;
+	}
 	
 	public  void newSound() throws LineUnavailableException {
 		format=new AudioFormat(44100f,16,2,true,true); //wazne rzeczy do robienia dzwieku
@@ -57,34 +63,41 @@ public class sound implements Runnable	{
 	    }
 	    
 	    JFileChooser fileChooser = new JFileChooser();  //File chooser
+	    FileNameExtensionFilter filter = new FileNameExtensionFilter(".wav", "aac"); //filtr rozszerzen
+	    fileChooser.setFileFilter(filter);
+	    fileChooser.setSelectedFile(new File(name + ".wav")); //nazwa pliku
         int returnVal = fileChooser.showSaveDialog(null);
-        if(returnVal == JFileChooser.APPROVE_OPTION) { }
-        File out = fileChooser.getSelectedFile();
+        if(returnVal == JFileChooser.APPROVE_OPTION) { 
+        	File out = fileChooser.getSelectedFile();
 	    
-	    boolean bigEndian = true; //kolejnosc zapisu bajtow
-	    boolean signed = true; //parametry pliku .wav
-	    int bits = 16;
-	    int channels = 2; //2 kanaly, ale dzwiek mono
-	    AudioFormat format;
-	    format = new AudioFormat((float)sampleRate, bits, channels, signed, bigEndian);
-	    ByteArrayInputStream bais = new ByteArrayInputStream(byteBuffer);
-	    AudioInputStream audioInputStream;
-	    audioInputStream = new AudioInputStream(bais, format,greatBuffer.size()); //strumien wyjsciowy
-	    try {
-			AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, out); //zapisuje do pliku
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    try {
-			audioInputStream.close(); // zamyka plik
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			}
-		}
+        	boolean bigEndian = true; //kolejnosc zapisu bajtow
+        	boolean signed = true; //parametry pliku .wav
+        	int bits = 16;
+        	int channels = 2; //2 kanaly, ale dzwiek mono :(
+        	AudioFormat format;
+        	format = new AudioFormat((float)sampleRate, bits, channels, signed, bigEndian);
+        	ByteArrayInputStream bais = new ByteArrayInputStream(byteBuffer);
+        	AudioInputStream audioInputStream;
+        	audioInputStream = new AudioInputStream(bais, format,greatBuffer.size()); //strumien wyjsciowy
+        	try {
+        		AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, out); //zapisuje do pliku
+        		} catch (IOException e) {
+        			// TODO Auto-generated catch block
+        			e.printStackTrace();
+        		}
+        	try {
+        		audioInputStream.close(); // zamyka plik
+        	} catch (IOException e) {
+        		// TODO Auto-generated catch block
+        		e.printStackTrace();
+				}
+			}}
 	    else {
-	    	//JOptionPane.showInputDialog(this, "Wpisano niepeprawne wartosci", "Blad!", JOptionPane.ERROR_MESSAGE);
+	    	if(superior.language=="polish") //nie nagrany dzwiek - wielojezyczne okienko dialogowe
+	    		JOptionPane.showMessageDialog(superior.getParent(), "Zaden dzwiek nie zostal jeszcze nagrany", "Blad", JOptionPane.ERROR_MESSAGE);
+	    	if(superior.language=="english")
+		    	JOptionPane.showMessageDialog(superior.getParent(), "Any sound hasn't been recorded yet", "Error", JOptionPane.ERROR_MESSAGE);
+
 	    	}
 	    } //koniec
 	
@@ -119,7 +132,5 @@ public class sound implements Runnable	{
 		c=0;
 	}
 	
-      
-
 }	
 	

@@ -690,11 +690,18 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			exec.shutdownNow();	
 		}
 		else if(action.equals("save")) {
-			if(whoPlay==1)
-				pChartObserver1.sound1.save("Obserwator 1");
-			else if(whoPlay==2)
-				pChartObserver2.sound2.save("Obserwator 2");
-			
+			if(whoPlay==1) {
+				if(language=="polish")
+					pChartObserver1.sound1.save("Obserwator1");
+				else if(language=="english")
+					pChartObserver1.sound1.save("Observer1");
+			}
+			else if(whoPlay==2) {
+				if(language=="polish")
+					pChartObserver2.sound2.save("Obserwator2");
+				else if(language=="english")
+					pChartObserver2.sound2.save("Observer2");;
+			}
 		}
 		
 		else if(action.equals("s1")) {
