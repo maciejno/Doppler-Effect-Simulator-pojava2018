@@ -14,14 +14,14 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 
 	private static final long serialVersionUID = 1L;			
 	
-	sound sound2;
+	Sound sound2;
 	
 	public Observer2AnimationPanel(GUI gui, JFreeChart chart) throws LineUnavailableException {
 		super(gui,chart);		
 		super.xySeries = new XYSeries("Observer 2 signal");
 		gui.observer2Collection.addSeries(xySeries);
 		super.worker = new Observer1SwingWorker();
-		sound2 = new sound();
+		sound2 = new Sound(gui);
 	}
 	
 	class Observer1SwingWorker extends ObserverSwingWorker{
