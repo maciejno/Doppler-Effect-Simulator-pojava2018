@@ -3,10 +3,13 @@ package pw.pojava.projekt.DopplerMain;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
@@ -47,15 +50,20 @@ public class MainAnimationPanel extends JPanel {
 		observer1.setColor(Color.black);
 		observer1.setAppearance(true); //ustawia domyslne istnienie obserwatorów
         observer2.setAppearance(false);
-		source.setAppearance(true); //zrodlo jest zawsze.
+		source.setAppearance(true); //zrodlo jest zawsze
 	}		
 	//settery porzebnych danych
 	public void setSoundSpeed(int v) {soundSpeed=v;}
 	public void setFrequency(int freq) {soundFreq=freq;}
 		    
     protected synchronized void paintComponent(Graphics g) {
-        super.paintComponent(g);              
+        super.paintComponent(g);      
+        
         gg = g;
+        if( superior.getOption().equals("NaMorzaDnie") ) {
+    		Image bgImage = Toolkit.getDefaultToolkit().getImage( (getClass().getResource("/sea.jpg")) );
+    		gg.drawImage(bgImage,0,0,null);
+    	}else setBackground(new Color(200,255,255));
         observer1.paint(gg);//rysuje ich w ich po³o¿eniach
         observer2.paint(gg);
         source.paint(gg);        

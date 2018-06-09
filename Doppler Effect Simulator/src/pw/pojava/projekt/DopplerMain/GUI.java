@@ -54,6 +54,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 
 	//SERWIS EGZEKUCYJNY DLA WATKU ANIMACJI
 	ExecutorService exec;
+	GUI gui;
 	
 	//zmienne przechowuj¹ce nastawy komponentów
 	int observer1X = 150; 
@@ -73,6 +74,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	boolean isRunning=false;
 	boolean isPaused=false;
 	String language = "polish";
+	String option = "Default";//przechowuje opcje z kombo boksa
 	int whoPlay =0; //przechowuje informacje o tym kto odtwarza dzwiek, gdy 0 to nikt. 1, 2 - obserator 1 lub 2
 	
 	//panels in main panel
@@ -129,6 +131,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	
 	
 	public GUI() throws LineUnavailableException {
+		gui = this;
 		
 		//Tworzenie wykresow
 		sourceCollection = new XYSeriesCollection();
@@ -378,7 +381,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	        public void actionPerformed(ActionEvent e){
 	        	Integer[] data = new Integer [13];
 				try {
-					data = loadData((String)comboBox.getSelectedItem());
+					option = (String)comboBox.getSelectedItem();
+					data = loadData(option);
 				} catch (URISyntaxException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -396,8 +400,9 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	    		soundFreq=data[10];
 	    		if(data[11]==1)observer1State=true; else observer1State=false;
 	    		if(data[12]==1)observer2State=true; else observer2State=false;
-	        	setAnimationParameters();
-	        	pAnimation.repaint();
+	        	setAnimationParameters();	        	        	
+	        	setAllFields();//ustawia pola tekstowe i slidery odpowiednio - mozna to ew. do zewnetrznej funkcji wyrzucic
+	        	pAnimation.repaint();		        	
 	        }
 	      });
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>		
@@ -811,6 +816,35 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pAnimation.observer2.setAppearance(observer2State);
 	}
 	
+	public void setAllFields() {//ustawia suwaczki i pola tekstowe tak jak jest wpisane w zmiennych
+		int ob1v=observer1V;
+		int ob2v=observer2V;
+		int sv=sourceV;
+		
+		observer1SliderField.setText(Integer.toString(observer1V));
+		observer1Slider.setValue(observer1V);
+		observer2V = ob2v;
+    	observer2SliderField.setText(Integer.toString(observer2V));
+    	observer2Slider.setValue(observer2V);
+    	sourceV=sv;
+    	sourceSliderField.setText(Integer.toString(sourceV));
+    	sourceSlider.setValue(sourceV);
+    	  	    	
+    	observer1XField.setText(String.valueOf(observer1X));
+    	observer1YField.setText(String.valueOf(observer1Y));
+    	observer2XField.setText(String.valueOf(observer2X));
+    	observer2YField.setText(String.valueOf(observer2Y));
+    	sourceXField.setText(String.valueOf(sourceX));
+    	sourceYField.setText(String.valueOf(sourceY));
+    	sourceFreqField.setText(String.valueOf(soundFreq));
+    	soundSpeedField.setText(String.valueOf(soundSpeed));
+    	    	
+    	observer1Checkbox.setSelected(observer1State);
+    	observer2Checkbox.setSelected(observer2State);   	
+    	if(language.equals("polish"))pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla:     " + soundFreq + "Hz"));
+    	else pChartSource.setBorder(BorderFactory.createTitledBorder("Sound from source:     " + soundFreq + "Hz"));
+	}
+	
 	void setLanguagePolish() { //zmiana jezyka na POLISH
 		language = "polish";
 		saveButton.setText("ZAPISZ");
@@ -849,7 +883,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	public double getSourceV() {return (double)sourceV;}
 	public double getSoundV() {return (double)soundSpeed;}
 	public double getSoundFreq() {return (double)soundFreq;}
-	
+	public String getOption() {return option;}
 	
 	
 }
