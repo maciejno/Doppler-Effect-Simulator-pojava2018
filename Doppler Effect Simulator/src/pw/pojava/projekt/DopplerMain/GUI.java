@@ -376,36 +376,38 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pControl.add(resetButton);
 									
 		//LISTENERY
-//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<		
+		
 		comboBox.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
-	        	Integer[] data = new Integer [13];
-				try {
-					option = (String)comboBox.getSelectedItem();
-					data = loadData(option);
-				} catch (URISyntaxException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-	        	observer1X=data [0]; 
-	    		observer1Y=data[1];
-	    		observer1V=data[2];
-	    		observer2X=data[3]; 
-	    		observer2Y=data[4];
-	    		observer2V=data[5];
-	    		sourceX=data[6];
-	    		sourceY=data[7];
-	    		sourceV=data[8];
-	    		soundSpeed=data[9];
-	    		soundFreq=data[10];
-	    		if(data[11]==1)observer1State=true; else observer1State=false;
-	    		if(data[12]==1)observer2State=true; else observer2State=false;
-	        	setAnimationParameters();	        	        	
-	        	setAllFields();//ustawia pola tekstowe i slidery odpowiednio - mozna to ew. do zewnetrznej funkcji wyrzucic
-	        	pAnimation.repaint();		        	
-	        }
+	        	if(comboBox.getItemCount()!=0) {//zeby nie wywalalo bledow jak nie ma nic w liscie, np. jak sie zmiania jezyk
+		        	Integer[] data = new Integer [13];
+					try {
+						option = (String)comboBox.getSelectedItem();
+						data = loadData(option);
+					} catch (URISyntaxException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		        	observer1X=data [0]; 
+		    		observer1Y=data[1];
+		    		observer1V=data[2];
+		    		observer2X=data[3]; 
+		    		observer2Y=data[4];
+		    		observer2V=data[5];
+		    		sourceX=data[6];
+		    		sourceY=data[7];
+		    		sourceV=data[8];
+		    		soundSpeed=data[9];
+		    		soundFreq=data[10];
+		    		if(data[11]==1)observer1State=true; else observer1State=false;
+		    		if(data[12]==1)observer2State=true; else observer2State=false;
+		        	setAnimationParameters();	        	        	
+		        	setAllFields();//ustawia pola tekstowe i slidery odpowiednio - mozna to ew. do zewnetrznej funkcji wyrzucic
+		        	pAnimation.repaint();
+	        	}
+		     }
 	      });
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>		
+		
 		observer1Checkbox.addItemListener(this); // dodawanie listenerów do Checkboxów
 		observer2Checkbox.addItemListener(this);
 		
@@ -856,6 +858,13 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1"));
 		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 2"));
 		pLanguage.setBorder(BorderFactory.createTitledBorder("Ustawienia"));
+		
+		
+		comboBox.removeAllItems();
+		comboBox.addItem("Domyslny");
+		comboBox.addItem("Odrzutowce");
+		comboBox.addItem("Ucieczka");
+		comboBox.addItem("NaMorzaDnie");
 	}
 	
 	void setLanguageEnglish() { //Zmiana jezyka na angielski
@@ -869,6 +878,12 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 1"));
 		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 2"));
 		pLanguage.setBorder(BorderFactory.createTitledBorder("Settings"));
+		
+		comboBox.removeAllItems();
+		comboBox.addItem("Default");
+		comboBox.addItem("Jets");
+		comboBox.addItem("Runaway");
+		comboBox.addItem("OnTheSeaBed");
 	}
 	
 	// G E T Y
