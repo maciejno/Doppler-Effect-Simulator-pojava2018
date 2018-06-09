@@ -202,7 +202,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		comboBox = new JComboBox<String>(options) ;
 		comboBox.addItem("Odrzutowce");
 		comboBox.addItem("Ucieczka");
-		comboBox.addItem("Na morza dnie");
+		comboBox.addItem("NaMorzaDnie");
 				
 		//ustawienia sliderów
 		Font SliderFont = new Font("Calibri", Font.BOLD, 11); //kosmetyka
@@ -374,7 +374,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 									
 		//LISTENERY
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<		
-		/*comboBox.addActionListener(new ActionListener() {
+		comboBox.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
 	        	Integer[] data = new Integer [13];
 				try {
@@ -397,8 +397,9 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	    		if(data[11]==1)observer1State=true; else observer1State=false;
 	    		if(data[12]==1)observer2State=true; else observer2State=false;
 	        	setAnimationParameters();
+	        	pAnimation.repaint();
 	        }
-	      });*/
+	      });
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>		
 		observer1Checkbox.addItemListener(this); // dodawanie listenerów do Checkboxów
 		observer2Checkbox.addItemListener(this);
@@ -750,10 +751,24 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		InputStreamReader streamReader = null;
 
 		
-		File wybranyPlik = new File(new URI("/" + fileName +".txt"));
+		File wybranyPlik = new File( getClass().getResource("/" + fileName + ".txt").getFile() );
 		BufferedReader bufferedReader = null;
-		try {			
-			FileInputStream plikWejsciowy = new FileInputStream(wybranyPlik);
+		try {		
+			//Z chooserem dziala :|
+			/*try {
+				JFileChooser chooser = new JFileChooser();
+				chooser.setDialogTitle("Wybierz plik tekstowy"); 
+				int result = chooser.showDialog(null, "Wybierz");
+				if(JFileChooser.APPROVE_OPTION == result) {
+					wybranyPlik = chooser.getSelectedFile();
+				}else {
+					System.out.println("Nie wybrano pliku");
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+				System.out.println("Blad przy okienku");
+			}*/
+			FileInputStream plikWejsciowy = new FileInputStream(wybranyPlik.getAbsolutePath());
 			java.io.InputStream inputStream = plikWejsciowy ; // Otwieramy plik
 			streamReader = new InputStreamReader(inputStream,
 					Charset.forName("UTF-8")); // Otwieramy readera
@@ -768,15 +783,14 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				line = bufferedReader.readLine();
 			}			
 		} catch (IOException e) {	
-			System.out.println("Blad przy otwarciu");
+			System.err.println("Blad przy otwarciu");
 			e.printStackTrace();				
 		}
 		try {				
 			streamReader.close();
 			bufferedReader.close();
 		} catch (IOException e) {
-			System.out.println("BLAD PRZY ZAMYKANIU PLIKU!");
-			System.exit(3);
+			System.err.println("BLAD PRZY ZAMYKANIU PLIKU!");
 			}
 		return data;
 	}
