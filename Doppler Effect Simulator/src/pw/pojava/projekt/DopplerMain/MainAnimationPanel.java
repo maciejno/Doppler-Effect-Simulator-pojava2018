@@ -28,7 +28,7 @@ public class MainAnimationPanel extends JPanel {
 	Graphics gg;
 	GUI superior; //referencja do klasy w ktorej siedzi
 	mainAnimationWorker worker;	
-	
+	Image bgImage;
 	Dimension preferredSize = new Dimension(530,400);
 	
 	//ikony obserwatorow
@@ -41,7 +41,7 @@ public class MainAnimationPanel extends JPanel {
 		this.setSize(preferredSize);	
 		this.superior = superior;
 		worker = new mainAnimationWorker();
-		
+		bgImage = Toolkit.getDefaultToolkit().getImage( (getClass().getResource("/sea.jpg")) );
 		//tworzy obiekty na animacjê
 		observer1 = new AnimationObject();
 		observer2 = new AnimationObject();
@@ -60,8 +60,7 @@ public class MainAnimationPanel extends JPanel {
         super.paintComponent(g);      
         
         gg = g;
-        if( superior.getOption().equals("NaMorzaDnie") ) {
-    		Image bgImage = Toolkit.getDefaultToolkit().getImage( (getClass().getResource("/sea.jpg")) );
+        if( superior.getOption().equals("NaMorzaDnie") || superior.getOption().equals("OnTheSeaBed")) {    		
     		gg.drawImage(bgImage,0,0,null);
     	}else setBackground(new Color(200,255,255));
         observer1.paint(gg);//rysuje ich w ich po³o¿eniach
