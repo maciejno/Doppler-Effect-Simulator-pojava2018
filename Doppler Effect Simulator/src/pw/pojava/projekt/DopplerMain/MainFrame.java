@@ -25,6 +25,7 @@ public class MainFrame extends JFrame {
 	JMenuItem end;
 	JMenuItem about;
 	JMenuItem tips;
+	JMenuItem pro;
 	
 	static JFrame f = new JFrame();//do option pane
 	
@@ -47,10 +48,11 @@ public class MainFrame extends JFrame {
 		end = new JMenuItem("Koniec programu");
 		about = new JMenuItem("O programie");
 		tips = new JMenuItem("Tips & tricks");
-				
+		pro = new JMenuItem("Wersja premium");		
+		
 		this.setJMenuBar(menuBar);
 		menuBar.add(menu);
-		menu.add(about);menu.add(tips);menu.add(end);		
+		menu.add(about);menu.add(tips);menu.add(pro);menu.add(end);		
 		
 		end.addActionListener(new ActionListener() {
 			@Override
@@ -83,4 +85,5 @@ public class MainFrame extends JFrame {
 	}
 	public JMenuItem getEnd() {return end;};
 	public JMenuItem getAbout() {return about;} 
+	public JMenuItem getPro() {return pro;}
 }
