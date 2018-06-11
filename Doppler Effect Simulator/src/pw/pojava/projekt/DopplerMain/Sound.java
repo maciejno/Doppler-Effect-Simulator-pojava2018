@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -13,11 +13,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-import pw.pojava.projekt.DopplerMain.ObserverAnimationPanel.DataToSimulate;
-import pw.pojava.projekt.DopplerMain.ObserverAnimationPanel.ObserverSwingWorker;
 
 public class Sound implements Runnable	{
 	

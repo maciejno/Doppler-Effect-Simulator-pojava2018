@@ -3,8 +3,6 @@ package pw.pojava.projekt.DopplerMain;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import javax.swing.ImageIcon;
-
 public class AnimationObject {//obserwator, badz zrodlo dzwieku
 
 	int vx = 0, vy = 0;//predkosc

@@ -9,12 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
-
-
-
 
 public class MainAnimationPanel extends JPanel {
 

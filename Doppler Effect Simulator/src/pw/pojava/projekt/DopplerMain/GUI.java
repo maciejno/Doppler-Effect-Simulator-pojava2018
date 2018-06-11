@@ -12,11 +12,9 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.concurrent.ExecutorService;
@@ -29,11 +27,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
@@ -51,7 +45,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class GUI extends JPanel  implements ChangeListener, ActionListener, ItemListener, KeyListener {
 	
 	private static final long serialVersionUID = 1L;
-
+	
 	//SERWIS EGZEKUCYJNY DLA WATKU ANIMACJI
 	ExecutorService exec;
 	GUI gui;
@@ -755,34 +749,15 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>	
 	protected Integer [] loadData(String fileName) throws URISyntaxException {//do wczytywania danych z pliku
 		Integer [] data = new Integer [13];//tablica na dane
-		InputStreamReader streamReader = null;
-
-		
-		File wybranyPlik = new File( getClass().getResource("/" + fileName + ".txt").getFile() );
+		InputStreamReader streamReader = null;				
 		BufferedReader bufferedReader = null;
-		try {		
-			//Z chooserem dziala :|
-			/*try {
-				JFileChooser chooser = new JFileChooser();
-				chooser.setDialogTitle("Wybierz plik tekstowy"); 
-				int result = chooser.showDialog(null, "Wybierz");
-				if(JFileChooser.APPROVE_OPTION == result) {
-					wybranyPlik = chooser.getSelectedFile();
-				}else {
-					System.out.println("Nie wybrano pliku");
-				}
-			}catch(Exception e){
-				e.printStackTrace();
-				System.out.println("Blad przy okienku");
-			}*/
-			FileInputStream plikWejsciowy = new FileInputStream(wybranyPlik.getAbsolutePath());
-			java.io.InputStream inputStream = plikWejsciowy ; // Otwieramy plik
+		try {				
+			InputStream inputStream = getClass().getResourceAsStream("/" + fileName + ".txt");
 			streamReader = new InputStreamReader(inputStream,
 					Charset.forName("UTF-8")); // Otwieramy readera
 			bufferedReader = new BufferedReader(streamReader); // Buforujemy readera
 			String line;//na linie tekstu
-			line = bufferedReader.readLine();//wczytanie linii tekstu do bufora
-			
+			line = bufferedReader.readLine();//wczytanie linii tekstu do bufora			
 			
 			for (int i = 0;i<13;i++) { // readLine() zwraca null jesli plik sie skonczyl
 				//System.out.println(line);	 			
@@ -818,8 +793,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pAnimation.observer2.setAppearance(observer2State);
 	}
 	
-	public void setAllFields() {//ustawia suwaczki i pola tekstowe tak jak jest wpisane w zmiennych
-		int ob1v=observer1V;
+	public void setAllFields() {//ustawia suwaczki i pola tekstowe tak jak jest wpisane w zmiennych		
 		int ob2v=observer2V;
 		int sv=sourceV;
 		

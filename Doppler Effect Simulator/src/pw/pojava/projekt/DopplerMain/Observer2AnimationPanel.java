@@ -100,7 +100,6 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 			double machNumber = module(gui.sourceV) / gui.soundSpeed;//liczba Macha
 			double machAngle = Math.asin(1/machNumber);//kat Macha
 			double cotMA = 1/(Math.tan(machAngle));//cotangens kata Macha - nachylenie ramienia stozka do pionu
-			double tanMA = Math.tan(machAngle);//i tangens
 			//czas przeciecia z gornym ramieniem stozka
 			double tUpperArm = (gui.observer2X - gui.sourceX + cotMA*(gui.observer2Y - gui.sourceY)) 
 					/ (gui.sourceV - cotMA*gui.observer2V);
