@@ -71,7 +71,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	boolean isFinished = true;
 	String language = "polish";
 	String option = "Default";//przechowuje opcje z kombo boksa
-	int whoPlay =0; //przechowuje informacje o tym kto odtwarza dzwiek, gdy 0 to nikt. 1, 2 - obserator 1 lub 2
+	int whoPlay =1; //przechowuje informacje o tym kto odtwarza dzwiek, gdy 0 to nikt. 1, 2 - obserator 1 lub 2
 	
 	//panels in main panel
 	JPanel pWest, pEast, pChart, pLanguage, pOptions, pControl, pObserver1,pObserver2,pSource;//panels left, right, for animation, for sinuses, for sinuses from:source and both observers, for language options, for paint panel options, for start&save button
@@ -191,7 +191,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		resetButton = new JButton("RESET");
 		resetButton.setIcon(reset);
 		soundButton1 = new JButton();
-		soundButton1.setIcon(soundOFF);	
+		soundButton1.setIcon(soundON);	
 		soundButton2 = new JButton();
 		soundButton2.setIcon(soundOFF);	
 				
