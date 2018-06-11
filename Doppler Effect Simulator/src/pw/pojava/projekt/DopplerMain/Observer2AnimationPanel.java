@@ -34,7 +34,7 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 			for(DataToSimulate d : data) {
  		   		xySeries.add(d.getXY());
  		   	sound2.setSound(d.getFreq());
- 		   	while(xySeries.getItemCount()>maxCount/((double)gui.soundFreq/100))//if(xySeries.getItemCount()>500)//jak sie zmieni wartosc maxCount, to szerokosc inna
+ 		   	while(xySeries.getItemCount()>maxCount/(soundFreq/100))//if(xySeries.getItemCount()>500)//jak sie zmieni wartosc maxCount, to szerokosc inna
  		   			xySeries.remove(0);	//to na gorze co zakomentowane jesli ma sie nie dostosowywac do czestotliwosci szerokosc okna 
  		   	}
  	   	}
@@ -45,9 +45,9 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 				if(!gui.isPaused){ //pauzowanie  
 					if((time >= timeDelay && (time <= timeRunaway))  ) {	//jesli juz fala dotarla i obserwator jej nie uciekl
 						if(gui.pAnimation.observer2.getX() < gui.pAnimation.source.getX()) {
-							f = new Double(gui.soundFreq * ( (gui.soundSpeed + getVObserver() ) / (gui.soundSpeed + getVSource() ) ));
+							f = new Double(soundFreq * ( (soundSpeed + getVObserver() ) / (soundSpeed + getVSource() ) ));
 						}else {
-								f = new Double(gui.soundFreq * ( (gui.soundSpeed - getVObserver() ) / (gui.soundSpeed - getVSource() ) ));
+								f = new Double(soundFreq * ( (soundSpeed - getVObserver() ) / (soundSpeed - getVSource() ) ));
 						}
 						x = new Double(time);
 						y = new Double(Math.sin(2*pi*(f/100)*time/1000));
@@ -82,22 +82,22 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 	void countTimeDelayAndRunaway() {
 		
 		double deltaSqrt = 0.0;		
-		deltaSqrt = Math.sqrt( gui.soundSpeed*gui.soundSpeed * 
+		deltaSqrt = Math.sqrt( soundSpeed*soundSpeed * 
 				(gui.observer2X*gui.observer2X - 2*gui.observer2X*gui.sourceX + gui.sourceX*gui.sourceX + Math.pow( (gui.observer2Y-gui.sourceY), 2.0))
 				-gui.observer2V*gui.observer2V*Math.pow( (gui.observer2X-gui.sourceX), 2.0));			
 		//DO PRZYBLIZANIA CZAS POTRZEBNY
 		double time = module((gui.getOb2Y()-gui.getSourceY())/(gui.getSoundV()-gui.getOb2V()));//do przyblizania przecinania
 				
-		if(module((double)gui.sourceV)<=gui.soundSpeed) {//przypadek nienaddzwiekowy		
+		if(module((double)gui.sourceV)<=soundSpeed) {//przypadek nienaddzwiekowy		
 			timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
-					/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
+					/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) ;
 			timeDelay = timeDelay*1000;//zeby w ms	
 			timeRunaway = -( (-gui.observer2V*gui.observer2Y+gui.observer2V*gui.sourceY+deltaSqrt)
-					/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
+					/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) );
 			timeRunaway = timeRunaway*1000;//zeby w ms
 		}
 		else {//przypadek naddzwiekowy
-			double machNumber = module(gui.sourceV) / gui.soundSpeed;//liczba Macha
+			double machNumber = module(gui.sourceV) / soundSpeed;//liczba Macha
 			double machAngle = Math.asin(1/machNumber);//kat Macha
 			double cotMA = 1/(Math.tan(machAngle));//cotangens kata Macha - nachylenie ramienia stozka do pionu
 			//czas przeciecia z gornym ramieniem stozka
@@ -126,17 +126,17 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 					System.out.println("kat Macha: " + machAngle);
 					if( (machAngle<0.785) && (gui.getOb2X()>gui.getSourceX()) ){//jesli mniejszy niz 45 stopni i jesli przecina okrag z tylu					
 						timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
-								/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
+								/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) ;
 						timeDelay = timeDelay*1000;//zeby w ms	
 						timeRunaway = -( (-gui.observer2V*gui.observer2Y+gui.observer2V*gui.sourceY+deltaSqrt)
-								/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
+								/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) );
 						timeRunaway = timeRunaway*1000;//zeby w ms												
 					}else if( (machAngle>=0.785) && (gui.getOb2X()>(gui.getSourceX() - gui.getSoundV()* time)) ){//jesli kat jest wiekszy niz 45 stopni i jesli przecina okrag z tylu ~ przyblizone						 
 						timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
-								/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
+								/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) ;
 						timeDelay = timeDelay*1000;//zeby w ms	
 						timeRunaway = -( (-gui.observer2V*gui.observer2Y+gui.observer2V*gui.sourceY+deltaSqrt)
-								/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
+								/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) );
 						timeRunaway = timeRunaway*1000;//zeby w ms												
 					}
 					
@@ -157,19 +157,19 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 					if(machAngle<0.785){//jesli mniejszy niz 45 stopni
 						if(gui.getOb2X()<gui.getSourceX()) {//jesli przecina okrag z tylu
 							timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
-									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
+									/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) ;
 							timeDelay = timeDelay*1000;//zeby w ms	
 							timeRunaway = -( (-gui.observer2V*gui.observer2Y+gui.observer2V*gui.sourceY+deltaSqrt)
-									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
+									/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) );
 							timeRunaway = timeRunaway*1000;//zeby w ms							
 						}
 					}else {//jesli kat jest wiekszy niz 45 stopni
 						if(gui.getOb2X()<(gui.getSourceX() + gui.getSoundV()* time)) {//jesli przecina okrag z tylu ~ przyblizone
 							timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
-									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
+									/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) ;
 							timeDelay = timeDelay*1000;//zeby w ms	
 							timeRunaway = -( (-gui.observer2V*gui.observer2Y+gui.observer2V*gui.sourceY+deltaSqrt)
-									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
+									/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) );
 							timeRunaway = timeRunaway*1000;//zeby w ms							
 						}
 					}
@@ -194,19 +194,19 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 					if(machAngle<0.785){//jesli mniejszy niz 45 stopni
 						if(gui.getOb2X()>gui.getSourceX()) {//jesli przecina okrag z tylu
 							timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
-									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
+									/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) ;
 							timeDelay = timeDelay*1000;//zeby w ms	
 							timeRunaway = -( (-gui.observer2V*gui.observer2Y+gui.observer2V*gui.sourceY+deltaSqrt)
-									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
+									/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) );
 							timeRunaway = timeRunaway*1000;//zeby w ms							
 						}
 					}else {//jesli kat jest wiekszy niz 45 stopni
 						if(gui.getOb2X()>(gui.getSourceX() - gui.getSoundV()* time)) {//jesli przecina okrag z tylu ~ przyblizone
 							timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
-									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
+									/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) ;
 							timeDelay = timeDelay*1000;//zeby w ms	
 							timeRunaway = -( (-gui.observer2V*gui.observer2Y+gui.observer2V*gui.sourceY+deltaSqrt)
-									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
+									/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) );
 							timeRunaway = timeRunaway*1000;//zeby w ms							
 						}
 					}
@@ -227,19 +227,19 @@ public class Observer2AnimationPanel extends ObserverAnimationPanel {
 					if(machAngle<0.785){//jesli mniejszy niz 45 stopni
 						if(gui.getOb2X()<gui.getSourceX()) {//jesli przecina okrag z tylu
 							timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
-									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
+									/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) ;
 							timeDelay = timeDelay*1000;//zeby w ms	
 							timeRunaway = -( (-gui.observer2V*gui.observer2Y+gui.observer2V*gui.sourceY+deltaSqrt)
-									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
+									/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) );
 							timeRunaway = timeRunaway*1000;//zeby w ms							
 						}
 					}else {//jesli kat jest wiekszy niz 45 stopni
 						if(gui.getOb2X()<(gui.getSourceX() + gui.getSoundV()* time)) {//jesli przecina okrag z tylu ~ przyblizone
 							timeDelay =  (gui.observer2V*gui.observer2Y - gui.observer2V*gui.sourceY+deltaSqrt)
-									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) ;
+									/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) ;
 							timeDelay = timeDelay*1000;//zeby w ms	
 							timeRunaway = -( (-gui.observer2V*gui.observer2Y+gui.observer2V*gui.sourceY+deltaSqrt)
-									/ (gui.soundSpeed*gui.soundSpeed-gui.observer2V*gui.observer2V) );
+									/ (soundSpeed*soundSpeed-gui.observer2V*gui.observer2V) );
 							timeRunaway = timeRunaway*1000;//zeby w ms							
 						}
 					}

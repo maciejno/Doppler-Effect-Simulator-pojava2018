@@ -15,6 +15,7 @@ public class SourceAnimationPanel extends ChartPanel{
 	SourceSwingWorker worker;	
 	Double x,y;	
 	GUI superior;//referencja do GUI
+	double soundFreq = 100.0;
 	
 	public SourceAnimationPanel(GUI superior) {
 		super(superior.fchart[0]);
@@ -22,6 +23,7 @@ public class SourceAnimationPanel extends ChartPanel{
 		superior.sourceCollection.addSeries(xySeries);
 		this.superior = superior;
 		worker = new SourceSwingWorker();
+		this.soundFreq = superior.getSoundFreq();
 	}
 
 	class SourceSwingWorker extends SwingWorker<Void,XYDataItem>{
@@ -34,7 +36,7 @@ public class SourceAnimationPanel extends ChartPanel{
 		
 		SourceSwingWorker(){
 			xySeries.clear(); //usuwa wszystkie dane z serii
-			for(int i=0; i<maxCount/((double)superior.soundFreq/100);i++) {
+			for(int i=0; i<maxCount/(soundFreq/100);i++) {
 				xySeries.add(time-i,0.0);//wype³nia zerami dane
 			}
 		}
@@ -43,7 +45,7 @@ public class SourceAnimationPanel extends ChartPanel{
  	   	protected void process(List<XYDataItem> dane) {//dodaje dane do serii i jak jest ich za duzo to usuwa
  		   	for(XYDataItem d : dane) {
  		   		xySeries.add(d);
- 		   	while(xySeries.getItemCount()>maxCount/((double)superior.soundFreq/100))//if(xySeries.getItemCount()>500)//jak sie zmieni wartosc maxCount, to szerokosc inna
+ 		   	while(xySeries.getItemCount()>maxCount/(soundFreq/100))//if(xySeries.getItemCount()>500)//jak sie zmieni wartosc maxCount, to szerokosc inna
  		   			xySeries.remove(0);	//to na gorze co zakomentowane jesli ma sie nie dostosowywac do czestotliwosci szerokosc okna 
  		   	}
  	   	}
@@ -52,7 +54,7 @@ public class SourceAnimationPanel extends ChartPanel{
 				while(superior.isRunning) {
 					if(!superior.isPaused){ //pauzowanie
 						x = new Double(time);
-						y = new Double(Math.sin(2*pi*((double)superior.soundFreq/100)*time/1000));
+						y = new Double(Math.sin(2*pi*(soundFreq/100)*time/1000));
 						XYDataItem dataItem = new XYDataItem(x, y);
 						publish(dataItem);
 						time+=sleep;
@@ -68,6 +70,7 @@ public class SourceAnimationPanel extends ChartPanel{
 	public void newWorker() {//metoda do tworzenia nowego swing workera
 		worker = new SourceSwingWorker();		
 	}
-
+	
+	public void setFrequency(double freq) {soundFreq = freq;}
 }
 

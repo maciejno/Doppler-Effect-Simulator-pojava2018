@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -63,9 +64,11 @@ public class MainAnimationPanel extends JPanel {
         observer2.paint(gg);
         source.paint(gg);        
         if(crests.isEmpty()==false){//jesli sa jakies grzbiety to je rysuje
-        	for (WaveCrest cr : crests) {
-        		cr.paint(gg);
-			}   
+        	try {
+	        	for (WaveCrest cr : crests)cr.paint(gg);
+        	}catch(ConcurrentModificationException exc){	
+        		System.err.println("Pewnie za duzo grzbietow, albo inny problem z rysowaniem, ale generalnie dziala.");
+        	}   
         }
     }
     
@@ -148,7 +151,7 @@ public class MainAnimationPanel extends JPanel {
 				}
 			}			
 			superior.isRunning=false;//koniec animacji
-			try {//usupia na pewien czas a potem czysci ekran
+			try {//usypia na pewien czas a potem czysci ekran
 				TimeUnit.MILLISECONDS.sleep(1500);
 			} catch (InterruptedException e) {
 				System.err.println("Przerwano animacje");
@@ -160,6 +163,8 @@ public class MainAnimationPanel extends JPanel {
 			System.out.println("End of animation");
 			superior.startButton.setText("START");
 			superior.startButton.setIcon(superior.start);
+			superior.getComboBox().setEnabled(true);
+			superior.isFinished = true;
 			return null;
 		}
 	};

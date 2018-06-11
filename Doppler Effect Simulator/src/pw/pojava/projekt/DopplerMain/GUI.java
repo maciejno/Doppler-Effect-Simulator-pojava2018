@@ -48,6 +48,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	
 	//SERWIS EGZEKUCYJNY DLA WATKU ANIMACJI
 	ExecutorService exec;
+	MainFrame mainFrame;
 	GUI gui;
 	
 	//zmienne przechowuj¹ce nastawy komponentów
@@ -67,6 +68,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	boolean observer2State = false;
 	boolean isRunning=false;
 	boolean isPaused=false;
+	boolean isFinished = true;
 	String language = "polish";
 	String option = "Default";//przechowuje opcje z kombo boksa
 	int whoPlay =0; //przechowuje informacje o tym kto odtwarza dzwiek, gdy 0 to nikt. 1, 2 - obserator 1 lub 2
@@ -124,9 +126,9 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	
 	
 	
-	public GUI() throws LineUnavailableException {
+	public GUI(MainFrame mainFrame) throws LineUnavailableException {
 		gui = this;
-		
+		this.mainFrame = mainFrame;
 		//Tworzenie wykresow
 		sourceCollection = new XYSeriesCollection();
 		sourceDataset = sourceCollection;
@@ -374,7 +376,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		comboBox.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e){
 	        	if(comboBox.getItemCount()!=0) {//zeby nie wywalalo bledow jak nie ma nic w liscie, np. jak sie zmiania jezyk
-		        	Integer[] data = new Integer [13];
+	        		Integer[] data = new Integer [13];
 					try {
 						option = (String)comboBox.getSelectedItem();
 						data = loadData(option);
@@ -579,10 +581,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 							soundFreq=50;}
 						if(soundFreq>10000) {
 							soundFreq=10000;}
-						pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla:     " + soundFreq + "Hz"));
-						//sourceFreqField.setText(String.valueOf(soundFreq));
-					//System.out.println("Sf:" + soundFreq);
-					pAnimation.setFrequency(soundFreq);
+						pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla:     " + soundFreq + "Hz"));					
+					//System.out.println("Sf:" + soundFreq);					
 				}
 				else if(Integer.parseInt(soundSpeedField.getText())!=soundSpeed) {
 					soundSpeed = Integer.parseInt(soundSpeedField.getText());
@@ -590,9 +590,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 							soundSpeed=340;}
 						if(soundSpeed>300000000) {
 							soundSpeed=300000000;}
-						//soundSpeedField.setText(String.valueOf(soundSpeed));
-					//System.out.println("Ss:" + soundSpeed);
-					pAnimation.setSoundSpeed(soundSpeed);
+					//System.out.println("Ss:" + soundSpeed);					
 				}
 				else if(Integer.parseInt(observer1SliderField.getText())!=observer1V) {
 					observer1V = Integer.parseInt(observer1SliderField.getText());
@@ -652,8 +650,10 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				pChartObserver1.sound1.status=true;
 				pChartObserver2.newWorker();
 				isRunning = true;
+				isFinished = false;
 				startButton.setText("STOP");	
 				startButton.setIcon(stop);
+				comboBox.setEnabled(false);
 				try {				
 					System.out.println(whoPlay);
 					exec = Executors.newFixedThreadPool(5);
@@ -681,11 +681,12 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 				}else{
 					isPaused=true;
 					startButton.setText("START");
-					startButton.setIcon(start);
+					startButton.setIcon(start);				
 				}
 			}			
 		}
 		else if(action.equals("reset")) {
+			if(isPaused)isPaused = false;//zeby nie bylo / bylo mniej problemow z pauzowaniem, bo jak byla zapauzowana to byly problemy
 			isRunning = false;
 			pChartObserver1.sound1.status=false;
 			//pChartObserver2.sound2.status=false;
@@ -791,6 +792,14 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pAnimation.setFrequency(soundFreq);
 		pAnimation.observer1.setAppearance(observer1State);
 		pAnimation.observer2.setAppearance(observer2State);
+		
+		pAnimation.setSoundSpeed(soundSpeed);
+		pAnimation.setFrequency(soundFreq);
+		pChartObserver1.setFrequency(soundFreq);
+		pChartObserver2.setFrequency(soundFreq);
+		pChartObserver1.setSoundSpeed(soundSpeed);
+		pChartObserver2.setSoundSpeed(soundSpeed);
+		pChartSource.setFrequency(soundFreq);
 	}
 	
 	public void setAllFields() {//ustawia suwaczki i pola tekstowe tak jak jest wpisane w zmiennych		
@@ -822,42 +831,48 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	}
 	
 	void setLanguagePolish() { //zmiana jezyka na POLISH
-		language = "polish";
-		saveButton.setText("ZAPISZ");
-		observer1Checkbox.setText("Obserwator 1");
-		observer2Checkbox.setText("Obserwator 2");
-		pSource.setBorder(BorderFactory.createTitledBorder("Zrodlo"));
-		soundSpeedLabel.setText("Predkosc dzwieku:");
-		pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla:     " + soundFreq + "Hz"));
-		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1"));
-		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 2"));
-		pLanguage.setBorder(BorderFactory.createTitledBorder("Ustawienia"));
-		
-		
-		comboBox.removeAllItems();
-		comboBox.addItem("Domyslny");
-		comboBox.addItem("Odrzutowce");
-		comboBox.addItem("Ucieczka");
-		comboBox.addItem("NaMorzaDnie");
+		if(isFinished) {
+			language = "polish";
+			mainFrame.setTitle("Symulator efektu Dopplera");
+			saveButton.setText("ZAPISZ");
+			observer1Checkbox.setText("Obserwator 1");
+			observer2Checkbox.setText("Obserwator 2");
+			pSource.setBorder(BorderFactory.createTitledBorder("Zrodlo"));
+			soundSpeedLabel.setText("Predkosc dzwieku:");
+			pChartSource.setBorder(BorderFactory.createTitledBorder("Dzwiek ze zrodla:     " + soundFreq + "Hz"));
+			pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1"));
+			pChartObserver2.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 2"));
+			pLanguage.setBorder(BorderFactory.createTitledBorder("Ustawienia"));
+			
+			
+			comboBox.removeAllItems();
+			comboBox.addItem("Domyslny");
+			comboBox.addItem("Odrzutowce");
+			comboBox.addItem("Ucieczka");
+			comboBox.addItem("NaMorzaDnie");
+		}
 	}
 	
 	void setLanguageEnglish() { //Zmiana jezyka na angielski
-		language = "english";
-		saveButton.setText("SAVE");
-		observer1Checkbox.setText("Observer 1");
-		observer2Checkbox.setText("Observer 2");
-		pSource.setBorder(BorderFactory.createTitledBorder("Source"));
-		soundSpeedLabel.setText("Sound speed:");
-		pChartSource.setBorder(BorderFactory.createTitledBorder("Sound from source:     " + soundFreq + "Hz"));
-		pChartObserver1.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 1"));
-		pChartObserver2.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 2"));
-		pLanguage.setBorder(BorderFactory.createTitledBorder("Settings"));
-		
-		comboBox.removeAllItems();
-		comboBox.addItem("Default");
-		comboBox.addItem("Jets");
-		comboBox.addItem("Runaway");
-		comboBox.addItem("OnTheSeaBed");
+		if(isFinished) {
+			language = "english";
+			mainFrame.setTitle("Doppler Effect Simulator");
+			saveButton.setText("SAVE");
+			observer1Checkbox.setText("Observer 1");
+			observer2Checkbox.setText("Observer 2");
+			pSource.setBorder(BorderFactory.createTitledBorder("Source"));
+			soundSpeedLabel.setText("Sound speed:");
+			pChartSource.setBorder(BorderFactory.createTitledBorder("Sound from source:     " + soundFreq + "Hz"));
+			pChartObserver1.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 1"));
+			pChartObserver2.setBorder(BorderFactory.createTitledBorder("Sound reaching Observer 2"));
+			pLanguage.setBorder(BorderFactory.createTitledBorder("Settings"));
+			
+			comboBox.removeAllItems();
+			comboBox.addItem("Default");
+			comboBox.addItem("Jets");
+			comboBox.addItem("Runaway");
+			comboBox.addItem("OnTheSeaBed");
+		}
 	}
 	
 	// G E T Y
@@ -873,6 +888,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	public double getSoundV() {return (double)soundSpeed;}
 	public double getSoundFreq() {return (double)soundFreq;}
 	public String getOption() {return option;}
+	public JComboBox<String> getComboBox() {return comboBox;}
 	
 	
 }

@@ -18,12 +18,15 @@ public abstract class ObserverAnimationPanel extends ChartPanel {
 	Double pi = Math.PI;
 	double timeDelay = 0.0; //czas zanim fala dotrze do obserwatora
 	double timeRunaway = 0.0;//czas po ktorym obserwator ucieknie od fali
-		
+	double soundFreq = 100.0;	
+	double soundSpeed = 100.0;
+	
 	public ObserverAnimationPanel(GUI gui, JFreeChart chart) {
 		super(chart);
 		this.chart = chart;		
 		this.gui = gui;	
-		
+		this.soundFreq = (double)gui.soundFreq;
+		this.soundSpeed = (double)gui.soundSpeed;
 	}
 	
 	public class DataToSimulate{//klasa przechowujaca dane przesylane do processa - punkt wykresu i czestotliwosc chwilowa dzwieku
@@ -46,7 +49,7 @@ public abstract class ObserverAnimationPanel extends ChartPanel {
 						
 			ObserverSwingWorker(){
 				xySeries.clear(); //usuwa wszystkie dane z serii
-				for(int i=0; i<maxCount/((double)gui.soundFreq/100);i++) {
+				for(int i=0; i<maxCount/(soundFreq/100);i++) {
 					xySeries.add(time-i,0.0);//wype³nia zerami dane
 				}
 				countTimeDelayAndRunaway();//oblicza czasy dotarcia fali i kiedy obserwator juz nie slyszy fali	
@@ -67,6 +70,9 @@ public abstract class ObserverAnimationPanel extends ChartPanel {
 		public abstract double getVObserver();//zwraca skladowa predkosci obserwatora wzdluz linii laczacej go ze zrodlem			
 		public abstract double getPhiObserver();//zwraca kat miedzy wektorem predkosci obserwatora a linia laczaca zrodlo z obserwatorem		
 		public abstract double getPhiSource();//zwraca kat miedzy wektorem predkosci zrodla a linia laczaca zrodlo z obserwatorem			
+		
+		public void setFrequency(double freq) {soundFreq = freq;}
+		public void setSoundSpeed(double speed) {soundSpeed = speed;}
 		
 		public double getVSource() {//zwraca skladowa predkosci zrodla wzdluz linii laczacej je z obserwatorem
 			double vSource = gui.pAnimation.source.getVx()*Math.cos(getPhiSource()) + gui.pAnimation.source.getVy()*Math.sin(getPhiSource());			
