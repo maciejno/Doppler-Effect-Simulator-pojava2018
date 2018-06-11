@@ -55,7 +55,7 @@ public class MainFrame extends JFrame {
 		end.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-		        	dispose();	
+		        	System.exit(1);	
 			}			
 		});
 		
