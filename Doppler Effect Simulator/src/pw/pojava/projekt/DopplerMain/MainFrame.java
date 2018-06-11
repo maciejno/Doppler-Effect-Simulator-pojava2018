@@ -57,7 +57,26 @@ public class MainFrame extends JFrame {
 		end.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-		        	System.exit(1);	
+		        System.exit(1);	
+			}			
+		});
+		
+		about.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+		        		
+			}			
+		});
+		tips.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+		        		
+			}			
+		});
+		pro.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+		        	
 			}			
 		});
 		
