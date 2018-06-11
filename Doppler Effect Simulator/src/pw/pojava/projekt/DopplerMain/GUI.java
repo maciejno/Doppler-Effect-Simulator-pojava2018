@@ -850,6 +850,9 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			comboBox.addItem("Odrzutowce");
 			comboBox.addItem("Ucieczka");
 			comboBox.addItem("NaMorzaDnie");
+			
+			mainFrame.getAbout().setText("O programie");
+			mainFrame.getEnd().setText("Koniec programu");
 		}
 	}
 	
@@ -872,6 +875,9 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			comboBox.addItem("Jets");
 			comboBox.addItem("Runaway");
 			comboBox.addItem("OnTheSeaBed");
+			
+			mainFrame.getAbout().setText("About");
+			mainFrame.getEnd().setText("Finish program");
 		}
 	}
 	

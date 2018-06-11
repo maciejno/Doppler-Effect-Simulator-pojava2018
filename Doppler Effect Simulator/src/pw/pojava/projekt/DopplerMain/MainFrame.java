@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -51,7 +50,7 @@ public class MainFrame extends JFrame {
 				
 		this.setJMenuBar(menuBar);
 		menuBar.add(menu);
-		menu.add(about);menu.add(tips);menu.add(end);
+		menu.add(about);menu.add(tips);menu.add(end);		
 		
 		end.addActionListener(new ActionListener() {
 			@Override
@@ -82,5 +81,6 @@ public class MainFrame extends JFrame {
 			}
 		});				
 	}
-
+	public JMenuItem getEnd() {return end;};
+	public JMenuItem getAbout() {return about;} 
 }
