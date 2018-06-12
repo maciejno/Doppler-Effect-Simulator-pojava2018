@@ -145,8 +145,7 @@ public class MainFrame extends JFrame {
 		String readText = "";
 		try {							
 			InputStream inputStream = getClass().getResourceAsStream("/" + fileName + ".txt");
-			streamReader = new InputStreamReader(inputStream,
-					Charset.forName("UTF-8")); // Otwieramy readera
+			streamReader = new InputStreamReader(inputStream); // Otwieramy readera
 			bufferedReader = new BufferedReader(streamReader); // Buforujemy readera
 			String line;//na linie tekstu
 			line = bufferedReader.readLine();//wczytanie linii tekstu do bufora

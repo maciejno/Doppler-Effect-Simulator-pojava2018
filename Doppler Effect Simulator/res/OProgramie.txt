@@ -1,22 +1,23 @@
 O programie:
 
 Symulator Efektu Dopplera
-Copyright:  Maciej Nowagiel, Jakub ZdziebÅ‚owski
+Copyright:  Maciej Nowagiel, Jakub Zdzieb³owski
 Warszawa, 2018
 
-GUI â€“ Maciej Nowagiel, Jakub ZdziebÅ‚owski
-Grafika â€“ Maciej Nowagiel, Jakub ZdziebÅ‚owski
-Animacja obiektÃ³w â€“ Jakub ZdziebÅ‚owski
-Animowane wykresy â€“ Maciej Nowagiel
-Aparat matematyczny i obliczenia â€“ Maciej Nowagiel
-Generowanie i zapis dÅºwiÄ™ku â€“ Jakub ZdziebÅ‚owski
+GUI - Maciej Nowagiel, Jakub Zdzieb³owski
+Grafika - Maciej Nowagiel, Jakub Zdzieb³owski
+Animacja obiektów - Jakub Zdzieb³owski
+Animowane wykresy - Maciej Nowagiel
+Aparat matematyczny i obliczenia - Maciej Nowagiel
+Generowanie i zapis dŸwiêku - Jakub Zdzieb³owski
 
 
 Dla zainteresowanych:
-Wymagania SprzÄ™towe ðŸ˜‰ 
-Procesor: Intel Core i7â€“8700K
-Karta Graficzna: NVidia GTX GeForce 1080
-RAM: 32GB lub wiÄ™cej
-Dysk: 10TB lub wiÄ™kszy
+Wymagania Sprzêtowe ;) 
+Procesor: Intel Core i7-8700K
+Karta Graficzna: NVidia GTX GeForce 1080Ti
+RAM: 32GB lub wiêcej
+Dysk: 10TB lub wiêkszy
+DirectX 12 lub nowszy
 
-Tu moÅ¼na pisaÄ‡ swoje Å¼ale do twÃ³rcÃ³w programu:
+Tu mo¿na pisaæ swoje ¿ale do twórców programu:

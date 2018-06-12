@@ -1,7 +1,7 @@
 -Aby wybraæ Ÿród³o odtwarzanego dzwiêku kliknij na ikonkê g³oœniczka.
-Mo¿na aktywowaæ tylko jeden dŸwiêk.
+Mo¿na aktywowaæ tylko jeden dŸwiêk jednoczeœnie.
 -Aby zapisaæ dŸwiêk, wybierz obserwatora (kliknij ikonkê g³oœniczka wybranego obserwatora).
-Nastêpnie kliknij przycisk dyskietki. 
--Aby zwiêkszyæ aktywny obszar symulacji, rozci¹gnij okno
+PrzeprowadŸ animacjê klikaj¹c START. Nastêpnie kliknij przycisk dyskietki. 
+-Aby zwiêkszyæ aktywny obszar symulacji, rozci¹gnij okno.
 -Zakres s³yszanych czêstotliwoœci zale¿y od posiadanego sprzêtu do odtwarzania.
-Jeœli nie s³yszysz dŸwiêku, spróbuj zmieniæ czêstotliwoœæ Ÿród³a na ni¿sz¹.
+Jeœli nie s³yszysz dŸwiêku, spróbuj zmieniæ czêstotliwoœæ Ÿród³a.
