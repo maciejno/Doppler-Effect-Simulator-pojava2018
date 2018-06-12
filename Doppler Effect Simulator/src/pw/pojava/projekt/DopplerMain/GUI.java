@@ -807,6 +807,8 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 		pChartObserver1.setSoundSpeed(soundSpeed);
 		pChartObserver2.setSoundSpeed(soundSpeed);
 		pChartSource.setFrequency(soundFreq);
+		
+		
 	}
 	
 	public void setAllFields() {//ustawia suwaczki i pola tekstowe tak jak jest wpisane w zmiennych		
@@ -903,6 +905,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 	public double getSoundV() {return (double)soundSpeed;}
 	public double getSoundFreq() {return (double)soundFreq;}
 	public String getOption() {return option;}
+	public String getLanguage() {return language;}
 	public JComboBox<String> getComboBox() {return comboBox;}
 	
 	

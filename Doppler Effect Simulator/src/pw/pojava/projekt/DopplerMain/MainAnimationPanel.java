@@ -27,11 +27,8 @@ public class MainAnimationPanel extends JPanel {
 	mainAnimationWorker worker;	
 	Image bgImage;
 	Dimension preferredSize = new Dimension(530,400);
+	Image icon1, icon2, iconS;//ikonki
 	
-	//ikony obserwatorow
-	//Image observer1Icon = new Image(getClass().getResource("/observer1.png"));
-	//ImageIcon observer2Icon = new ImageIcon(getClass().getResource("/observer2.png"));
-	//ImageIcon sourceIcon = new ImageIcon(getClass().getResource("/observer1.png"));
 	
 	public MainAnimationPanel(GUI superior) {
 		this.setBackground(new Color(200,255,255));
@@ -39,15 +36,22 @@ public class MainAnimationPanel extends JPanel {
 		this.superior = superior;
 		worker = new mainAnimationWorker();
 		bgImage = Toolkit.getDefaultToolkit().getImage( (getClass().getResource("/sea.jpg")) );
+		//ikonki dla obiektow animacji
+		icon1 = Toolkit.getDefaultToolkit().getImage( (getClass().getResource("/seaobserver1.png")) );
+		icon2 = Toolkit.getDefaultToolkit().getImage( (getClass().getResource("/seaobserver2.png")) );
+		iconS = Toolkit.getDefaultToolkit().getImage( (getClass().getResource("/seasource.png")) );
 		//tworzy obiekty na animacjê
-		observer1 = new AnimationObject();
-		observer2 = new AnimationObject();
-		source = new AnimationObject();
+		observer1 = new AnimationObject(superior);
+		observer2 = new AnimationObject(superior);
+		source = new AnimationObject(superior);
 		source.setColor(new Color(250,50,50));
 		observer1.setColor(Color.black);
 		observer1.setAppearance(true); //ustawia domyslne istnienie obserwatorów
         observer2.setAppearance(false);
 		source.setAppearance(true); //zrodlo jest zawsze
+		observer1.setIcon(icon1);
+		observer2.setIcon(icon2);
+		source.setIcon(iconS);
 	}		
 	//settery porzebnych danych
 	public void setSoundSpeed(int v) {soundSpeed=v;}
@@ -172,7 +176,9 @@ public class MainAnimationPanel extends JPanel {
 	public void newWorker() {//metoda do tworzenia nowego swing workera
 		worker = new mainAnimationWorker();		
 	}   
-			
+	public Image getIcon1() {return icon1;}		
+	public Image getIcon2() {return icon2;}	
+	public Image getIconS() {return iconS;}	
 }
 
 	
