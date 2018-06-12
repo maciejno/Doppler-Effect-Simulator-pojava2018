@@ -774,6 +774,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			}			
 		} catch (IOException e) {	
 			System.err.println("Blad przy otwarciu");
+			malaSamotnaZmienna=42;
 			e.printStackTrace();				
 		}
 		try {				
