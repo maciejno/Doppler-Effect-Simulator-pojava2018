@@ -90,9 +90,9 @@ public class Sound implements Runnable	{
 			}}
 	    else {
 	    	if(superior.language=="polish") //nie nagrany dzwiek - wielojezyczne okienko dialogowe
-	    		JOptionPane.showMessageDialog(superior.getParent(), "Zaden dzwiek nie zostal jeszcze nagrany", "Blad", JOptionPane.ERROR_MESSAGE);
+	    		JOptionPane.showMessageDialog(superior.getParent(), "Zaden dzwiek nie zostal jeszcze nagrany", "Symulator Efektu Dopplera", JOptionPane.ERROR_MESSAGE);
 	    	if(superior.language=="english")
-		    	JOptionPane.showMessageDialog(superior.getParent(), "Any sound hasn't been recorded yet", "Error", JOptionPane.ERROR_MESSAGE);
+		    	JOptionPane.showMessageDialog(superior.getParent(), "Any sound hasn't been recorded yet", "Doppler Effect Simulator", JOptionPane.ERROR_MESSAGE);
 
 	    	}
 	    } //koniec

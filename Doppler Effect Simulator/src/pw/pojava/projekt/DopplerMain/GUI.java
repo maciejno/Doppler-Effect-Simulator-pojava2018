@@ -28,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
@@ -693,6 +694,12 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			exec.shutdownNow();	
 		}
 		else if(action.equals("save")) {
+		if(whoPlay==0) {
+			if(language=="polish")
+				JOptionPane.showMessageDialog(this.getParent(), "Prosze wybrac zrodlo dzwieku", "Symulator Efektu Dopplera", JOptionPane.INFORMATION_MESSAGE);
+			else if(language=="english")
+				JOptionPane.showMessageDialog(this.getParent(), "Please chose sound source", "Doppler Effect Simulator", JOptionPane.INFORMATION_MESSAGE);
+		}
 			if(whoPlay==1) {
 				if(language=="polish")
 					pChartObserver1.sound1.save("Obserwator1");
