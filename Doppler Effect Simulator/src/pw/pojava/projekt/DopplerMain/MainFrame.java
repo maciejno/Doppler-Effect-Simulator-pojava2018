@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -57,7 +58,8 @@ public class MainFrame extends JFrame {
 		end.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-		        System.exit(1);	
+				JOptionPane.showMessageDialog(null,"Au revoir!", null, JOptionPane.INFORMATION_MESSAGE);
+				System.exit(1);	
 			}			
 		});
 		
