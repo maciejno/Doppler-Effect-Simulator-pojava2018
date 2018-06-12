@@ -860,6 +860,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			comboBox.addItem("Ucieczka");
 			comboBox.addItem("NaMorzaDnie");
 			
+			mainFrame.getMenu().setText("Plik");
 			mainFrame.getAbout().setText("O programie");
 			mainFrame.getEnd().setText("Koniec programu");
 			mainFrame.getPro().setText("Wersja premium");
@@ -886,6 +887,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			comboBox.addItem("Runaway");
 			comboBox.addItem("OnTheSeaBed");
 			
+			mainFrame.getMenu().setText("File");
 			mainFrame.getAbout().setText("About");
 			mainFrame.getEnd().setText("Finish program");
 			mainFrame.getPro().setText("Go pro");

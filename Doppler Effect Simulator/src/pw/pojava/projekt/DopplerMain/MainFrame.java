@@ -170,7 +170,7 @@ public class MainFrame extends JFrame {
 		return readText;
 	}			
 	
-	
+	public JMenu getMenu() {return menu;};
 	public JMenuItem getEnd() {return end;};
 	public JMenuItem getAbout() {return about;} 
 	public JMenuItem getPro() {return pro;}
