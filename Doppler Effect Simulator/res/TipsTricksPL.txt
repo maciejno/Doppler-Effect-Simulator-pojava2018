@@ -4,4 +4,4 @@ Mo¿na aktywowaæ tylko jeden dŸwiêk.
 Nastêpnie kliknij przycisk dyskietki. 
 -Aby zwiêkszyæ aktywny obszar symulacji, rozci¹gnij okno
 -Zakres s³yszanych czêstotliwoœci zale¿y od posiadanego sprzêtu do odtwarzania.
-Jeœli nie s³yszysz dŸwiêku, spróbuj zmieniæ czêstotliwoœæ Ÿród³a na ni¿sz¹. 
+Jeœli nie s³yszysz dŸwiêku, spróbuj zmieniæ czêstotliwoœæ Ÿród³a na ni¿sz¹.
