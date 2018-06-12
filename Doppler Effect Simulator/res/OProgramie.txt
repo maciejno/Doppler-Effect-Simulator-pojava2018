@@ -1,1 +1,22 @@
-O programie + "\n" bgyg
+O programie:
+
+Symulator Efektu Dopplera
+Copyright:  Maciej Nowagiel, Jakub Zdziebłowski
+Warszawa, 2018
+
+GUI – Maciej Nowagiel, Jakub Zdziebłowski
+Grafika – Maciej Nowagiel, Jakub Zdziebłowski
+Animacja obiektów – Jakub Zdziebłowski
+Animowane wykresy – Maciej Nowagiel
+Aparat matematyczny i obliczenia – Maciej Nowagiel
+Generowanie i zapis dźwięku – Jakub Zdziebłowski
+
+
+Dla zainteresowanych:
+Wymagania Sprzętowe 😉 
+Procesor: Intel Core i7–8700K
+Karta Graficzna: NVidia GTX GeForce 1080
+RAM: 32GB lub więcej
+Dysk: 10TB lub większy
+
+Tu można pisać swoje żale do twórców programu:

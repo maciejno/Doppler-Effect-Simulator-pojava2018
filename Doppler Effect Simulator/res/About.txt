@@ -1,1 +1,22 @@
-O programie + "\n" bgyg
+About:
+
+Doppler effect simulator
+Copyright:  Maciej Nowagiel, Jakub Zdziebłowski
+Warsaw, 2018
+
+GUI - Maciej Nowagiel, Jakub Zdziebłowski
+Graphic - Maciej Nowagiel, Jakub Zdziebłowski
+Objects animation - Jakub Zdziebłowski
+Animated charts - Maciej Nowagiel
+Mathematical apparatus and calculations - Maciej Nowagiel
+Sound generation and recording - Jakub Zdziebłowski
+
+
+For interesing people:
+Hardware Requirements 😉
+Processor: Intel Core i7-8700K
+Graphics: NVidia GTX GeForce 1080
+RAM: 32GB or more
+Disk: 10TB or larger
+
+Here, you can write your grievances to the creators of the program:

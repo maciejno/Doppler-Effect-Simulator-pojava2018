@@ -153,7 +153,7 @@ public class MainFrame extends JFrame {
 
 			while (line != null) { // readLine() zwraca null jesli plik sie skonczyl
 				//System.out.println(line);	 			
-				readText += line;
+				readText += line + "\n";
 				line = bufferedReader.readLine();
 			}
 		}catch (Exception e) {	

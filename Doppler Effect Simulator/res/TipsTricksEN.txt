@@ -1,1 +1,7 @@
-O programie + "\n" bgyg
+- To select the source of the sound to be played, click on the speaker icon.
+Only one sound can be activated.
+- To save the sound, select the observer (click on the speaker icon of the selected observer).
+Then click the diskette button.
+- To increase the active simulation area, extend the window
+- The range of frequencies you hear depends on your playback equipment.
+If you can not hear the sound, try changing the frequency of the source to a lower one.
