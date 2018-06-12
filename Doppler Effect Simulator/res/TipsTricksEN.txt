@@ -1,7 +1,10 @@
 - To select the source of the sound to be played, click on the speaker icon.
 Only one sound can be activated at the same time.
+
 - To save the sound, select the observer (click on the speaker icon of the selected observer).
 Run animation by clicking START. Then click the floppy disk button.
+
 - To increase the active simulation area, extend the window.
+
 - The range of frequencies you hear depends on your playback equipment.
 If you can not hear the sound, try changing the frequency of the source.
