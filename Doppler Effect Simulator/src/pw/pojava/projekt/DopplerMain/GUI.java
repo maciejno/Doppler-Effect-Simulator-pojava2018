@@ -860,6 +860,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			
 			mainFrame.getAbout().setText("O programie");
 			mainFrame.getEnd().setText("Koniec programu");
+			mainFrame.getPro().setText("Wersja premium");
 		}
 	}
 	
@@ -885,6 +886,7 @@ public class GUI extends JPanel  implements ChangeListener, ActionListener, Item
 			
 			mainFrame.getAbout().setText("About");
 			mainFrame.getEnd().setText("Finish program");
+			mainFrame.getPro().setText("Go pro");
 		}
 	}
 	
