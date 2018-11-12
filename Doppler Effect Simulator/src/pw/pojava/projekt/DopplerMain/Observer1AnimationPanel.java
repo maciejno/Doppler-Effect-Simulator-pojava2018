@@ -27,7 +27,7 @@ public class Observer1AnimationPanel extends ObserverAnimationPanel{
 	}
 
 	class Observer1SwingWorker extends ObserverSwingWorker{
-		//UWAGA: jest dzielenie freq przez 100, zeby pracowalo dla szerszego zakresu czestotliwosci - dzieki temu jest do 10-15kHzkHz, a nie do 100-150Hz
+		//UWAGA: jest dzielenie freq przez 100, zeby pracowalo dla szerszego zakresu czestotliwosci - dzieki temu jest do 10-15kHz, a nie do 100-150Hz
 		@Override
 		protected void process(List<DataToSimulate> data) {//dodaje dane do serii i jak jest ich za duzo to usuwa
 			if(gui.language.equals("polish")) gui.pChartObserver1.setBorder(BorderFactory.createTitledBorder("Dzwiek docierajacy do Obserwatora 1:     " + (data.get(data.size()-1).getFreq()).intValue() + "Hz"));							
@@ -115,8 +115,14 @@ public class Observer1AnimationPanel extends ObserverAnimationPanel{
 				timeDelay = timeDelay*1000;//zeby w ms	
 			}else {//jesli w przeciwna
 				//wybiera ktore ramie przetnie i odpowiedni czas
-				if(gui.observer1Y > gui.sourceY) timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
-				else timeDelay=tLowerArm*1000;
+				if(gui.observer1V > 0) {
+					if(gui.observer1Y > gui.sourceY) timeDelay=tUpperArm*1000 ;//mnozenie zeby bylo w ms
+					else timeDelay=tLowerArm*1000;
+				}else {
+					if(gui.observer1Y > gui.sourceY) timeDelay=tLowerArm*1000 ;//mnozenie zeby bylo w ms
+					else timeDelay=tUpperArm*1000;
+				}
+				
 				timeRunaway = -( (-gui.observer1V*gui.observer1X+gui.observer1V*gui.sourceX+deltaSqrt)
 						/ (soundSpeed*soundSpeed-gui.observer1V*gui.observer1V) );
 				timeRunaway = timeRunaway*1000;//zeby w ms	
